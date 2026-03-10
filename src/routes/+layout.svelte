@@ -1,4 +1,5 @@
 <script lang="ts">
+  import '../app.css';
   import { onMount } from 'svelte';
   
   let { children } = $props();
@@ -26,7 +27,7 @@
   <title>Энциклопедия Винтажных Синтезаторов</title>
 </svelte:head>
 
-<div class="app">
+<div class="app" data-theme="synthwave">
   <header class="sticky-header">
     <div class="header-left">
       <a href="/" class="logo">🎹 Энциклопедия Винтажных Синтезаторов</a>
