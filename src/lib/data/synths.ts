@@ -645,7 +645,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'аналоговый орган',
     description: 'Модель PS-5 из серии PS Series. Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://example.com/ps-5-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/a/a2/1977_Yamaha_TZ_250.jpg'],
   },
   {
     id: 'yamaha-ps-ps-6',
@@ -671,7 +671,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'аналоговый орган',
     description: 'Модель PS-7 из серии PS Series. Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://example.com/ps-7-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/4/4c/Yamaha_DT230_Lanza_1.jpg'],
   },
   {
     id: 'yamaha-ps-ps-8',
@@ -684,7 +684,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'аналоговый орган',
     description: 'Модель PS-8 из серии PS Series. Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://example.com/ps-8-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/e/ef/Yamaha_350_TZ_top.JPG'],
   },
   {
     id: 'yamaha-ps-ps-9',
@@ -697,7 +697,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'аналоговый орган',
     description: 'Модель PS-9 из серии PS Series. Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://example.com/ps-9-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/b/bc/Paul_Simon%27s_Custom_Yamaha_guitar_%281988%29_designed_by_Michio_Seki_-_MIM_PHX_%282011-04-09_18.47.55_by_ksblack99%29.jpg'],
   },
   {
     id: 'yamaha-ps-ps-10',
@@ -853,7 +853,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'FM (2-операторный)',
     description: 'Модель PSR-5 из серии PSR (PortaTone). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://example.com/psr-5-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/c/c9/Yamaha_PSR-S910_%2831620894757%29.jpg'],
   },
   {
     id: 'yamaha-psr-psr-6',
@@ -892,7 +892,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'FM (2-операторный)',
     description: 'Модель PSR-8 из серии PSR (PortaTone). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://example.com/psr-8-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/c/cc/Yamaha_PSR_620.jpg'],
   },
   {
     id: 'yamaha-psr-psr-9',
@@ -905,7 +905,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'FM (2-операторный)',
     description: 'Модель PSR-9 из серии PSR (PortaTone). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://example.com/psr-9-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/7/73/Yuuki_Shimada_standing_between_Yamaha_CLP-845_and_Yamaha_PSR-SX920_on_the_outdoor_stage_20250809.jpg'],
   },
   {
     id: 'yamaha-psr-psr-10',
@@ -918,7 +918,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'FM (2-операторный)',
     description: 'Модель PSR-10 из серии PSR (PortaTone). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://example.com/psr-10-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/6/61/Yamaha_psr_e-323_Connectors.jpg'],
   },
   {
     id: 'yamaha-psr-psr-11',
@@ -972,7 +972,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'FM (2-операторный)',
     description: 'Модель PSR-14 из серии PSR (PortaTone). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://example.com/psr-14-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/9/94/Yamaha_PSR-28_%2843224048415%29.jpg'],
   },
   {
     id: 'yamaha-psr-psr-15',
@@ -1011,7 +1011,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'FM (2-операторный)',
     description: 'Модель PSR-17 из серии PSR (PortaTone). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://example.com/psr-17-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/c/c9/Yamaha_PSR-28_%2843411870144%29.jpg'],
   },
   {
     id: 'yamaha-psr-psr-18',
@@ -1050,7 +1050,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'FM (2-операторный)',
     description: 'Модель PSR-20 из серии PSR (PortaTone). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://example.com/psr-20-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/c/ce/YAMAHA_PSR_E_323.jpg'],
   },
   {
     id: 'yamaha-psr-psr-21',
@@ -1089,7 +1089,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'FM (2-операторный)',
     description: 'Модель PSR-23 из серии PSR (PortaTone). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://example.com/psr-23-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/a/a6/Yamaha_PSR-270_-_front_panel.jpg'],
   },
   {
     id: 'yamaha-psr-psr-24',
@@ -1102,7 +1102,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'FM (2-операторный)',
     description: 'Модель PSR-24 из серии PSR (PortaTone). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://example.com/psr-24-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/d/d7/Yamaha_PSR-350_%2832883987832%29.jpg'],
   },
   {
     id: 'yamaha-psr-psr-25',
@@ -1115,7 +1115,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'FM (2-операторный)',
     description: 'Модель PSR-25 из серии PSR (PortaTone). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://example.com/psr-25-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/9/90/Yamaha_PSR-270_-_rear_panel_1_MIDI_%26_foot_switch.jpg'],
   },
   {
     id: 'yamaha-psr-psr-26',
@@ -1128,7 +1128,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'FM (2-операторный)',
     description: 'Модель PSR-26 из серии PSR (PortaTone). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://example.com/psr-26-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/7/7d/Yamaha_PSR-E463_20190713a.jpg'],
   },
   {
     id: 'yamaha-psr-psr-27',
@@ -1167,7 +1167,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'FM (2-операторный)',
     description: 'Модель PSR-29 из серии PSR (PortaTone). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://example.com/psr-29-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/c/c9/Yamaha_PSR-S910_%2831620894757%29.jpg'],
   },
   {
     id: 'yamaha-psr-psr-30',
@@ -1180,7 +1180,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'FM (2-операторный)',
     description: 'Модель PSR-30 из серии PSR (PortaTone). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://example.com/psr-30-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/9/96/Yamaha_PSR-S910_%2846561743861%29.jpg'],
   },
   {
     id: 'yamaha-psr-psr-31',
@@ -1219,7 +1219,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'FM (2-операторный)',
     description: 'Модель PSR-33 из серии PSR (PortaTone). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://example.com/psr-33-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/9/98/Yamaha_PSR-28_%2843411867504%29.jpg'],
   },
   {
     id: 'yamaha-psr-psr-34',
@@ -1232,7 +1232,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'FM (2-операторный)',
     description: 'Модель PSR-34 из серии PSR (PortaTone). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://example.com/psr-34-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/e/e1/Yamaha_PSR-E333.jpg'],
   },
   {
     id: 'yamaha-psr-psr-60',
@@ -1258,7 +1258,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель PT-1 из серии PT Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/pt-1-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/9/90/Casio_PT-1.jpg'],
   },
   {
     id: 'casio-pt-pt-10',
@@ -1271,7 +1271,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель PT-10 из серии PT Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/pt-10-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/0/04/Casio_PT-10_white_%28by_Vacant_Fever%29.jpg'],
   },
   {
     id: 'casio-pt-pt-20',
@@ -1284,7 +1284,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель PT-20 из серии PT Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/pt-20-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/b/b5/Casio_PT-20_%28c.1986%29_-_Music_skills_%282352806492%29_2008-03-22_15-13_by_Helgi_Halld%C3%B3rsson.jpg'],
   },
   {
     id: 'casio-pt-pt-30',
@@ -1297,7 +1297,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель PT-30 из серии PT Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/pt-30-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/9/90/Casio_PT-1.jpg'],
   },
   {
     id: 'casio-pt-pt-50',
@@ -1310,7 +1310,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель PT-50 из серии PT Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/pt-50-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/9/90/Casio_PT-1.jpg'],
   },
   {
     id: 'casio-pt-pt-80',
@@ -1323,7 +1323,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель PT-80 из серии PT Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/pt-80-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/e/e4/Casio_PT-80_keyboard.jpg'],
   },
   {
     id: 'casio-pt-pt-82',
@@ -1349,7 +1349,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель PT-87 из серии PT Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/pt-87-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/7/72/Casio_PT-87_with_ROM_Pack_RO-551_World_Songs.jpg'],
   },
   {
     id: 'casio-pt-pt-88',
@@ -1375,7 +1375,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель PT-100 из серии PT Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/pt-100-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/b/b5/Casio_PT-20_%28c.1986%29_-_Music_skills_%282352806492%29_2008-03-22_15-13_by_Helgi_Halld%C3%B3rsson.jpg'],
   },
   {
     id: 'casio-mt-mt-40',
@@ -1403,7 +1403,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель MT-45 из серии MT (CasioTone). Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/mt-45-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/e/e0/Casiotone_MT-65.jpg'],
   },
   {
     id: 'casio-mt-mt-65',
@@ -1416,7 +1416,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель MT-65 из серии MT (CasioTone). Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/mt-65-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/e/e0/Casiotone_MT-65.jpg'],
   },
   {
     id: 'casio-mt-mt-68',
@@ -1442,7 +1442,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель MT-70 из серии MT (CasioTone). Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/mt-70-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/f/f9/Casiotone_MT-70_on_playing.jpg'],
   },
   {
     id: 'casio-mt-mt-100',
@@ -1455,7 +1455,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель MT-100 из серии MT (CasioTone). Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/mt-100-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/a/ae/Casiotone_701%2C_MT-500%2C_SK-100%2C_SK-1.jpg'],
   },
   {
     id: 'casio-mt-mt-200',
@@ -1468,7 +1468,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель MT-200 из серии MT (CasioTone). Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/mt-200-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/7/75/Ltd._Exp._Ryomo_and_Mt.Akagi.jpg'],
   },
   {
     id: 'casio-mt-mt-210',
@@ -1559,7 +1559,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель MT-800 из серии MT (CasioTone). Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/mt-800-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/7/73/Helloitabot%27sStudio1.jpg'],
   },
   {
     id: 'casio-vl-vl-1',
@@ -1602,7 +1602,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'цифровой монофонический',
     description: 'Модель VL-Tone из серии VL-Tone. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/vl-tone-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/c/cd/Casio_VL-Tone_VL-1_%26_softcase.jpg'],
   },
   {
     id: 'casio-cz-cz-101',
@@ -1697,7 +1697,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'семплер',
     description: 'Модель SK-5 из серии SK (Sampling). Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/sk-5-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/9/9b/Casio_SK-5.jpg'],
   },
   {
     id: 'casio-sk-sk-8',
@@ -1710,7 +1710,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'семплер',
     description: 'Модель SK-8 из серии SK (Sampling). Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/sk-8-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/8/83/Casiotone_CT-430.jpg'],
   },
   {
     id: 'casio-sk-sk-60',
@@ -1723,7 +1723,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'семплер',
     description: 'Модель SK-60 из серии SK (Sampling). Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/sk-60-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/d/dc/Casio_SK-60_Say_%26_Play_Keyboard.jpg'],
   },
   {
     id: 'casio-sk-sk-200',
@@ -1801,7 +1801,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель Rapman RM-1 из серии Rapman. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/rapman rm-1-1.jpg'],
+    images: ['https://www.synthmania.com/Casio%20Rapman/Images/Casio_Rapman-front.jpg'],
   },
   {
     id: 'casio-tonebank-ct-310',
@@ -1853,7 +1853,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель CT-380 из серии ToneBank. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/ct-380-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/6/65/Casiotone_CT-380.jpg'],
   },
   {
     id: 'casio-tonebank-ct-410',
@@ -1866,7 +1866,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель CT-410 из серии ToneBank. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/ct-410-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/6/65/Casiotone_CT-380.jpg'],
   },
   {
     id: 'casio-tonebank-ct-460',
@@ -1879,7 +1879,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель CT-460 из серии ToneBank. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/ct-460-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/6/65/Casiotone_CT-380.jpg'],
   },
   {
     id: 'casio-tonebank-ct-470',
@@ -2154,7 +2154,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'цифровой синтез (LA)',
     description: 'Модель D-50 из серии D Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/d-50-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/a/ab/Roland_D-50.jpg'],
   },
   {
     id: 'roland-d-d-10',
@@ -2167,7 +2167,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'цифровой синтез (LA)',
     description: 'Модель D-10 из серии D Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/d-10-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/c/c9/Digital_delays.jpg'],
   },
   {
     id: 'roland-d-d-20',
@@ -2180,7 +2180,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'цифровой синтез (LA)',
     description: 'Модель D-20 из серии D Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/d-20-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/e/e2/Razer_Ornata_Chroma_keyboard-top_PNr%C2%B00463.jpg'],
   },
   {
     id: 'roland-d-d-110',
@@ -2258,7 +2258,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'цифровой синтез (SuperNATURAL)',
     description: 'Модель JP-8080 из серии JP Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/jp-8080-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/8/8f/Roland_JP-8080_Rack.jpg'],
   },
   {
     id: 'roland-tb-tb-303',
@@ -2368,7 +2368,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'аналоговый орган',
     description: 'Модель Bontempi B-2 из серии Toy Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/bontempi b-2-1.jpg'],
+    images: ['https://example.com/bontempi-b-2-1.jpg'],
   },
   {
     id: 'bontempi-toy-bontempi-b-3',
@@ -2381,7 +2381,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'аналоговый орган',
     description: 'Модель Bontempi B-3 из серии Toy Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/bontempi b-3-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/5/58/Coa_fam_ITA_bontempi_khi.jpg'],
   },
   {
     id: 'bontempi-toy-bontempi-b-4',
@@ -2394,7 +2394,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'аналоговый орган',
     description: 'Модель Bontempi B-4 из серии Toy Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/bontempi b-4-1.jpg'],
+    images: ['https://example.com/bontempi-b-4-1.jpg'],
   },
   {
     id: 'bontempi-home-bontempi-gt-741',
@@ -2407,7 +2407,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'аналоговый орган',
     description: 'Модель Bontempi GT-741 из серии Home Organ Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/bontempi gt-741-1.jpg'],
+    images: ['https://example.com/bontempi-gt-741-1.jpg'],
   },
   {
     id: 'bontempi-home-bontempi-gt-742',
@@ -2420,7 +2420,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'аналоговый орган',
     description: 'Модель Bontempi GT-742 из серии Home Organ Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/bontempi gt-742-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/5/59/Paride_-_opera_del_Sg.or_Bontempi._-_Violino._1%C2%B0_-_btv1b52506703d_%2814_of_24%29.jpg'],
   },
   {
     id: 'bontempi-home-bontempi-gt-743',
@@ -2433,7 +2433,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'аналоговый орган',
     description: 'Модель Bontempi GT-743 из серии Home Organ Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/bontempi gt-743-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/5/59/Paride_-_opera_del_Sg.or_Bontempi._-_Violino._1%C2%B0_-_btv1b52506703d_%2814_of_24%29.jpg'],
   },
   {
     id: 'yamaha-vss-vss-30',
@@ -2475,32 +2475,6 @@ export const synths: SynthModel[] = [
     images: ['https://images.synthpedia.net/cached/16594e0315c1ae36069479e6c7e7f833c3b9170b'],
   },
   {
-    id: 'yamaha-vss-vss-300',
-    brand: 'Yamaha',
-    series: 'VSS (Sampling Synthesizer)',
-    modelName: 'VSS-300',
-    year: 1991,
-    formFactor: 'mini',
-    keysCount: 32,
-    synthEngine: 'семплер',
-    description: 'Семплер с улучшенным качеством.',
-    isGem: false,
-    images: ['https://example.com/vss-300-1.jpg'],
-  },
-  {
-    id: 'yamaha-vss-vss-400',
-    brand: 'Yamaha',
-    series: 'VSS (Sampling Synthesizer)',
-    modelName: 'VSS-400',
-    year: 1992,
-    formFactor: 'mini',
-    keysCount: 32,
-    synthEngine: 'семплер',
-    description: 'Продвинутый семплер.',
-    isGem: false,
-    images: ['https://example.com/vss-400-1.jpg'],
-  },
-  {
     id: 'yamaha-vss-vss-450',
     brand: 'Yamaha',
     series: 'VSS (Sampling Synthesizer)',
@@ -2511,7 +2485,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'семплер',
     description: 'Топовая модель VSS series.',
     isGem: false,
-    images: ['https://example.com/vss-450-1.jpg'],
+    images: ['https://images.synthpedia.net/cached/16594e0315c1ae36069479e6c7e7f833c3b9170b'],
   },
   {
     id: 'yamaha-su-su-10',
@@ -2615,7 +2589,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'аналоговый',
     description: 'Компактный синтезатор с аналоговым звуком.',
     isGem: true,
-    images: ['https://example.com/reface-cs-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/9/93/Recafe_Sc.jpg'],
   },
   {
     id: 'yamaha-reface-reface-dx',
@@ -2628,7 +2602,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'FM (4-операторный)',
     description: 'Компактный FM-синтезатор.',
     isGem: true,
-    images: ['https://example.com/reface-dx-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/e/e6/Yamaha_Reface_DX_Synth.jpg'],
   },
   {
     id: 'yamaha-reface-reface-yc',
@@ -2641,7 +2615,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'орган',
     description: 'Компактный орган.',
     isGem: false,
-    images: ['https://example.com/reface-yc-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/9/94/Yamaha_Reface_Series_-_Reface_CP_digital_electric_piano_%28SCM_synthesis%29%2C_Reface_YC_digital_combo_organ_%28Organ_Flutes_synthesis%29_-_2016_NAMM_Show_%282016-01-24_18.50.06_by_Pete_Brown%29.jpg'],
   },
   {
     id: 'yamaha-reface-reface-cp',
@@ -2654,7 +2628,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'электропиано',
     description: 'Компактное электропиано.',
     isGem: false,
-    images: ['https://example.com/reface-cp-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/9/94/Yamaha_Reface_Series_-_Reface_CP_digital_electric_piano_%28SCM_synthesis%29%2C_Reface_YC_digital_combo_organ_%28Organ_Flutes_synthesis%29_-_2016_NAMM_Show_%282016-01-24_18.50.06_by_Pete_Brown%29.jpg'],
   },
   {
     id: 'yamaha-drum-mr-10',
