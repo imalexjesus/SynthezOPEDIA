@@ -1336,7 +1336,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель PT-82 из серии PT Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/pt-82-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/e/e4/Casio_PT-80_keyboard.jpg'],
   },
   {
     id: 'casio-pt-pt-87',
@@ -1362,7 +1362,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель PT-88 из серии PT Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/pt-88-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/7/72/Casio_PT-87_with_ROM_Pack_RO-551_World_Songs.jpg'],
   },
   {
     id: 'casio-pt-pt-100',
@@ -1429,7 +1429,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель MT-68 из серии MT (CasioTone). Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/mt-68-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/e/e0/Casiotone_MT-65.jpg'],
   },
   {
     id: 'casio-mt-mt-70',
@@ -1481,7 +1481,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель MT-210 из серии MT (CasioTone). Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/mt-210-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/e/e0/Casiotone_MT-65.jpg'],
   },
   {
     id: 'casio-mt-mt-220',
@@ -1494,7 +1494,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель MT-220 из серии MT (CasioTone). Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/mt-220-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/e/e0/Casiotone_MT-65.jpg'],
   },
   {
     id: 'casio-mt-mt-240',
@@ -1507,7 +1507,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель MT-240 из серии MT (CasioTone). Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/mt-240-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/f/f9/Casiotone_MT-70_on_playing.jpg'],
   },
   {
     id: 'casio-mt-mt-250',
@@ -1520,7 +1520,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель MT-250 из серии MT (CasioTone). Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/mt-250-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/f/f9/Casiotone_MT-70_on_playing.jpg'],
   },
   {
     id: 'casio-mt-mt-400v',
@@ -1546,7 +1546,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель MT-540 из серии MT (CasioTone). Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/mt-540-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/a/ae/Casiotone_701%2C_MT-500%2C_SK-100%2C_SK-1.jpg'],
   },
   {
     id: 'casio-mt-mt-800',
@@ -1736,7 +1736,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'семплер',
     description: 'Модель SK-200 из серии SK (Sampling). Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/sk-200-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/d/dc/Casio_SK-60_Say_%26_Play_Keyboard.jpg'],
   },
   {
     id: 'casio-sk-sk-210',
@@ -1749,7 +1749,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'семплер',
     description: 'Модель SK-210 из серии SK (Sampling). Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/sk-210-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/d/dc/Casio_SK-60_Say_%26_Play_Keyboard.jpg'],
   },
   {
     id: 'casio-sk-sk-220',
@@ -1762,7 +1762,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'семплер',
     description: 'Модель SK-220 из серии SK (Sampling). Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/sk-220-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/d/dc/Casio_SK-60_Say_%26_Play_Keyboard.jpg'],
   },
   {
     id: 'casio-ht-ht-3000',
@@ -1814,7 +1814,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель CT-310 из серии ToneBank. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/ct-310-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/6/65/Casiotone_CT-380.jpg'],
   },
   {
     id: 'casio-tonebank-ct-360',
@@ -1827,7 +1827,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель CT-360 из серии ToneBank. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/ct-360-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/6/65/Casiotone_CT-380.jpg'],
   },
   {
     id: 'casio-tonebank-ct-370',
@@ -1840,7 +1840,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель CT-370 из серии ToneBank. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/ct-370-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/6/65/Casiotone_CT-380.jpg'],
   },
   {
     id: 'casio-tonebank-ct-380',
@@ -1892,7 +1892,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель CT-470 из серии ToneBank. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/ct-470-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/6/65/Casiotone_CT-380.jpg'],
   },
   {
     id: 'casio-tonebank-ct-480',
@@ -1905,7 +1905,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель CT-480 из серии ToneBank. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/ct-480-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/6/65/Casiotone_CT-380.jpg'],
   },
   {
     id: 'casio-tonebank-ct-510',
@@ -1918,7 +1918,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель CT-510 из серии ToneBank. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/ct-510-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/6/65/Casiotone_CT-380.jpg'],
   },
   {
     id: 'casio-tonebank-ct-670',
@@ -1931,7 +1931,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель CT-670 из серии ToneBank. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/ct-670-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/6/65/Casiotone_CT-380.jpg'],
   },
   {
     id: 'korg-poly-poly-800',
@@ -2193,7 +2193,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'цифровой синтез (LA)',
     description: 'Модель D-110 из серии D Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/d-110-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/a/ab/Roland_D-50.jpg'],
   },
   {
     id: 'roland-juno-juno-6',
@@ -2368,7 +2368,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'аналоговый орган',
     description: 'Модель Bontempi B-2 из серии Toy Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/bontempi-b-2-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/5/58/Coa_fam_ITA_bontempi_khi.jpg'],
   },
   {
     id: 'bontempi-toy-bontempi-b-3',
@@ -2394,7 +2394,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'аналоговый орган',
     description: 'Модель Bontempi B-4 из серии Toy Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/bontempi-b-4-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/5/58/Coa_fam_ITA_bontempi_khi.jpg'],
   },
   {
     id: 'bontempi-home-bontempi-gt-741',
@@ -2407,7 +2407,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'аналоговый орган',
     description: 'Модель Bontempi GT-741 из серии Home Organ Series. Популярный винтажный инструмент.',
     isGem: false,
-    images: ['https://example.com/bontempi-gt-741-1.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/5/59/Paride_-_opera_del_Sg.or_Bontempi._-_Violino._1%C2%B0_-_btv1b52506703d_%2814_of_24%29.jpg'],
   },
   {
     id: 'bontempi-home-bontempi-gt-742',
