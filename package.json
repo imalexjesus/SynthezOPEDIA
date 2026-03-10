@@ -19,5 +19,15 @@
 		"svelte-check": "^4.4.2",
 		"typescript": "^5.9.3",
 		"vite": "^7.3.1"
+	},
+	"dependencies": {
+		"@tarquinen/opencode-dcp": "github:Opencode-DCP/opencode-dynamic-context-pruning",
+		"oh-my-opencode": "^3.11.2",
+		"opencode-gemini-auth": "^1.4.8",
+		"opencode-knowledge": "^0.6.0",
+		"opencode-openai-codex-auth": "^4.4.0",
+		"opencode-supermemory": "^2.0.4",
+		"opencode-vibeguard": "^0.1.0",
+		"opencode-websearch-cited": "^1.2.0"
 	}
 }

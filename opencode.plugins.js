@@ -1,0 +1,8 @@
+import "oh-my-opencode"
+import "@tarquinen/opencode-dcp"
+import "opencode-openai-codex-auth"
+import "opencode-gemini-auth"
+import "opencode-websearch-cited"
+import "opencode-knowledge"
+import "opencode-vibeguard"
+import "opencode-supermemory"
