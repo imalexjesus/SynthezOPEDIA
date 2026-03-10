@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { synths } from '../src/lib/data/synths';
 
 type NocoRecord = {
