@@ -70,7 +70,7 @@
   {#if localBrand}
     <div class="filter-group series-group">
       <button class:active={!localSeries} on:click={() => updateSeries(null)}>Все серии</button>
-      {#each series.filter(s => s.includes(localBrand)) as s}
+      {#each series.filter((s) => !!localBrand && s.includes(localBrand)) as s}
         <button class:active={localSeries === s} on:click={() => updateSeries(s)}>{s}</button>
       {/each}
     </div>

@@ -3,6 +3,10 @@
 
 const https = require('https');
 
+/**
+ * @param {string} query
+ * @returns {Promise<Array<{ title: string }>>}
+ */
 async function searchWikimedia(query) {
   return new Promise((resolve, reject) => {
     const url = `https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&srlimit=5`;
@@ -22,6 +26,10 @@ async function searchWikimedia(query) {
   });
 }
 
+/**
+ * @param {string} title
+ * @returns {Promise<string | null>}
+ */
 async function getImageUrl(title) {
   return new Promise((resolve, reject) => {
     const url = `https://commons.wikimedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&prop=imageinfo&iiprop=url|dimensions&format=json`;
@@ -47,6 +55,11 @@ async function getImageUrl(title) {
   });
 }
 
+/**
+ * @param {string} modelName
+ * @param {string} brand
+ * @returns {Promise<void>}
+ */
 async function findPhotos(modelName, brand) {
   console.log(`Searching for: ${brand} ${modelName}`);
   
@@ -71,7 +84,8 @@ async function findPhotos(modelName, brand) {
         }
       }
     } catch (e) {
-      console.log(`Error searching for "${term}": ${e.message}`);
+      const message = e instanceof Error ? e.message : String(e);
+      console.log(`Error searching for "${term}": ${message}`);
     }
   }
 }

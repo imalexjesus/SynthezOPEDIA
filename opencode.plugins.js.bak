@@ -1,0 +1,10 @@
+import "oh-my-opencode"
+import "@tarquinen/opencode-dcp@latest"
+import "opencode-knowledge"
+import "opencode-vibeguard"
+import "opencode-supermemory"
+import "opencode-skillful"
+import "opencode-notifier"
+
+
+

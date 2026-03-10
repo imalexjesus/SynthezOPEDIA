@@ -1,0 +1,56 @@
+{
+  "name": "synthezopedia",
+  "plugins": [
+    "oh-my-opencode",
+    "@opencode/dynamic-context-pruning",
+    "opencode-knowledge",
+    "opencode-vibeguard",
+    "opencode-supermemory",
+    "opencode-skillful",
+    "opencode-notifier"
+  ],
+  "knowledge": {
+    "vault": "src/lib/encyclopedia.json",
+    "format": "synthesizer_encyclopedia",
+    "indexFields": ["title", "manufacturer", "tags", "year"],
+    "searchable": true,
+    "maxContextEntries": 10
+  },
+  
+  {
+  "tools": {
+    "add_synth": true,
+    "generate_synth_page": true
+  }
+}
+  "tools": {
+    "add_synth": {
+      "description": "Добавить синтезатор в encyclopedia.json",
+      "args": {
+        "title": "string",
+        "manufacturer": "string",
+        "year": "number",
+        "tags": "array",
+        "description": "string",
+        "specs": "object"
+      },
+      "execute": "node -e \"const fs=require('fs');const p='./src/lib/encyclopedia.json';let db=fs.existsSync(p)?JSON.parse(fs.readFileSync(p)):{};const id=Date.now()+'.'+args.manufacturer.toLowerCase().replace(/ /g,'-');db[id]={...args, id};fs.writeFileSync(p,JSON.stringify(db,null,2));console.log('✅ Added:',id);\""
+    },
+    "generate_synth_page": {
+      "description": "Создать Svelte страницу для синтезатора",
+      "args": {"id": "string", "route": "string"},
+      "execute": "node -e \"const fs=require('fs');const routePath='./src/routes/'+args.route.replace(/^\\/|\\\\/g,'')+'/+page.svelte';fs.mkdirSync(routePath.split('/+page.svelte')[0],{recursive:true});const code=\\\\`&lt;script lang='ts'&gt;import encyclopedia from '$lib/encyclopedia.json';const synth = encyclopedia['${args.id}'];&lt;/script&gt;\\\\n&lt;svelte:head&gt;&lt;title&gt;{synth?.title}&lt;/title&gt;&lt;/svelte:head&gt;\\\\n&lt;div class='synth-card'&gt;&lt;h1&gt;{synth?.title}&lt;/h1&gt;&lt;h2&gt;{synth?.manufacturer} ({synth?.year})&lt;/h2&gt;&lt;p&gt;{synth?.description}&lt;/p&gt;&lt;/div&gt;\\\\n&lt;style&gt;.synth-card{max-width:900px;margin:2rem auto;padding:2rem;border-radius:1rem;box-shadow:0 10px 30px rgba(0,0,0,0.1);}&lt;/style&gt;\\\\`;fs.writeFileSync(routePath,code);console.log('✅ Page:',routePath);\""
+    }
+  },
+  "sveltekit": {
+    "kitVersion": "2.50",
+    "srcDir": "src",
+    "libDir": "src/lib",
+    "routesDir": "src/routes",
+    "viteConfig": "vite.config.ts"
+  },
+  "git": {
+    "commitMessage": "feat: {task} via OpenCode",
+    "autoCommit": true
+  }
+}

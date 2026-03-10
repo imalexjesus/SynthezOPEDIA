@@ -1,0 +1,1 @@
+const fs = require("fs"); let content = fs.readFileSync("src/lib/data/synths.ts", "utf8"); const lines = content.split("\n"); let closingBracketLine = -1; for (let i = lines.length - 1; i >= 0; i--) { if (lines[i].trim() === "];") { closingBracketLine = i; break; } } console.log("Found closing bracket at line:", closingBracketLine + 1);

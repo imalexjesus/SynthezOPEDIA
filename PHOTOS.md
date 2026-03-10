@@ -20,6 +20,18 @@
 - Поиск по названию модели
 - Фото из завершенных аукционов
 
+### 4. Рекомендованные архивы по Yamaha/Casio
+- Yamaha Synth Official Chronology: https://www.yamahasynth.com/synths/yamaha-synth-chronology
+- Wikimedia Commons (Yamaha): https://commons.wikimedia.org/wiki/Category:Yamaha_synthesizers
+- Wikimedia Commons (Casio): https://commons.wikimedia.org/wiki/Category:Casio_synthesizers
+- Vintage Synth Explorer (Casio): http://www.vintagesynth.com/casio.php
+
+### 5. Платные стоки (только при наличии лицензии)
+- Shutterstock (Yamaha/Casio)
+- Alamy (Casio)
+
+Важно: изображения из Shutterstock/Alamy можно добавлять в проект только если есть подтвержденная лицензия на использование.
+
 ## Формат URL в synths.ts
 
 ```typescript
