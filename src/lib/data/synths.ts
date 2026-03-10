@@ -157,7 +157,7 @@ export const synths: SynthModel[] = [
     description: 'Домашний клавишный из ранней серии PortaTone с автоаккомпанементом и фирменным FM-звучанием Yamaha.',
     isGem: false,
     images: [
-      'https://example.com/psr-60-1.jpg',
+      'https://i.ytimg.com/vi/20NReHSERxE/hqdefault.jpg',
     ],
     midi: false,
     autoAccompaniment: true,
