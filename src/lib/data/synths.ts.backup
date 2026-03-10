@@ -1,0 +1,192 @@
+export interface SynthModel {
+  id: string;               // уникальный ID (например "yamaha-pss-470")
+  brand: 'Yamaha' | 'Casio' | 'Bontempi' | 'Other';
+  series: string;           // например "PSS (PortaSound)", "VL-Tone"
+  modelName: string;        // например "PSS-470"
+  year: number;             // год выпуска
+  formFactor: 'micro' | 'mini' | 'compact' | 'full';
+  keysCount: number;        // количество клавиш
+  synthEngine: string;      // FM, PCM, аналоговый орган, семплер и т.д.
+  dimensions?: string;      // габариты (если известны)
+  description: string;      // краткое описание на русском
+  isGem: boolean;           // "гем коллекции"
+  images: string[];         // массив URL изображений (3‑5 фото)
+  // Дополнительные поля (по возможности)
+  polyphony?: number;
+  midi?: boolean;
+  sequencer?: boolean;
+  autoAccompaniment?: boolean;
+  power?: string;           // батарейки/адаптер
+}
+
+export const synths: SynthModel[] = [
+  // Yamaha PSS Series
+  {
+    id: 'yamaha-pss-6',
+    brand: 'Yamaha',
+    series: 'PSS (PortaSound)',
+    modelName: 'PSS-6',
+    year: 1994,
+    formFactor: 'mini',
+    keysCount: 32,
+    synthEngine: 'AWM (PCM)',
+    description: 'Портативный клавишный с PCM‑звуками, популярный в 90‑х. Используется в лоу‑фай и электронной музыке.',
+    isGem: false,
+    images: [
+      'https://www.nurykabe.com/dump/docs/PSS/images/PSS-6.jpg',
+    ],
+  },
+  {
+    id: 'yamaha-pss-7',
+    brand: 'Yamaha',
+    series: 'PSS (PortaSound)',
+    modelName: 'PSS-7',
+    year: 1997,
+    formFactor: 'mini',
+    keysCount: 32,
+    synthEngine: 'AWM (PCM)',
+    description: 'Модель с PCM‑звуками и ритмами, часто используется для чиптюна.',
+    isGem: false,
+    images: [
+      'https://www.nurykabe.com/dump/docs/PSS/images/PSS-7.jpg',
+    ],
+  },
+  {
+    id: 'yamaha-pss-9',
+    brand: 'Yamaha',
+    series: 'PSS (PortaSound)',
+    modelName: 'PSS-9',
+    year: 1990,
+    formFactor: 'mini',
+    keysCount: 32,
+    synthEngine: 'FM (2‑операторный)',
+    description: 'FM‑синтезатор с ритмами, популярен среди любителей винтажного звука.',
+    isGem: true,
+    images: [
+      'https://www.nurykabe.com/dump/docs/PSS/images/PSS-9.jpg',
+    ],
+  },
+  {
+    id: 'yamaha-pss-470',
+    brand: 'Yamaha',
+    series: 'PSS (PortaSound)',
+    modelName: 'PSS-470',
+    year: 1987,
+    formFactor: 'compact',
+    keysCount: 49,
+    synthEngine: 'FM (2‑операторный)',
+    dimensions: '74.5 × 28.5 × 9.5 см',
+    description: 'Компактный портативный синтезатор с FM‑синтезом, 21 пресетом звуков и режимом ручного редактирования. Популярен в лоу‑фай и чиптюн‑сценах.',
+    isGem: true,
+    images: [
+      'https://example.com/pss-470-1.jpg',
+      'https://example.com/pss-470-2.jpg',
+      'https://example.com/pss-470-3.jpg',
+    ],
+    polyphony: 8,
+    midi: false,
+    sequencer: false,
+    autoAccompaniment: false,
+    power: '6×AA батарейки или адаптер',
+  },
+  // Casio VL-Tone Series
+  {
+    id: 'casio-vl-1',
+    brand: 'Casio',
+    series: 'VL-Tone',
+    modelName: 'VL-1',
+    year: 1979,
+    formFactor: 'micro',
+    keysCount: 29,
+    synthEngine: 'цифровой монофонический',
+    dimensions: '13.5 × 8.5 × 2.5 см',
+    description: 'Первый коммерческий цифровой синтезатор, совмещённый с калькулятором. Знаменит своим «чип‑тайм» звучанием и использованием в хитах Trio и White Town.',
+    isGem: true,
+    images: [
+      'https://example.com/vl-1-1.jpg',
+      'https://example.com/vl-1-2.jpg',
+      'https://example.com/vl-1-3.jpg',
+    ],
+    polyphony: 1,
+    midi: false,
+    sequencer: true,
+    autoAccompaniment: true,
+    power: '3×LR44 батарейки',
+  },
+  {
+    id: 'casio-vl-5',
+    brand: 'Casio',
+    series: 'VL-Tone',
+    modelName: 'VL-5',
+    year: 1981,
+    formFactor: 'micro',
+    keysCount: 29,
+    synthEngine: 'цифровой монофонический',
+    description: 'Расширенная версия VL-1 с дополнительными звуками и ритмами.',
+    isGem: false,
+    images: [
+      'https://example.com/vl-5-1.jpg',
+    ],
+  },
+  // Casio SA Series
+  {
+    id: 'casio-sa-10',
+    brand: 'Casio',
+    series: 'SA Series',
+    modelName: 'SA-10',
+    year: 1987,
+    formFactor: 'mini',
+    keysCount: 32,
+    synthEngine: 'PCM',
+    description: 'Компактный клавишный с PCM‑звуками, популярен среди начинающих.',
+    isGem: false,
+    images: [
+      'https://example.com/sa-10-1.jpg',
+    ],
+  },
+  // Bontempi Junior
+  {
+    id: 'bontempi-junior',
+    brand: 'Bontempi',
+    series: 'Junior',
+    modelName: 'Junior',
+    year: 1975,
+    formFactor: 'mini',
+    keysCount: 25,
+    synthEngine: 'аналоговый орган с ридами',
+    dimensions: '45 × 20 × 10 см',
+    description: 'Компактный электронный орган Bontempi Junior, популярный в 70‑х и 80‑х годах. Используется в лоу‑фай музыке и ретро‑проектах.',
+    isGem: false,
+    images: [
+      'https://example.com/junior-1.jpg',
+      'https://example.com/junior-2.jpg',
+      'https://example.com/junior-3.jpg',
+    ],
+    polyphony: 4,
+    midi: false,
+    sequencer: false,
+    autoAccompaniment: true,
+    power: 'батарейки или адаптер',
+  },
+  // Добавьте больше моделей здесь
+];
+
+// Группировка по сериям для отображения в каталоге
+export const groupedSynths = synths.reduce((acc, synth) => {
+  const key = `${synth.brand} - ${synth.series}`;
+  if (!acc[key]) acc[key] = [];
+  acc[key].push(synth);
+  return acc;
+}, {} as Record<string, SynthModel[]>);
+
+// Список уникальных брендов
+export const brands = [...new Set(synths.map(s => s.brand))];
+
+// Список уникальных серий
+export const series = [...new Set(synths.map(s => s.series))];
+
+// Количество моделей
+export const totalModels = synths.length;
+
+// Количество гемов
+export const totalGems = synths.filter(s => s.isGem).length;
