@@ -126,9 +126,22 @@ src/
 - `GET /api/synths` — получить список моделей (`source: local|remote`)
 - `PATCH /api/synths/[id]` — частично обновить поля модели
 
-Переменные окружения для внешнего API (опционально):
+Поддерживаемые источники (в порядке приоритета):
+
+- NocoDB (`NOCODB_*`)
+- PocketBase (`POCKETBASE_*`)
+- Внешний custom API (`SYNTH_API_*`)
+- Локальный fallback (in-memory)
+
+Переменные окружения (опционально):
 
 - `SYNTH_API_BASE_URL`
 - `SYNTH_API_TOKEN`
+- `NOCODB_BASE_URL`
+- `NOCODB_TABLE_ID`
+- `NOCODB_AUTH_TOKEN` (или `NOCODB_EMAIL` + `NOCODB_PASSWORD`)
+- `POCKETBASE_URL`
+- `POCKETBASE_TOKEN`
+- `POCKETBASE_COLLECTION`
 
 Если переменные не заданы, API работает в локальном runtime-режиме (in-memory).
