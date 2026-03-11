@@ -1,7 +1,15 @@
 <script lang="ts">
   import { synths, type SynthModel } from '$lib/data/synths';
 
-  type SortField = 'modelName' | 'brand' | 'series' | 'year' | 'keysCount' | 'formFactor';
+  type SortField =
+    | 'modelName'
+    | 'brand'
+    | 'series'
+    | 'year'
+    | 'keysCount'
+    | 'formFactor'
+    | 'releasePriceUSD'
+    | 'popularityStars';
 
   const allBrands = Array.from(new Set(synths.map((s) => s.brand))).sort();
   const allSeries = Array.from(new Set(synths.map((s) => s.series))).sort();
@@ -25,6 +33,13 @@
 
   function compareValues(a: SynthModel, b: SynthModel) {
     const direction = sortDirection === 'asc' ? 1 : -1;
+
+    if (sortField === 'popularityStars') {
+      const va = a.popularity?.stars ?? 0;
+      const vb = b.popularity?.stars ?? 0;
+      return (va - vb) * direction;
+    }
+
     const va = a[sortField];
     const vb = b[sortField];
 
@@ -106,7 +121,9 @@
         <th on:click={() => cycleSort('year')}>Год {sortField==='year' ? (sortDirection==='asc' ? '▲' : '▼') : ''}</th>
         <th on:click={() => cycleSort('keysCount')}>Клавиш {sortField==='keysCount' ? (sortDirection==='asc' ? '▲' : '▼') : ''}</th>
         <th on:click={() => cycleSort('formFactor')}>Форм‑фактор {sortField==='formFactor' ? (sortDirection==='asc' ? '▲' : '▼') : ''}</th>
-        <th>Особенности</th>
+        <th on:click={() => cycleSort('releasePriceUSD')}>Цена старта {sortField==='releasePriceUSD' ? (sortDirection==='asc' ? '▲' : '▼') : ''}</th>
+        <th>Рынок б/у</th>
+        <th on:click={() => cycleSort('popularityStars')}>Популярность {sortField==='popularityStars' ? (sortDirection==='asc' ? '▲' : '▼') : ''}</th>
       </tr>
     </thead>
     <tbody>
@@ -118,7 +135,18 @@
           <td>{synth.year}</td>
           <td>{synth.keysCount}</td>
           <td>{synth.formFactor}</td>
-          <td>{synth.description.slice(0, 90)}...</td>
+          <td>{synth.releasePriceUSD ? `$${synth.releasePriceUSD}` : 'н/д'}</td>
+          <td>
+            <div class="market-cell">
+              <span>🇺🇸 {synth.marketPrices?.usaUsed ?? 'н/д'}</span>
+              <span>🇺🇦 {synth.marketPrices?.uaUsed ?? 'н/д'}</span>
+            </div>
+          </td>
+          <td>
+            <div class="pop-cell">
+              {'★'.repeat(synth.popularity?.stars ?? 0)}{'☆'.repeat(5 - (synth.popularity?.stars ?? 0))}
+            </div>
+          </td>
         </tr>
       {/each}
     </tbody>
@@ -169,6 +197,18 @@
     border: 1px solid rgba(255,255,255,0.1);
     padding: 0.5rem;
     text-align: left;
+  }
+  .market-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.82rem;
+    min-width: 150px;
+  }
+  .pop-cell {
+    color: #ffd04f;
+    letter-spacing: 1px;
+    white-space: nowrap;
   }
   th {
     background: rgba(0,0,0,0.3);
