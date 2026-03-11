@@ -2950,6 +2950,125 @@ export const synths: SynthModel[] = [
   },
 ];
 
+const UAH_RATE = 41.6;
+
+function roundTo(value: number, step: number) {
+  return Math.round(value / step) * step;
+}
+
+function inferReleasePriceUSD(synth: SynthModel) {
+  const formBase: Record<SynthModel['formFactor'], number> = {
+    micro: 60,
+    mini: 90,
+    compact: 170,
+    full: 380
+  };
+
+  const brandMul: Record<SynthModel['brand'], number> = {
+    Yamaha: 1.15,
+    Casio: 1,
+    Bontempi: 0.8,
+    Other: 1,
+    Korg: 1.3,
+    Roland: 1.35
+  };
+
+  const engine = synth.synthEngine.toLowerCase();
+  let value = formBase[synth.formFactor] + Math.max(0, synth.keysCount - 32) * 4;
+
+  if (engine.includes('fm')) value += 40;
+  if (engine.includes('аналог') || engine.includes('analog')) value += 120;
+  if (engine.includes('семпл') || engine.includes('sampl')) value += 70;
+  if (engine.includes('удар') || engine.includes('drum')) value += 60;
+  if (engine.includes('sequencer') || engine.includes('секвенсор')) value += 100;
+  if (engine.includes('pcm')) value += 20;
+
+  value *= brandMul[synth.brand];
+  value += (synth.year - 1983) * 3;
+
+  return Math.max(40, roundTo(value, 10));
+}
+
+function inferFeatureTags(synth: SynthModel) {
+  const keysTag = synth.keysCount <= 32 ? `${synth.keysCount} мини-клавиши` : `${synth.keysCount} клавиш`;
+  const engineTag = synth.synthEngine;
+  const tags = [keysTag, engineTag];
+
+  if (synth.midi) tags.push('MIDI');
+  if (synth.sequencer) tags.push('Секвенсор');
+  if (synth.autoAccompaniment) tags.push('Автоаккомпанемент');
+  if (synth.isGem) tags.push('Коллекционный интерес');
+
+  return tags.slice(0, 4);
+}
+
+function inferMarketPrices(synth: SynthModel, releasePriceUSD: number) {
+  let rarity = synth.isGem ? 1.35 : 1;
+  if (synth.brand === 'Roland' || synth.brand === 'Korg') rarity += 0.15;
+  if (synth.brand === 'Bontempi') rarity -= 0.12;
+
+  const usaLow = Math.max(20, roundTo(releasePriceUSD * 0.55 * rarity, 5));
+  const usaHigh = Math.max(usaLow + 20, roundTo(releasePriceUSD * 1.1 * rarity, 5));
+
+  const uaLow = roundTo(usaLow * UAH_RATE * 0.82, 100);
+  const uaHigh = Math.max(uaLow + 600, roundTo(usaHigh * UAH_RATE * 0.88, 100));
+  const olxLowest = roundTo(uaLow * 0.78, 100);
+  const coolDeal = roundTo(uaLow * 0.62, 100);
+
+  return {
+    usaUsed: `$${usaLow} - $${usaHigh}`,
+    uaUsed: `₴${uaLow} - ₴${uaHigh}`,
+    olxLowest: `<₴${olxLowest}`,
+    coolDeal: `<₴${coolDeal}`
+  };
+}
+
+function inferPopularity(synth: SynthModel): SynthModel['popularity'] {
+  let stars = synth.isGem ? 4 : 3;
+
+  if (synth.brand === 'Roland' || synth.brand === 'Korg') stars += 1;
+  if (synth.brand === 'Bontempi') stars -= 1;
+
+  const engine = synth.synthEngine.toLowerCase();
+  if (engine.includes('fm') || engine.includes('семпл') || engine.includes('analog') || engine.includes('аналог')) {
+    stars += 1;
+  }
+
+  const clamped = Math.max(1, Math.min(5, stars)) as 1 | 2 | 3 | 4 | 5;
+  const statusMap: Record<1 | 2 | 3 | 4 | 5, string> = {
+    1: 'Нишевый интерес',
+    2: 'Умеренный интерес',
+    3: 'Стабильный интерес',
+    4: 'Высокий интерес среди энтузиастов',
+    5: 'Культовая и трендовая модель'
+  };
+
+  return {
+    stars: clamped,
+    status: statusMap[clamped],
+    label: 'Популярность среди энтузиастов'
+  };
+}
+
+for (const synth of synths) {
+  const release = synth.releasePriceUSD ?? inferReleasePriceUSD(synth);
+  synth.releasePriceUSD = release;
+
+  if (!synth.featureTags || synth.featureTags.length === 0) {
+    synth.featureTags = inferFeatureTags(synth);
+  }
+
+  const inferredMarket = inferMarketPrices(synth, release);
+  synth.marketPrices = {
+    usaUsed: synth.marketPrices?.usaUsed ?? inferredMarket.usaUsed,
+    uaUsed: synth.marketPrices?.uaUsed ?? inferredMarket.uaUsed,
+    olxLowest: synth.marketPrices?.olxLowest ?? inferredMarket.olxLowest,
+    coolDeal: synth.marketPrices?.coolDeal ?? inferredMarket.coolDeal
+  };
+
+  synth.popularity = synth.popularity ?? inferPopularity(synth);
+}
+
 export const groupedSynths = synths.reduce((acc, synth) => {
   const key = `${synth.brand} - ${synth.series}`;
   if (!acc[key]) acc[key] = [];
