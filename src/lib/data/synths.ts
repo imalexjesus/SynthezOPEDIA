@@ -7,15 +7,41 @@ export interface SynthModel {
   formFactor: 'micro' | 'mini' | 'compact' | 'full';
   keysCount: number;
   synthEngine: string;
-  dimensions?: string;
   description: string;
   isGem: boolean;
   images: string[];
+  
+  // Existing Fields (for compatibility)
+  dimensions?: string;
   polyphony?: number;
   midi?: boolean;
   sequencer?: boolean;
   autoAccompaniment?: boolean;
   power?: string;
+
+  // NEW FIELDS (Market & Features)
+  releasePriceUSD?: number; // Price at release
+  featureTags?: string[];   // Quick feature badges below title
+  
+  marketPrices?: {
+    usaUsed?: string;    // e.g., "$120 - $180"
+    uaUsed?: string;     // e.g., "₴4000 - ₴7000"
+    olxLowest?: string;  // e.g., "<₴3500"
+    coolDeal?: string;   // e.g., "<₴3000"
+  };
+  
+  popularity?: {
+    stars: 1 | 2 | 3 | 4 | 5; 
+    status: string;      // e.g., "Легенда"
+    label?: string;      // e.g., "Популярность среди энтузиастов"
+  };
+  
+  weight?: string;
+  display?: string;
+  colors?: string[];
+  connections?: string[];
+  country?: string;
+  discontinued?: boolean;
 }
 
 export const synths: SynthModel[] = [
