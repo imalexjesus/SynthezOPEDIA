@@ -1,4 +1,5 @@
 import { verifiedTop50MarketPrices } from '$lib/data/verified-top50-prices';
+import { photoOverrides } from '$lib/data/photo-overrides';
 
 export interface SynthModel {
   id: string;
@@ -3080,6 +3081,12 @@ for (const synth of synths) {
     olxLowest: verified.olxLowest,
     coolDeal: verified.coolDeal
   };
+}
+
+for (const synth of synths) {
+  const override = photoOverrides[synth.id];
+  if (!override || override.length === 0) continue;
+  synth.images = override;
 }
 
 export const groupedSynths = synths.reduce((acc, synth) => {
