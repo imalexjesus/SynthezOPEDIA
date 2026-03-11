@@ -1,8 +1,16 @@
 <script lang="ts">
   import ImageGallery from '$lib/components/ImageGallery.svelte';
+  import { calculateInflation, formatUAH, formatUSD } from '$lib/utils/economy';
   
   export let data: { synth: import('$lib/data/synths').SynthModel };
   $: synth = data.synth;
+  $: releasePrice = synth.releasePriceUSD ?? null;
+  $: inflation = releasePrice ? calculateInflation(releasePrice, synth.year) : null;
+  $: featureTags =
+    synth.featureTags && synth.featureTags.length > 0
+      ? synth.featureTags
+      : [`${synth.keysCount} клавиш`, synth.synthEngine, synth.formFactor];
+  $: stars = '★'.repeat(synth.popularity?.stars ?? 0) + '☆'.repeat(5 - (synth.popularity?.stars ?? 0));
 </script>
 
 <svelte:head>
@@ -13,8 +21,28 @@
   <header class="model-header">
     <h1>{synth.brand} {synth.modelName}</h1>
     <p class="series">{synth.series} • {synth.year}</p>
+    <div class="feature-tags">
+      {#each featureTags as tag}
+        <span class="feature-tag">{tag}</span>
+      {/each}
+    </div>
     {#if synth.isGem}<span class="gem-badge">⭐ ГЕМ коллекции</span>{/if}
   </header>
+
+  <section class="hero-media">
+    <div class="hero-image-wrap">
+      <img src={synth.images[0]} alt={synth.modelName} loading="lazy" />
+      <span class="badge badge-price">{releasePrice ? `$${releasePrice}` : 'н/д'}</span>
+      <span class="badge badge-year">{synth.year}</span>
+    </div>
+    <p class="inflation-line">
+      {#if inflation}
+        C поправкой на инфляцию: {formatUSD(inflation.adjustedUSD)} • {formatUAH(inflation.convertedUAH)}
+      {:else}
+        C поправкой на инфляцию: н/д • н/д
+      {/if}
+    </p>
+  </section>
 
   <section class="gallery-section">
     <ImageGallery images={synth.images} />
@@ -91,6 +119,33 @@
     <p>{synth.description}</p>
   </section>
 
+  <section class="market-section">
+    <h2>Рынок и ценность</h2>
+    <div class="market-grid">
+      <div class="market-item">
+        <span class="label">США б/у:</span>
+        <span class="value">{synth.marketPrices?.usaUsed ?? 'н/д'}</span>
+      </div>
+      <div class="market-item">
+        <span class="label">Украина б/у:</span>
+        <span class="value">{synth.marketPrices?.uaUsed ?? 'н/д'}</span>
+      </div>
+      <div class="market-item">
+        <span class="label">OLX находка:</span>
+        <span class="value">{synth.marketPrices?.olxLowest ?? 'н/д'}</span>
+      </div>
+      <div class="market-item">
+        <span class="label">Крутая покупка:</span>
+        <span class="value">{synth.marketPrices?.coolDeal ?? 'н/д'}</span>
+      </div>
+    </div>
+    <div class="popularity">
+      <div class="pop-label">{synth.popularity?.label ?? 'Популярность среди энтузиастов'}</div>
+      <div class="pop-stars">{stars}</div>
+      <div class="pop-status">{synth.popularity?.status ?? 'Оценка будет добавлена'}</div>
+    </div>
+  </section>
+
   <section class="similar-section">
     <h2>Похожие модели</h2>
     <!-- Здесь можно добавить компонент с похожими моделями -->
@@ -128,7 +183,56 @@
   .gallery-section {
     margin-bottom: 2rem;
   }
-  .specs-section h2, .description-section h2, .similar-section h2 {
+  .feature-tags {
+    margin-top: 0.8rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .feature-tag {
+    border: 1px solid rgba(80, 220, 220, 0.45);
+    color: #8ce2ff;
+    border-radius: 999px;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.75rem;
+  }
+  .hero-media {
+    margin-bottom: 1.4rem;
+  }
+  .hero-image-wrap {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .hero-image-wrap img {
+    width: 100%;
+    max-height: 360px;
+    object-fit: cover;
+    display: block;
+  }
+  .badge {
+    position: absolute;
+    top: 12px;
+    padding: 0.25rem 0.6rem;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 700;
+  }
+  .badge-price {
+    left: 12px;
+    background: #ff5459;
+  }
+  .badge-year {
+    right: 12px;
+    background: #32b8c6;
+  }
+  .inflation-line {
+    margin: 0.5rem 0 0;
+    color: #a5c2d4;
+    font-size: 0.9rem;
+  }
+  .specs-section h2, .description-section h2, .similar-section h2, .market-section h2 {
     border-bottom: 1px solid rgba(255,255,255,0.1);
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
@@ -154,5 +258,53 @@
   }
   .description-section p {
     line-height: 1.6;
+  }
+  .market-section {
+    margin-top: 1.5rem;
+  }
+  .market-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+  .market-item {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    padding: 0.75rem;
+  }
+  .market-item .label {
+    display: block;
+    color: #95a7b7;
+    font-size: 0.8rem;
+  }
+  .market-item .value {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  .popularity {
+    margin-top: 0.9rem;
+    background: rgba(50, 184, 198, 0.16);
+    border-left: 4px solid #32b8c6;
+    padding: 0.65rem 0.8rem;
+    border-radius: 7px;
+  }
+  .pop-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    color: #99b4c4;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+  .pop-stars {
+    margin-top: 0.2rem;
+    color: #ffd04f;
+    letter-spacing: 1px;
+  }
+  .pop-status {
+    margin-top: 0.2rem;
+    color: #79e4ed;
+    font-weight: 700;
   }
 </style>

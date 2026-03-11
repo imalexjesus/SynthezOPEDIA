@@ -35,13 +35,6 @@ export interface SynthModel {
     status: string;      // e.g., "Легенда"
     label?: string;      // e.g., "Популярность среди энтузиастов"
   };
-  
-  weight?: string;
-  display?: string;
-  colors?: string[];
-  connections?: string[];
-  country?: string;
-  discontinued?: boolean;
 }
 
 export const synths: SynthModel[] = [
@@ -387,11 +380,24 @@ export const synths: SynthModel[] = [
     formFactor: 'compact',
     keysCount: 49,
     synthEngine: 'FM (2-операторный)',
-    description: 'Модель PSS-470 из серии PSS (PortaSound). Популярный винтажный клавишный инструмент.',
-    isGem: false,
+    description: 'Одна из самых интересных FM-моделей в линейке PortaSound: 49 мини-клавиш, богатый характерный цифровой звук и хороший потенциал для lo-fi/retro аранжировок.',
+    isGem: true,
     images: [
       'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Yamaha_PSS-470.jpg/800px-Yamaha_PSS-470.jpg'
     ],
+    releasePriceUSD: 170,
+    featureTags: ['49 мини-клавиш', 'FM синтез', 'PortaSound'],
+    marketPrices: {
+      usaUsed: '$80 - $220',
+      uaUsed: '₴3000 - ₴5500',
+      olxLowest: '<₴3500',
+      coolDeal: '<₴2800'
+    },
+    popularity: {
+      stars: 4,
+      status: 'Трендовая FM-модель для ретро-звука',
+      label: 'Популярность среди энтузиастов'
+    },
   },
   {
     id: 'yamaha-pss-pss-480',
@@ -1373,9 +1379,22 @@ export const synths: SynthModel[] = [
     formFactor: 'mini',
     keysCount: 32,
     synthEngine: 'PCM',
-    description: 'Модель PT-87 из серии PT Series. Популярный винтажный инструмент.',
-    isGem: false,
+    description: 'Компактная модель PT-серии с поддержкой ROM-паков (например, RO-551). Ценится за винтажный характер тембров и редкие картриджи с наборами песен.',
+    isGem: true,
     images: ['https://upload.wikimedia.org/wikipedia/commons/7/72/Casio_PT-87_with_ROM_Pack_RO-551_World_Songs.jpg'],
+    releasePriceUSD: 90,
+    featureTags: ['32 мини-клавиши', 'ROM-картриджи', 'Портативный'],
+    marketPrices: {
+      usaUsed: '$35 - $95',
+      uaUsed: '₴1700 - ₴3200',
+      olxLowest: '<₴1800',
+      coolDeal: '<₴1500'
+    },
+    popularity: {
+      stars: 4,
+      status: 'Редкая модель с ROM-картриджами',
+      label: 'Популярность среди энтузиастов'
+    },
   },
   {
     id: 'casio-pt-pt-88',
@@ -1412,11 +1431,24 @@ export const synths: SynthModel[] = [
     formFactor: 'mini',
     keysCount: 32,
     synthEngine: 'PCM',
-    description: 'Модель MT-40 из серии MT (CasioTone). Популярный винтажный инструмент.',
-    isGem: false,
+    description: 'Культовый Casiotone, прославившийся благодаря пресету Sleng Teng. Модель часто встречается в коллекциях музыкантов, интересующихся roots reggae и ранней цифровой эстетикой.',
+    isGem: true,
     images: [
       'https://upload.wikimedia.org/wikipedia/commons/a/a4/Casio_MT-40.jpg'
     ],
+    releasePriceUSD: 150,
+    featureTags: ['37+15 клавиш', 'Sleng Teng preset', 'Легенда reggae/dancehall'],
+    marketPrices: {
+      usaUsed: '$120 - $220',
+      uaUsed: '₴3500 - ₴7000',
+      olxLowest: '<₴3500',
+      coolDeal: '<₴2800'
+    },
+    popularity: {
+      stars: 5,
+      status: 'Легенда с историческим культурным весом',
+      label: 'Популярность среди энтузиастов'
+    },
   },
   {
     id: 'casio-mt-mt-45',
@@ -1596,13 +1628,26 @@ export const synths: SynthModel[] = [
     formFactor: 'mini',
     keysCount: 29,
     synthEngine: 'цифровой монофонический',
-    description: 'Модель VL-1 из серии VL-Tone. Популярный винтажный инструмент.',
+    description: 'Миниатюрный синт-калькулятор, ставший иконой lo-fi сцены. Несмотря на игрушечный формат, VL-1 имеет узнаваемый характер звука и культовый статус.',
     isGem: true,
     images: [
       'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Casio_vl_tone.jpg/800px-Casio_vl_tone.jpg',
       'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Casio_VL-1_Inv_Nr_81934.jpg/800px-Casio_VL-1_Inv_Nr_81934.jpg',
       'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Casio_VL-Tone_VL-1_LCD.jpg/800px-Casio_VL-Tone_VL-1_LCD.jpg'
     ],
+    releasePriceUSD: 70,
+    featureTags: ['29 мини-клавиш', 'Калькулятор', 'Lo-Fi synth'],
+    marketPrices: {
+      usaUsed: '$60 - $142',
+      uaUsed: '₴2600 - ₴5000',
+      olxLowest: '<₴2500',
+      coolDeal: '<₴2000'
+    },
+    popularity: {
+      stars: 5,
+      status: 'Культовый карманный синтезатор',
+      label: 'Популярность среди энтузиастов'
+    },
   },
   {
     id: 'casio-vl-vl-10',
@@ -1706,11 +1751,24 @@ export const synths: SynthModel[] = [
     formFactor: 'compact',
     keysCount: 32,
     synthEngine: 'семплер',
-    description: 'Модель SK-1 из серии SK (Sampling). Популярный винтажный инструмент.',
+    description: 'Один из самых известных бюджетных винтажных семплеров: мгновенный lo-fi вайб, встроенный микрофон и культовая популярность в circuit-bending сообществе.',
     isGem: true,
     images: [
       'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Casio_SK-1.jpg/800px-Casio_SK-1.jpg'
     ],
+    releasePriceUSD: 100,
+    featureTags: ['32 мини-клавиши', 'Семплирование', 'Встроенный микрофон'],
+    marketPrices: {
+      usaUsed: '$120 - $260',
+      uaUsed: '₴2500 - ₴6000',
+      olxLowest: '<₴2500',
+      coolDeal: '<₴2000'
+    },
+    popularity: {
+      stars: 5,
+      status: 'Абсолютный фаворит lo-fi и circuit-bending',
+      label: 'Популярность среди энтузиастов'
+    },
   },
   {
     id: 'casio-sk-sk-5',

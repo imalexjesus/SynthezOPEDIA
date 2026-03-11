@@ -22,3 +22,6 @@ nul
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Firecrawl cache
+.firecrawl/
