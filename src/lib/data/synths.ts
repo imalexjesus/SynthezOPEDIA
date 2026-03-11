@@ -1,3 +1,5 @@
+import { verifiedTop50MarketPrices } from '$lib/data/verified-top50-prices';
+
 export interface SynthModel {
   id: string;
   brand: 'Yamaha' | 'Casio' | 'Bontempi' | 'Other' | 'Korg' | 'Roland';
@@ -3067,6 +3069,17 @@ for (const synth of synths) {
   };
 
   synth.popularity = synth.popularity ?? inferPopularity(synth);
+}
+
+for (const synth of synths) {
+  const verified = verifiedTop50MarketPrices[synth.id as keyof typeof verifiedTop50MarketPrices];
+  if (!verified) continue;
+  synth.marketPrices = {
+    usaUsed: verified.usaUsed,
+    uaUsed: verified.uaUsed,
+    olxLowest: verified.olxLowest,
+    coolDeal: verified.coolDeal
+  };
 }
 
 export const groupedSynths = synths.reduce((acc, synth) => {
