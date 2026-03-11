@@ -1,5 +1,6 @@
 import { verifiedTop50MarketPrices } from '$lib/data/verified-top50-prices';
 import { photoOverrides } from '$lib/data/photo-overrides';
+import { gemPhotoOverrides } from '$lib/data/gem-photo-overrides';
 
 export interface SynthModel {
   id: string;
@@ -3085,6 +3086,12 @@ for (const synth of synths) {
 
 for (const synth of synths) {
   const override = photoOverrides[synth.id];
+  if (!override || override.length === 0) continue;
+  synth.images = override;
+}
+
+for (const synth of synths) {
+  const override = gemPhotoOverrides[synth.id];
   if (!override || override.length === 0) continue;
   synth.images = override;
 }

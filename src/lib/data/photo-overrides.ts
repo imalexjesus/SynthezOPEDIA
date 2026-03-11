@@ -1,4 +1,40 @@
 export const photoOverrides: Record<string, string[]> = {
+  "yamaha-pss-pss-470": [
+    "https://i.ebayimg.com/00/s/MTIwNlgxNjAw/z/K5AAAOSwKfVXHhiT/$_12.JPG"
+  ],
+  "yamaha-pss-pss-480": [
+    "https://i.ebayimg.com/images/g/UlUAAeSwnFRooPsl/s-l400.jpg"
+  ],
+  "yamaha-pss-pss-490": [
+    "https://i.ebayimg.com/images/g/Vl8AAeSwQGJpierd/s-l300.jpg"
+  ],
+  "yamaha-pss-pss-m30": [
+    "https://i.ebayimg.com/images/g/OuUAAeSwzQhpckrq/s-l1200.jpg"
+  ],
+  "yamaha-pss-pss-f50": [
+    "https://i.ebayimg.com/images/g/0EoAAOSwyXhjPDml/s-l1200.jpg"
+  ],
+  "yamaha-ps-ps-4": [
+    "https://i.ebayimg.com/images/g/CFEAAOSwTwtgnZb~/s-l1200.jpg"
+  ],
+  "yamaha-ps-ps-5": [
+    "https://i.ebayimg.com/images/g/k6wAAeSwG9NoV3Vi/s-l1200.jpg"
+  ],
+  "yamaha-ps-ps-6": [
+    "https://evolutionmusicstore.com/cdn/shop/products/uovdizhpqe9gxgu5ielo_2000x.jpg?v=1622566174"
+  ],
+  "yamaha-ps-ps-7": [
+    "https://evolutionmusicstore.com/cdn/shop/products/dvta9pswhmwyhiahogtv_2000x.jpg?v=1622566174"
+  ],
+  "yamaha-ps-ps-8": [
+    "https://i.ebayimg.com/images/g/mGIAAOSwshtkofUK/s-l1200.jpg"
+  ],
+  "yamaha-ps-ps-9": [
+    "https://i.ebayimg.com/images/g/i8wAAeSw0uxprl9n/s-l1200.jpg"
+  ],
+  "yamaha-psr-psr-60": [
+    "https://i.ebayimg.com/images/g/h6sAAeSwRYBogXQK/s-l1200.jpg"
+  ],
   "yamaha-pss-pss-30": [
     "https://i.ebayimg.com/images/g/JlMAAeSwaJVpckwJ/s-l1200.jpg"
   ],
