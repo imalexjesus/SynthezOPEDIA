@@ -1,12 +1,17 @@
 <script lang="ts">
   import { searchQuery, selectedBrand, selectedSeries, selectedFormFactor, showGemsOnly, applyFilters } from '$lib/stores/filters';
-  import { brands, series } from '$lib/data/synths';
+  import { brands, synths } from '$lib/data/synths';
 
   let localSearch = '';
   let localBrand: string | null = null;
   let localSeries: string | null = null;
   let localFormFactor: string | null = null;
   let localGemsOnly = false;
+  $: availableSeries = localBrand
+    ? [...new Set(synths.filter((s) => s.brand === localBrand).map((s) => s.series))].sort((a, b) =>
+        a.localeCompare(b)
+      )
+    : [];
 
   // Debounce search
   let debounceTimer: NodeJS.Timeout;
@@ -69,8 +74,9 @@
   <!-- Фильтры по серии (только для выбранного бренда) -->
   {#if localBrand}
     <div class="filter-group series-group">
+      <div class="series-header">Серии бренда {localBrand}</div>
       <button class:active={!localSeries} on:click={() => updateSeries(null)}>Все серии</button>
-      {#each series.filter((s) => !!localBrand && s.includes(localBrand)) as s}
+      {#each availableSeries as s}
         <button class:active={localSeries === s} on:click={() => updateSeries(s)}>{s}</button>
       {/each}
     </div>
@@ -118,5 +124,29 @@
     margin-top: 1rem;
     padding-top: 0.5rem;
     border-top: 1px solid rgba(255,255,255,0.1);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .series-header {
+    color: #9fb7d1;
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-bottom: 0.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  .series-group button {
+    width: 100%;
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 6px;
+  }
+  .series-group button.active {
+    background: linear-gradient(90deg, #4a90e2, #32b8c6);
   }
 </style>

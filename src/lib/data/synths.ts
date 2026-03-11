@@ -187,7 +187,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель PSS-145 из серии PSS (PortaSound). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-145.jpg'],
+    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-140.jpg'],
   },
   {
     id: 'yamaha-pss-pss-150',
@@ -252,7 +252,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель PSS-180 из серии PSS (PortaSound). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-180.jpg'],
+    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-170.jpg'],
   },
   {
     id: 'yamaha-pss-pss-190',
@@ -319,7 +319,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель PSS-270B из серии PSS (PortaSound). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-270B.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/b/b1/Yamaha_PSS-270_center.jpg'],
   },
   {
     id: 'yamaha-pss-pss-270c',
@@ -332,7 +332,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель PSS-270C из серии PSS (PortaSound). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-270C.jpg'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/b/b1/Yamaha_PSS-270_center.jpg'],
   },
   {
     id: 'yamaha-pss-pss-280',
@@ -451,7 +451,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'FM (2-операторный)',
     description: 'Модель PSS-490 из серии PSS (PortaSound). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-490.jpg'],
+    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-480.jpg'],
   },
   {
     id: 'yamaha-pss-pss-m30',
@@ -464,7 +464,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель PSS-M30 из серии PSS (PortaSound). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-M30.jpg'],
+    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-30.jpg'],
   },
   {
     id: 'yamaha-pss-pss-s30',
@@ -477,7 +477,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель PSS-S30 из серии PSS (PortaSound). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-S30.jpg'],
+    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-30.jpg'],
   },
   {
     id: 'yamaha-pss-pss-f30',
@@ -490,7 +490,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель PSS-F30 из серии PSS (PortaSound). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-F30.jpg'],
+    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-30.jpg'],
   },
   {
     id: 'yamaha-pss-pss-f50',
@@ -503,7 +503,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель PSS-F50 из серии PSS (PortaSound). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-F50.jpg'],
+    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-30.jpg'],
   },
   {
     id: 'yamaha-pss-pss-680',
@@ -601,7 +601,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель PSS-1020 из серии PSS (PortaSound). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-1020.jpg'],
+    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-680.jpg'],
   },
   {
     id: 'yamaha-pss-pss-1030',
@@ -614,7 +614,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель PSS-1030 из серии PSS (PortaSound). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-1030.jpg'],
+    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-680.jpg'],
   },
   {
     id: 'yamaha-pss-pss-20',
@@ -653,7 +653,7 @@ export const synths: SynthModel[] = [
     synthEngine: 'PCM',
     description: 'Модель PSS-8 из серии PSS (PortaSound). Популярный винтажный клавишный инструмент.',
     isGem: false,
-    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-8.jpg'],
+    images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-6.jpg'],
   },
   {
     id: 'yamaha-ps-ps-1',
