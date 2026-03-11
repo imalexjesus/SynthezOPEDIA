@@ -14,6 +14,9 @@ export const photoOverrides: Record<string, string[]> = {
   "yamaha-pss-pss-f50": [
     "https://i.ebayimg.com/images/g/0EoAAOSwyXhjPDml/s-l1200.jpg"
   ],
+  "yamaha-pss-pss-270": [
+    "https://i.ebayimg.com/images/g/M2sAAOSwE1pnYYYu/s-l1200.png"
+  ],
   "yamaha-ps-ps-4": [
     "https://i.ebayimg.com/images/g/CFEAAOSwTwtgnZb~/s-l1200.jpg"
   ],
