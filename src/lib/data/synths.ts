@@ -222,9 +222,22 @@ export const synths: SynthModel[] = [
     formFactor: 'mini',
     keysCount: 32,
     synthEngine: 'PCM',
-    description: 'Модель PSS-170 из серии PSS (PortaSound). Популярный винтажный клавишный инструмент.',
-    isGem: false,
+    description: 'Легкий и доступный PortaSound с характерным 80s-звучанием, удобный для lo-fi партий и коллекции бюджетных Yamaha.',
+    isGem: true,
     images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-170.jpg'],
+    releasePriceUSD: 80,
+    featureTags: ['32 мини-клавиши', 'PortaSound', 'Lo-Fi character'],
+    marketPrices: {
+      usaUsed: '$60 - $120',
+      uaUsed: '₴2600 - ₴4300',
+      olxLowest: '<₴3000',
+      coolDeal: '<₴2400'
+    },
+    popularity: {
+      stars: 3,
+      status: 'Стабильный интерес у бюджетных коллекционеров',
+      label: 'Популярность среди энтузиастов'
+    },
   },
   {
     id: 'yamaha-pss-pss-180',
@@ -248,9 +261,22 @@ export const synths: SynthModel[] = [
     formFactor: 'mini',
     keysCount: 32,
     synthEngine: 'PCM',
-    description: 'Модель PSS-190 из серии PSS (PortaSound). Популярный винтажный клавишный инструмент.',
-    isGem: false,
+    description: 'Одна из старших моделей ранней линейки PSS: больше возможностей и более уверенный звук в сравнении с младшими 100-сериями.',
+    isGem: true,
     images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-190.jpg'],
+    releasePriceUSD: 120,
+    featureTags: ['32 мини-клавиши', 'PortaSound', 'Расширенная модель'],
+    marketPrices: {
+      usaUsed: '$90 - $200',
+      uaUsed: '₴3200 - ₴5600',
+      olxLowest: '<₴3400',
+      coolDeal: '<₴2800'
+    },
+    popularity: {
+      stars: 4,
+      status: 'Редкая и желанная модель в серии',
+      label: 'Популярность среди энтузиастов'
+    },
   },
   {
     id: 'yamaha-pss-pss-260',
@@ -499,9 +525,22 @@ export const synths: SynthModel[] = [
     formFactor: 'compact',
     keysCount: 49,
     synthEngine: 'FM (2-операторный)',
-    description: 'Модель PSS-780 из серии PSS (PortaSound). Популярный винтажный клавишный инструмент.',
-    isGem: false,
+    description: 'Топовая модель семейства PortaSound с MIDI и насыщенным FM/PCM-характером, высоко ценится в ретро-саунд дизайне.',
+    isGem: true,
     images: ['https://www.nurykabe.com/dump/docs/PSS/images/PSS-780.jpg'],
+    releasePriceUSD: 200,
+    featureTags: ['49 клавиш', 'MIDI', 'Флагман PSS'],
+    marketPrices: {
+      usaUsed: '$120 - $230',
+      uaUsed: '₴3500 - ₴7000',
+      olxLowest: '<₴4200',
+      coolDeal: '<₴3400'
+    },
+    popularity: {
+      stars: 4,
+      status: 'Сильный интерес у фанатов винтажных Yamaha',
+      label: 'Популярность среди энтузиастов'
+    },
   },
   {
     id: 'yamaha-pss-pss-790',
@@ -1353,9 +1392,22 @@ export const synths: SynthModel[] = [
     formFactor: 'mini',
     keysCount: 32,
     synthEngine: 'PCM',
-    description: 'Модель PT-80 из серии PT Series. Популярный винтажный инструмент.',
-    isGem: false,
+    description: 'Одна из самых узнаваемых моделей PT-серии: компактный формат, характерный 80s-тон и популярность среди начинающих коллекционеров.',
+    isGem: true,
     images: ['https://upload.wikimedia.org/wikipedia/commons/e/e4/Casio_PT-80_keyboard.jpg'],
+    releasePriceUSD: 70,
+    featureTags: ['32 мини-клавиши', '8 звуков', 'Ритм-секция'],
+    marketPrices: {
+      usaUsed: '$60 - $110',
+      uaUsed: '₴2200 - ₴3800',
+      olxLowest: '<₴1700',
+      coolDeal: '<₴1200'
+    },
+    popularity: {
+      stars: 4,
+      status: 'Популярная базовая модель PT-линейки',
+      label: 'Популярность среди энтузиастов'
+    },
   },
   {
     id: 'casio-pt-pt-82',
@@ -1472,9 +1524,22 @@ export const synths: SynthModel[] = [
     formFactor: 'mini',
     keysCount: 32,
     synthEngine: 'PCM',
-    description: 'Модель MT-65 из серии MT (CasioTone). Популярный винтажный инструмент.',
-    isGem: false,
+    description: 'Один из самых уважаемых Casiotone: 49 клавиш, выразительная динамика и теплый винтажный тембр. Часто попадает в “must-have” списки.',
+    isGem: true,
     images: ['https://upload.wikimedia.org/wikipedia/commons/e/e0/Casiotone_MT-65.jpg'],
+    releasePriceUSD: 200,
+    featureTags: ['49 клавиш', 'Casiotone classic', 'Винтажный warm tone'],
+    marketPrices: {
+      usaUsed: '$140 - $280',
+      uaUsed: '₴4500 - ₴9000',
+      olxLowest: '<₴4200',
+      coolDeal: '<₴3300'
+    },
+    popularity: {
+      stars: 5,
+      status: 'Один из самых желанных Casiotone',
+      label: 'Популярность среди энтузиастов'
+    },
   },
   {
     id: 'casio-mt-mt-68',
@@ -1658,9 +1723,22 @@ export const synths: SynthModel[] = [
     formFactor: 'mini',
     keysCount: 29,
     synthEngine: 'цифровой монофонический',
-    description: 'Модель VL-10 из серии VL-Tone. Популярный винтажный инструмент.',
-    isGem: false,
+    description: 'Редкий младший VL-Tone в ультракомпактном формате. Модель заметно реже VL-1 и ценится за коллекционную уникальность.',
+    isGem: true,
     images: ['https://images.synthpedia.net/cached/9d700833a6b22e600676a9f746feb637b6634055'],
+    releasePriceUSD: 80,
+    featureTags: ['Ультракомпактный', 'VL-Tone', 'Редкая версия'],
+    marketPrices: {
+      usaUsed: '$70 - $350',
+      uaUsed: '₴3000 - ₴8500',
+      olxLowest: '<₴3200',
+      coolDeal: '<₴2500'
+    },
+    popularity: {
+      stars: 4,
+      status: 'Нишевый фаворит среди коллекционеров Casio',
+      label: 'Популярность среди энтузиастов'
+    },
   },
   {
     id: 'casio-vl-vl-tone',
