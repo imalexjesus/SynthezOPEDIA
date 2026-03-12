@@ -72,6 +72,12 @@ export const gemPhotoOverrides: Record<string, string[]> = {
   "yamaha-reface-reface-dx": [
     "https://rvb-img.reverb.com/i/s--HZbCrxwh--/quality=medium-low,height=800,width=800,fit=contain/jzkqvfujylvgrhuqzarg.jpg"
   ],
+  "casio-pt-pt-82": [
+    "https://i.ebayimg.com/images/g/2QkAAeSwy7BnH4Ax/s-l1200.jpg"
+  ],
+  "casio-pt-pt-88": [
+    "https://i.ebayimg.com/images/g/ZD0AAeSwQ99ohSlp/s-l400.jpg"
+  ],
   "yamaha-drum-rx-5": [
     "https://i.ebayimg.com/00/s/NDgwWDY0MA==/z/ZrQAAOSwx8NfxoQw/$_57.JPG?set_id=8800005007"
   ]
