@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photo Override Tool - SynthezOPEDIA</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg-primary: #0d1117;
+      --bg-secondary: #161b22;
+      --bg-tertiary: #21262d;
+      --border: #30363d;
+      --text-primary: #e6edf3;
+      --text-secondary: #8b949e;
+      --accent: #58a6ff;
+      --accent-hover: #79b8ff;
+      --success: #3fb950;
+      --danger: #f85149;
+      --warning: #d29922;
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg-primary); color: var(--text-primary); min-height: 100vh; padding: 20px; }
+    h1 { margin-bottom: 20px; color: var(--accent); font-size: 24px; display: flex; align-items: center; gap: 10px; }
+    
+    .toolbar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+    .search { padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text-primary); width: 280px; font-size: 14px; }
+    .search:focus { outline: none; border-color: var(--accent); }
+    
+    button { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; font-size: 13px; transition: all 0.15s; display: inline-flex; align-items: center; gap: 6px; }
+    .btn-primary { background: var(--accent); color: #000; }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-secondary { background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: var(--border); }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-ghost { background: transparent; color: var(--text-secondary); }
+    .btn-ghost:hover { color: var(--text-primary); background: var(--bg-tertiary); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    
+    .stats { color: var(--text-secondary); font-size: 13px; margin-left: auto; }
+    .badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 500; }
+    .badge-gem { background: #f59e0b20; color: #f59e0b; }
+    .badge-override { background: #3fb95020; color: var(--success); }
+    .badge-error { background: #f8514920; color: var(--danger); }
+    .badge-warning { background: #d2992220; color: var(--warning); }
+    
+    .main-grid { display: grid; grid-template-columns: 1fr 320px; gap: 20px; }
+    @media (max-width: 900px) { .main-grid { grid-template-columns: 1fr; } }
+    
+    .table-container { background: var(--bg-secondary); border-radius: 8px; border: 1px solid var(--border); overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: var(--bg-tertiary); font-weight: 600; font-size: 12px; text-transform: uppercase; color: var(--text-secondary); position: sticky; top: 0; }
+    tr:hover { background: var(--bg-tertiary); }
+    tr.selected { background: #1f3a5f; }
+    tr.has-override { border-left: 3px solid var(--success); }
+    tr.has-error { border-left: 3px solid var(--danger); }
+    
+    .thumb { width: 48px; height: 36px; object-fit: cover; border-radius: 4px; background: var(--bg-primary); }
+    .thumb-error { border: 2px solid var(--danger); }
+    .model-name { font-weight: 600; color: var(--accent); }
+    .brand { color: var(--text-secondary); font-size: 12px; }
+    .id { font-family: monospace; font-size: 10px; color: var(--text-secondary); background: var(--bg-tertiary); padding: 2px 6px; border-radius: 3px; }
+    .checkbox { width: 16px; height: 16px; cursor: pointer; accent-color: var(--accent); }
+    
+    .sidebar { display: flex; flex-direction: column; gap: 16px; }
+    .panel { background: var(--bg-secondary); border-radius: 8px; border: 1px solid var(--border); padding: 16px; }
+    .panel h3 { font-size: 14px; margin-bottom: 12px; color: var(--text-secondary); text-transform: uppercase; }
+    
+    .drop-zone { 
+      border: 2px dashed var(--border); border-radius: 8px; padding: 24px; text-align: center; 
+      transition: all 0.2s; cursor: pointer;
+    }
+    .drop-zone:hover, .drop-zone.dragover { border-color: var(--accent); background: #58a6ff10; }
+    .drop-zone p { color: var(--text-secondary); font-size: 13px; }
+    .drop-zone .icon { font-size: 32px; margin-bottom: 8px; }
+    
+    .url-input { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg-primary); color: var(--text-primary); font-size: 13px; font-family: monospace; margin-bottom: 10px; }
+    .url-input:focus { outline: none; border-color: var(--accent); }
+    
+    .batch-list { max-height: 200px; overflow-y: auto; }
+    .batch-item { display: flex; align-items: center; gap: 8px; padding: 8px; background: var(--bg-primary); border-radius: 6px; margin-bottom: 6px; }
+    .batch-item img { width: 40px; height: 30px; object-fit: cover; border-radius: 3px; }
+    .batch-item .name { flex: 1; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .batch-item .remove { color: var(--danger); cursor: pointer; padding: 4px; }
+    
+    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 1000; }
+    .modal.active { display: flex; }
+    .modal-content { background: var(--bg-secondary); padding: 24px; border-radius: 12px; max-width: 700px; width: 95%; max-height: 85vh; overflow-y: auto; border: 1px solid var(--border); }
+    .modal h2 { margin-bottom: 16px; color: var(--accent); }
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; }
+    
+    textarea { width: 100%; height: 300px; background: var(--bg-primary); color: var(--accent); border: 1px solid var(--border); padding: 12px; border-radius: 6px; font-family: 'Fira Code', monospace; font-size: 12px; line-height: 1.5; }
+    
+    .toast { position: fixed; bottom: 20px; right: 20px; background: var(--bg-secondary); border: 1px solid var(--border); padding: 12px 20px; border-radius: 8px; display: flex; align-items: center; gap: 10px; transform: translateY(100px); opacity: 0; transition: all 0.3s; z-index: 1001; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { border-color: var(--success); }
+    .toast.error { border-color: var(--danger); }
+
+    .quick-actions { display: flex; gap: 6px; }
+    .quick-actions button { padding: 4px 8px; font-size: 11px; }
+    
+    .empty-state { padding: 40px; text-align: center; color: var(--text-secondary); }
+  </style>
+</head>
+<body>
+  <h1>🖼️ Photo Override Tool</h1>
+  
+  <div class="toolbar">
+    <input type="text" class="search" id="searchInput" placeholder="Search name, brand, ID...">
+    <button class="btn-secondary" onclick="filterIssues()">⚠️ Issues Only</button>
+    <button class="btn-secondary" onclick="filterNoImage()">❌ No Image</button>
+    <button class="btn-secondary" onclick="filterDuplicates()">🔄 Duplicates</button>
+    <button class="btn-secondary" onclick="showAll()">Show All</button>
+    <button class="btn-primary" onclick="openExportModal()" id="exportBtn" disabled>📤 Export (<span id="overrideCount">0</span>)</button>
+    <span class="stats" id="stats">Loading...</span>
+  </div>
+  
+  <div class="main-grid">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:40px"><input type="checkbox" class="checkbox" id="selectAll" onchange="toggleSelectAll()"></th>
+            <th style="width:60px">Photo</th>
+            <th>Model</th>
+            <th>Brand</th>
+            <th>ID</th>
+            <th>Status</th>
+            <th style="width:140px">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+    
+    <div class="sidebar">
+      <div class="panel">
+        <h3>📂 Batch Import</h3>
+        <div class="drop-zone" id="dropZone">
+          <div class="icon">📥</div>
+          <p>Drop URLs file or paste below</p>
+          <p style="font-size:11px;margin-top:4px">One URL per line, format: id,url</p>
+        </div>
+        <textarea class="url-input" id="batchInput" rows="4" placeholder="yamaha-psr-psr-60,https://example.com/img.jpg&#10;casio-cz-cz-101,https://example.com/img2.jpg" style="margin-top:10px;height:100px"></textarea>
+        <button class="btn-primary" style="width:100%" onclick="applyBatch()">Apply Batch</button>
+      </div>
+      
+      <div class="panel">
+        <h3>🔍 Quick Search</h3>
+        <input type="text" class="url-input" id="imageSearch" placeholder="Search images (e.g. yamaha psr)..." onkeyup="searchImages(this.value)">
+        <div id="imageResults" style="max-height:150px;overflow-y:auto"></div>
+      </div>
+      
+      <div class="panel">
+        <h3>📊 Overview</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="batch-item" style="background:var(--bg-primary)">
+            <span>Total:</span>
+            <strong id="statTotal">0</strong>
+          </div>
+          <div class="batch-item" style="background:var(--bg-primary)">
+            <span>Issues:</span>
+            <strong id="statIssues" style="color:var(--warning)">0</strong>
+          </div>
+          <div class="batch-item" style="background:var(--bg-primary)">
+            <span>No Image:</span>
+            <strong id="statNoImage" style="color:var(--danger)">0</strong>
+          </div>
+          <div class="batch-item" style="background:var(--bg-primary)">
+            <span>Overrides:</span>
+            <strong id="statOverrides" style="color:var(--success)">0</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal" id="exportModal">
+    <div class="modal-content">
+      <h2>📤 Export Overrides</h2>
+      <p style="color:var(--text-secondary);margin-bottom:12px">Copy to gem-photo-overrides.ts (for GEM models) or photo-overrides.ts</p>
+      <textarea id="exportText" readonly></textarea>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeExportModal()">Close</button>
+        <button class="btn-primary" onclick="copyExport()">📋 Copy</button>
+        <button class="btn-secondary" onclick="downloadExport()">💾 Download</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="toast" id="toast">
+    <span id="toastMsg"></span>
+  </div>
+
+  <script>
+    let synths = [];
+    let overrides = {};
+    let selectedIds = new Set();
+    let currentFilter = 'all';
+    
+    // Load data
+    async function loadData() {
+      try {
+        const resp = await fetch('/api/synths');
+        synths = await resp.json();
+        
+        // Load existing overrides from files
+        overrides = {};
+        
+        // Parse localStorage for temporary overrides
+        const saved = localStorage.getItem('photoOverrides');
+        if (saved) overrides = JSON.parse(saved);
+        
+        renderTable();
+        updateStats();
+      } catch (e) {
+        showToast('Error loading data. Start dev server.', 'error');
+      }
+    }
+    
+    function saveOverrides() {
+      localStorage.setItem('photoOverrides', JSON.stringify(overrides));
+      updateStats();
+    }
+    
+    function getImage(s) {
+      return overrides[s.id] ? overrides[s.id][0] : (s.images && s.images[0]) || '';
+    }
+    
+    function getStatus(s) {
+      const img = getImage(s);
+      if (overrides[s.id]) return { label: 'Override', class: 'badge-override' };
+      if (!img) return { label: 'No Image', class: 'badge-error' };
+      if (img.includes('ytimg') || img.includes('placeholder')) return { label: 'Bad Image', class: 'badge-warning' };
+      return { label: 'OK', class: '' };
+    }
+    
+    function renderTable() {
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      
+      let filtered = synths.filter(s => {
+        const str = `${s.modelName} ${s.brand} ${s.id} ${s.series}`.toLowerCase();
+        if (!str.includes(search)) return false;
+        
+        if (currentFilter === 'issues') {
+          const img = getImage(s);
+          return !img || img.includes('ytimg') || img.includes('placeholder');
+        }
+        if (currentFilter === 'noimage') {
+          return !getImage(s);
+        }
+        return true;
+      });
+      
+      const tbody = document.getElementById('tableBody');
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No models found</td></tr>';
+        return;
+      }
+      
+      tbody.innerHTML = filtered.slice(0, 200).map(s => {
+        const isSelected = selectedIds.has(s.id);
+        const img = getImage(s);
+        const status = getStatus(s);
+        const imgError = !img || img.includes('ytimg') ? 'thumb-error' : '';
+        
+        return `
+          <tr class="${isSelected ? 'selected' : ''} ${overrides[s.id] ? 'has-override' : ''} ${!img ? 'has-error' : ''}">
+            <td><input type="checkbox" class="checkbox" ${isSelected ? 'checked' : ''} onchange="toggleSelect('${s.id}')"></td>
+            <td><img class="thumb ${imgError}" src="${img || ''}" onerror="this.style.display='none'"></td>
+            <td>
+              <span class="model-name">${s.modelName}</span>
+              ${s.isGem ? '<span class="badge badge-gem">GEM</span>' : ''}
+            </td>
+            <td><span class="brand">${s.brand}</span></td>
+            <td><span class="id">${s.id}</span></td>
+            <td><span class="badge ${status.class}">${status.label}</span></td>
+            <td>
+              <div class="quick-actions">
+                <button class="btn-ghost" onclick="editOverride('${s.id}')">✏️</button>
+                <button class="btn-ghost" onclick="openImageSearch('${s.id}')">🔍</button>
+                ${overrides[s.id] ? '<button class="btn-ghost" onclick="removeOverride(\''+s.id+'\')">×</button>' : ''}
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+    
+    function updateStats() {
+      const total = synths.length;
+      const noImage = synths.filter(s => !getImage(s)).length;
+      const issues = synths.filter(s => {
+        const img = getImage(s);
+        return img && (img.includes('ytimg') || img.includes('placeholder'));
+      }).length;
+      const overrideCount = Object.keys(overrides).length;
+      
+      document.getElementById('statTotal').textContent = total;
+      document.getElementById('statNoImage').textContent = noImage;
+      document.getElementById('statIssues').textContent = issues;
+      document.getElementById('statOverrides').textContent = overrideCount;
+      document.getElementById('stats').textContent = `${total} models | ${overrideCount} overrides`;
+      document.getElementById('overrideCount').textContent = overrideCount;
+      document.getElementById('exportBtn').disabled = overrideCount === 0;
+    }
+    
+    function toggleSelect(id) {
+      if (selectedIds.has(id)) selectedIds.delete(id);
+      else selectedIds.add(id);
+      renderTable();
+    }
+    
+    function toggleSelectAll() {
+      const checked = document.getElementById('selectAll').checked;
+      if (checked) synths.forEach(s => selectedIds.add(s.id));
+      else selectedIds.clear();
+      renderTable();
+    }
+    
+    function filterIssues() { currentFilter = 'issues'; renderTable(); }
+    function filterNoImage() { currentFilter = 'noimage'; renderTable(); }
+    function filterDuplicates() { currentFilter = 'duplicates'; renderTable(); }
+    function showAll() { currentFilter = 'all'; renderTable(); }
+    
+    function editOverride(id) {
+      const url = prompt('Enter image URL:', overrides[id] || '');
+      if (url) {
+        overrides[id] = [url];
+        saveOverrides();
+        renderTable();
+        showToast('Override saved', 'success');
+      }
+    }
+    
+    function removeOverride(id) {
+      delete overrides[id];
+      saveOverrides();
+      renderTable();
+      showToast('Override removed', 'success');
+    }
+    
+    function applyBatch() {
+      const input = document.getElementById('batchInput').value;
+      const lines = input.split('\n').filter(l => l.trim());
+      let count = 0;
+      
+      lines.forEach(line => {
+        const [id, url] = line.split(',').map(s => s.trim());
+        if (id && url) {
+          overrides[id] = [url];
+          count++;
+        }
+      });
+      
+      if (count > 0) {
+        saveOverrides();
+        renderTable();
+        showToast(`Applied ${count} overrides`, 'success');
+        document.getElementById('batchInput').value = '';
+      }
+    }
+    
+    function searchImages(query) {
+      if (query.length < 2) {
+        document.getElementById('imageResults').innerHTML = '';
+        return;
+      }
+      
+      // Search in synths for matching models
+      const results = synths.filter(s => 
+        `${s.modelName} ${s.brand}`.toLowerCase().includes(query.toLowerCase())
+      ).slice(0, 10);
+      
+      document.getElementById('imageResults').innerHTML = results.map(s => `
+        <div class="batch-item" onclick="selectForEdit('${s.id}')">
+          <img src="${getImage(s)}" onerror="this.src=''">
+          <span class="name">${s.brand} ${s.modelName}</span>
+          <span class="badge ${getStatus(s).class}">${getStatus(s).label}</span>
+        </div>
+      `).join('');
+    }
+    
+    function selectForEdit(id) {
+      toggleSelect(id);
+      editOverride(id);
+    }
+    
+    function openImageSearch(id) {
+      const s = synths.find(x => x.id === id);
+      if (s) {
+        document.getElementById('imageSearch').value = `${s.brand} ${s.modelName}`;
+        searchImages(`${s.brand} ${s.modelName}`);
+      }
+    }
+    
+    function openExportModal() {
+      const gemOverrides = {};
+      const photoOverrides = {};
+      
+      Object.entries(overrides).forEach(([id, urls]) => {
+        const synth = synths.find(s => s.id === id);
+        if (synth?.isGem) gemOverrides[id] = urls;
+        else photoOverrides[id] = urls;
+      });
+      
+      let content = '// GEM Models\nexport const gemPhotoOverrides: Record<string, string[]> = {\n';
+      content += Object.entries(gemOverrides).map(([id, urls]) => 
+        `  "${id}": [\n    ${urls.map(u => `'${u}'`).join(',\n    ')}\n  ]`
+      ).join(',\n');
+      content += '\n};\n\n// Regular Models\nexport const photoOverrides: Record<string, string[]> = {\n';
+      content += Object.entries(photoOverrides).map(([id, urls]) => 
+        `  "${id}": [\n    ${urls.map(u => `'${u}'`).join(',\n    ')}\n  ]`
+      ).join(',\n');
+      content += '\n};';
+      
+      document.getElementById('exportText').value = content;
+      document.getElementById('exportModal').classList.add('active');
+    }
+    
+    function closeExportModal() {
+      document.getElementById('exportModal').classList.remove('active');
+    }
+    
+    function copyExport() {
+      const textarea = document.getElementById('exportText');
+      navigator.clipboard.writeText(textarea.value);
+      showToast('Copied to clipboard!', 'success');
+    }
+    
+    function downloadExport() {
+      const content = document.getElementById('exportText').value;
+      const blob = new Blob([content], { type: 'text/javascript' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'photo-overrides.ts';
+      a.click();
+      showToast('Downloaded!', 'success');
+    }
+    
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.className = `toast ${type} show`;
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+    
+    // Drag & drop
+    const dropZone = document.getElementById('dropZone');
+    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+    dropZone.addEventListener('drop', async e => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      
+      const files = Array.from(e.dataTransfer.files);
+      if (files.length > 0) {
+        // Read file as text (for URL lists)
+        const text = await files[0].text();
+        document.getElementById('batchInput').value = text;
+        showToast('File loaded. Click Apply.', 'success');
+      }
+    });
+    
+    document.getElementById('searchInput').addEventListener('input', renderTable);
+    
+    loadData();
+  </script>
+</body>
+</html>
