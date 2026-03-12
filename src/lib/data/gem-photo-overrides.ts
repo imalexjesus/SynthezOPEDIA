@@ -9,7 +9,8 @@ export const gemPhotoOverrides: Record<string, string[]> = {
     "https://i.ebayimg.com/00/s/MTIwNlgxNjAw/z/K5AAAOSwKfVXHhiT/$_12.JPG"
   ],
   "yamaha-pss-pss-470": [
-    "https://i.ebayimg.com/00/s/MTIwNlgxNjAw/z/K5AAAOSwKfVXHhiT/$_12.JPG"
+    "https://cdn11.bigcommerce.com/s-c3f06q9uvc/images/stencil/1280x1280/products/477779/1938098/fcd73226-fc28-4ed7-a8a8-708930a19aec__63771.1768881525.jpg?c=1",
+    "https://i0.wp.com/www.the8bitguy.com/wp-content/uploads/2015/10/Yamaha-PSS470-top.jpg"
   ],
   "yamaha-pss-pss-780": [
     "https://i.ebayimg.com/images/g/sCIAAOSw7xRndkx1/s-l1200.jpg"
