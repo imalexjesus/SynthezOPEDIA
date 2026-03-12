@@ -22,6 +22,7 @@
 
 ### 4. Рекомендованные архивы по Yamaha/Casio
 - Yamaha Synth Official Chronology: https://www.yamahasynth.com/synths/yamaha-synth-chronology
+- Yamaha Archive (French): https://fr.yamaha.com/fr/musical-instruments/keyboards/products/archived/
 - Wikimedia Commons (Yamaha): https://commons.wikimedia.org/wiki/Category:Yamaha_synthesizers
 - Wikimedia Commons (Casio): https://commons.wikimedia.org/wiki/Category:Casio_synthesizers
 - Vintage Synth Explorer (Casio): http://www.vintagesynth.com/casio.php
