@@ -80,5 +80,47 @@ export const gemPhotoOverrides: Record<string, string[]> = {
   ],
   "yamaha-drum-rx-5": [
     "https://i.ebayimg.com/00/s/NDgwWDY0MA==/z/ZrQAAOSwx8NfxoQw/$_57.JPG?set_id=8800005007"
+  ],
+  "yamaha-ps-ps-11": [
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Yamaha_PSR-11.jpg/800px-Yamaha_PSR-11.jpg"
+  ],
+  "yamaha-pss-pss-f30": [
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Yamaha_PSS-F30.jpg/800px-Yamaha_PSS-F30.jpg"
+  ],
+  "roland-juno-juno-6": [
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Roland_Juno-6.jpg/800px-Roland_Juno-6.jpg"
+  ],
+  "roland-d-d-20": [
+    "https://i.ebayimg.com/images/g/Vl8AAeSwQGJpierd/s-l300.jpg"
+  ],
+  "yamaha-reface-reface-yc": [
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Yamaha_Reface_YC.jpg/800px-Yamaha_Reface_YC.jpg"
+  ],
+  "yamaha-reface-reface-cp": [
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Yamaha_Reface_CP.jpg/800px-Yamaha_Reface_CP.jpg"
+  ],
+  "casio-sk-sk-210": [
+    "https://i.ebayimg.com/images/g/HVsAAOSwKpxkQtIg/s-l1200.jpg"
+  ],
+  "casio-sk-sk-220": [
+    "https://i.ebayimg.com/images/g/HVsAAOSwKpxkQtIg/s-l1200.jpg"
+  ],
+  "casio-cz-cz-3000": [
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Casio_CZ-3000.jpg/800px-Casio_CZ-3000.jpg"
+  ],
+  "casio-cz-cz-5000": [
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Casio_CZ-3000.jpg/800px-Casio_CZ-3000.jpg"
+  ],
+  "casio-mt-mt-200": [
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Casio_MT-40.jpg/500px-Casio_MT-40.jpg"
+  ],
+  "casio-mt-mt-540": [
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Casio_MT-40.jpg/500px-Casio_MT-40.jpg"
+  ],
+  "casio-mt-mt-800": [
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Casio_MT-40.jpg/500px-Casio_MT-40.jpg"
+  ],
+  "yamaha-pss-pss-1020": [
+    "https://www.nurykabe.com/dump/docs/PSS/images/PSS-790.jpg"
   ]
 };
