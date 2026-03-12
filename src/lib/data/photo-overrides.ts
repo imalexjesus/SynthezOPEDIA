@@ -56,9 +56,6 @@ export const photoOverrides: Record<string, string[]> = {
   "yamaha-ps-ps-19": [
     "https://upload.wikimedia.org/wikipedia/commons/d/d7/Yamaha_PSR-350_%2832883987832%29.jpg"
   ],
-  "yamaha-psr-psr-60": [
-    "https://i.ebayimg.com/images/g/h6sAAeSwRYBogXQK/s-l1200.jpg"
-  ],
   "yamaha-psr-psr-13": [
     "https://i.ebayimg.com/00/s/NTQ4WDEwMjQ=/z/e8oAAOSwCbRkyk0n/$_12.JPG?set_id=880000500F"
   ],

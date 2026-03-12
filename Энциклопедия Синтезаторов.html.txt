@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Энциклопедия Синтезаторов 1980-х</title>
+    <style>
+        :root {
+            --color-background: #fcfcf9;
+            --color-surface: #fffffe;
+            --color-text: #13343b;
+            --color-text-secondary: #626c71;
+            --color-primary: #21808d;
+            --color-primary-hover: #1d7480;
+            --color-border: rgba(94, 82, 64, 0.2);
+            --color-card-border: rgba(94, 82, 64, 0.12);
+            --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --color-background: #1f2121;
+                --color-surface: #262828;
+                --color-text: #f5f5f5;
+                --color-text-secondary: rgba(167, 169, 169, 0.7);
+                --color-primary: #32b8c6;
+                --color-primary-hover: #2da6b2;
+                --color-border: rgba(119, 124, 124, 0.3);
+                --color-card-border: rgba(119, 124, 124, 0.2);
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family-base);
+            background: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
+            padding: 24px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: var(--color-text-secondary);
+            font-size: 14px;
+        }
+
+        .filter-bar {
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
+            padding: 16px 24px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--color-border);
+            background: var(--color-surface);
+            color: var(--color-text);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        .series-section {
+            margin-bottom: 48px;
+        }
+
+        .series-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--color-primary);
+        }
+
+        .brand-badge {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .brand-yamaha {
+            background: #21808d20;
+            color: var(--color-primary);
+        }
+
+        .brand-casio {
+            background: #ff545920;
+            color: #c0152f;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .brand-yamaha {
+                background: #32b8c620;
+                color: #32b8c6;
+            }
+            .brand-casio {
+                background: #ff545920;
+                color: #ff5459;
+            }
+        }
+
+        .series-header h2 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .model-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .model-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .model-images {
+            position: relative;
+            background: #f8f8f8;
+            padding: 24px;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .model-images {
+                background: #1a1a1a;
+            }
+        }
+
+        .model-images img {
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+            max-height: 180px;
+        }
+
+        .year-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--color-primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .price-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(192, 21, 47, 0.9);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .price-badge {
+                background: rgba(255, 84, 89, 0.9);
+            }
+        }
+
+        .model-content {
+            padding: 20px;
+        }
+
+        .model-name {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--color-text);
+        }
+
+        .model-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .spec-tag {
+            padding: 4px 8px;
+            background: rgba(33, 128, 141, 0.1);
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--color-text-secondary);
+        }
+
+        .model-description {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--color-text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .price-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .price-item {
+            font-size: 12px;
+        }
+
+        .price-label {
+            color: var(--color-text-secondary);
+            display: block;
+            margin-bottom: 2px;
+            font-weight: 500;
+        }
+
+        .price-value {
+            color: var(--color-text);
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .gem-rating {
+            margin-top: 12px;
+            padding: 8px 12px;
+            background: rgba(33, 128, 141, 0.1);
+            border-left: 3px solid var(--color-primary);
+            border-radius: 4px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .gem-rating {
+                background: rgba(50, 184, 198, 0.15);
+            }
+        }
+
+        .gem-rating-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--color-text-secondary);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .gem-rating-value {
+            font-size: 13px;
+            color: var(--color-primary);
+            font-weight: 600;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .models-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-bar {
+                padding: 12px 16px;
+            }
+            
+            .filter-btn {
+                font-size: 13px;
+                padding: 6px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📻 Энциклопедия Винтажных Синтезаторов</h1>
+        <p>Yamaha и Casio: домашние синтезаторы 1980-х годов до эры DX7</p>
+    </div>
+
+    <div class="filter-bar">
+        <span style="color: var(--color-text-secondary); font-size: 14px; font-weight: 600;">Фильтр:</span>
+        <button class="filter-btn active" data-filter="all">Все модели</button>
+        <button class="filter-btn" data-filter="yamaha">Yamaha</button>
+        <button class="filter-btn" data-filter="casio">Casio</button>
+        <button class="filter-btn" data-filter="pss">Yamaha PSS</button>
+        <button class="filter-btn" data-filter="psr">Yamaha PSR</button>
+        <button class="filter-btn" data-filter="vl">Casio VL</button>
+        <button class="filter-btn" data-filter="pt">Casio PT</button>
+        <button class="filter-btn" data-filter="mt">Casio MT</button>
+        <button class="filter-btn" data-filter="sk">Casio SK</button>
+    </div>
+
+    <div class="container" id="content">
+        <!-- Casio VL Series -->
+        <div class="series-section" data-brand="casio" data-series="vl">
+            <div class="series-header">
+                <span class="brand-badge brand-casio">Casio</span>
+                <h2>Серия VL-Tone (1981-1984)</h2>
+            </div>
+            <div class="models-grid">
+                <div class="model-card">
+                    <div class="model-images">
+                        <span class="year-badge">1981</span>
+                        <span class="price-badge">$70</span>
+                        <img src="https://pplx-res.cloudinary.com/image/upload/v1770220573/search_images/95f39d239fc0cead5d3f77fbfa8768d27596404a.jpg" alt="Casio VL-1">
+                    </div>
+                    <div class="model-content">
+                        <h3 class="model-name">Casio VL-1 VL-Tone</h3>
+                        <div class="model-specs">
+                            <span class="spec-tag">29 кнопок</span>
+                            <span class="spec-tag">Монофония</span>
+                            <span class="spec-tag">Калькулятор</span>
+                            <span class="spec-tag">Walsh синтез</span>
+                        </div>
+                        <p class="model-description">
+                            Революционный инструмент — первый доступный цифровой синтезатор ($69.95). Уникальное сочетание калькулятора, монофонического синтезатора и секвенсора на 100 нот. Использовал Walsh-функции для синтеза звука. 5 пресетных звуков + 5 программируемых ADSR. Культовый инструмент, используемый в lo-fi музыке. Продавался также как RadioShack Concertmate 200.
+                        </p>
+                        <div class="price-info">
+                            <div class="price-item">
+                                <span class="price-label">США б/у:</span>
+                                <span class="price-value">$80-140</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Украина б/у:</span>
+                                <span class="price-value">₴2500-4500</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">OLX находка:</span>
+                                <span class="price-value">&lt;₴2000</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Крутая покупка:</span>
+                                <span class="price-value">&lt;₴1500</span>
+                            </div>
+                        </div>
+                        <div class="gem-rating">
+                            <div class="gem-rating-label">Популярность среди энтузиастов</div>
+                            <div class="gem-rating-value">⭐⭐⭐⭐⭐ Легенда (культовый статус)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-images">
+                        <span class="year-badge">1982</span>
+                        <span class="price-badge">$100</span>
+                        <img src="https://pplx-res.cloudinary.com/image/upload/v1770220581/search_images/8b53c33027e5f182c6faf12fce03a3e6adf96f76.jpg" alt="Casio VL-5">
+                    </div>
+                    <div class="model-content">
+                        <h3 class="model-name">Casio VL-5</h3>
+                        <div class="model-specs">
+                            <span class="spec-tag">29 кнопок</span>
+                            <span class="spec-tag">4-голосная полифония</span>
+                            <span class="spec-tag">Без калькулятора</span>
+                        </div>
+                        <p class="model-description">
+                            Полифоническая версия VL-1 с поддержкой 4 голосов одновременно. Отсутствует функция калькулятора и секция ADSR-синтеза. Увеличенный дисплей для отображения музыкальной нотации. Более музыкально ориентированный инструмент по сравнению с VL-1.
+                        </p>
+                        <div class="price-info">
+                            <div class="price-item">
+                                <span class="price-label">США б/у:</span>
+                                <span class="price-value">$60-100</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Украина б/у:</span>
+                                <span class="price-value">₴2000-3500</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">OLX находка:</span>
+                                <span class="price-value">&lt;₴1500</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Крутая покупка:</span>
+                                <span class="price-value">&lt;₴1000</span>
+                            </div>
+                        </div>
+                        <div class="gem-rating">
+                            <div class="gem-rating-label">Популярность среди энтузиастов</div>
+                            <div class="gem-rating-value">⭐⭐⭐ Редкость (менее известна, чем VL-1)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Casio PT Series -->
+        <div class="series-section" data-brand="casio" data-series="pt">
+            <div class="series-header">
+                <span class="brand-badge brand-casio">Casio</span>
+                <h2>Серия PT (1982-1988)</h2>
+            </div>
+            <div class="models-grid">
+                <div class="model-card">
+                    <div class="model-images">
+                        <span class="year-badge">1982</span>
+                        <span class="price-badge">$50</span>
+                        <img src="https://pplx-res.cloudinary.com/image/upload/v1770220573/search_images/95f39d239fc0cead5d3f77fbfa8768d27596404a.jpg" alt="Casio PT-1">
+                    </div>
+                    <div class="model-content">
+                        <h3 class="model-name">Casio PT-1</h3>
+                        <div class="model-specs">
+                            <span class="spec-tag">29 мини-клавиш</span>
+                            <span class="spec-tag">Монофония</span>
+                            <span class="spec-tag">4 звука</span>
+                            <span class="spec-tag">10 ритмов</span>
+                        </div>
+                        <p class="model-description">
+                            Упрощенная версия VL-1 без калькулятора и дисплея. 4 встроенных звука, 10 ритм-паттернов, секвенсор на 100 нот. Выпускался в белом, красном и синем корпусах. Также продавался как RadioShack Concertmate 300. Портативный инструмент на батарейках, популярный среди детей и экспериментальных музыкантов.
+                        </p>
+                        <div class="price-info">
+                            <div class="price-item">
+                                <span class="price-label">США б/у:</span>
+                                <span class="price-value">$40-80</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Украина б/у:</span>
+                                <span class="price-value">₴1500-2800</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">OLX находка:</span>
+                                <span class="price-value">&lt;₴1200</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Крутая покупка:</span>
+                                <span class="price-value">&lt;₴800</span>
+                            </div>
+                        </div>
+                        <div class="gem-rating">
+                            <div class="gem-rating-label">Популярность среди энтузиастов</div>
+                            <div class="gem-rating-value">⭐⭐⭐ Интересная модель для коллекции</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-images">
+                        <span class="year-badge">1982</span>
+                        <span class="price-badge">$70</span>
+                        <img src="https://pplx-res.cloudinary.com/image/upload/v1770220853/search_images/dea03c4d89c684e9479211bdcf6e5e45b28ae669.jpg" alt="Casio PT-80">
+                    </div>
+                    <div class="model-content">
+                        <h3 class="model-name">Casio PT-80</h3>
+                        <div class="model-specs">
+                            <span class="spec-tag">32 мини-клавиши</span>
+                            <span class="spec-tag">8 звуков</span>
+                            <span class="spec-tag">Ритм-секция</span>
+                        </div>
+                        <p class="model-description">
+                            Увеличенная версия с 32 клавишами и улучшенным набором звуков. Базировался на технологии Casiotone CT серии. 8 голосов тембров, встроенные ритмы. Портативная конструкция с питанием от батареек. Белый корпус с красными акцентами.
+                        </p>
+                        <div class="price-info">
+                            <div class="price-item">
+                                <span class="price-label">США б/у:</span>
+                                <span class="price-value">$50-90</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Украина б/у:</span>
+                                <span class="price-value">₴1800-3200</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">OLX находка:</span>
+                                <span class="price-value">&lt;₴1400</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Крутая покупка:</span>
+                                <span class="price-value">&lt;₴1000</span>
+                            </div>
+                        </div>
+                        <div class="gem-rating">
+                            <div class="gem-rating-label">Популярность среди энтузиастов</div>
+                            <div class="gem-rating-value">⭐⭐⭐ Популярная базовая модель</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-images">
+                        <span class="year-badge">1983</span>
+                        <span class="price-badge">$90</span>
+                        <img src="https://pplx-res.cloudinary.com/image/upload/v1770220853/search_images/dea03c4d89c684e9479211bdcf6e5e45b28ae669.jpg" alt="Casio PT-87">
+                    </div>
+                    <div class="model-content">
+                        <h3 class="model-name">Casio PT-87</h3>
+                        <div class="model-specs">
+                            <span class="spec-tag">32 мини-клавиши</span>
+                            <span class="spec-tag">ROM пакеты</span>
+                            <span class="spec-tag">Расширяемый</span>
+                        </div>
+                        <p class="model-description">
+                            Модель с поддержкой сменных ROM-картриджей для дополнительных звуков и песен (например, RO-551 World Songs). Возможность расширения библиотеки звуков делала инструмент более универсальным. Черный корпус отличал его от других моделей PT-серии.
+                        </p>
+                        <div class="price-info">
+                            <div class="price-item">
+                                <span class="price-label">США б/у:</span>
+                                <span class="price-value">$60-110</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Украина б/у:</span>
+                                <span class="price-value">₴2200-3800</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">OLX находка:</span>
+                                <span class="price-value">&lt;₴1700</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Крутая покупка:</span>
+                                <span class="price-value">&lt;₴1200</span>
+                            </div>
+                        </div>
+                        <div class="gem-rating">
+                            <div class="gem-rating-label">Популярность среди энтузиастов</div>
+                            <div class="gem-rating-value">⭐⭐⭐⭐ Редкая модель с ROM-картриджами</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Casio MT Series -->
+        <div class="series-section" data-brand="casio" data-series="mt">
+            <div class="series-header">
+                <span class="brand-badge brand-casio">Casio</span>
+                <h2>Серия MT Casiotone (1980-1985)</h2>
+            </div>
+            <div class="models-grid">
+                <div class="model-card">
+                    <div class="model-images">
+                        <span class="year-badge">1980</span>
+                        <span class="price-badge">$150</span>
+                        <img src="https://pplx-res.cloudinary.com/image/upload/v1770220863/search_images/bdca05401a886c093c49d0f3ad61a38a95b43a32.jpg" alt="Casio MT-40">
+                    </div>
+                    <div class="model-content">
+                        <h3 class="model-name">Casio MT-40</h3>
+                        <div class="model-specs">
+                            <span class="spec-tag">37 + 15 басовых клавиш</span>
+                            <span class="spec-tag">9-голосная полифония</span>
+                            <span class="spec-tag">22 тембра</span>
+                            <span class="spec-tag">6 ритмов</span>
+                        </div>
+                        <p class="model-description">
+                            Легендарный инструмент, изменивший историю музыки. Встроенный "Rock" бас-пресет стал основой трека "Under Me Sleng Teng" (1985), который революционизировал регги и хип-хоп, переведя их в цифровую эпоху. 37 основных клавиш + 15 басовых. Металлический каркас внутри корпуса. Также выпускался как MT-41 (серый, 1983).
+                        </p>
+                        <div class="price-info">
+                            <div class="price-item">
+                                <span class="price-label">США б/у:</span>
+                                <span class="price-value">$100-200</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Украина б/у:</span>
+                                <span class="price-value">₴3500-7000</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">OLX находка:</span>
+                                <span class="price-value">&lt;₴2800</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Крутая покупка:</span>
+                                <span class="price-value">&lt;₴2000</span>
+                            </div>
+                        </div>
+                        <div class="gem-rating">
+                            <div class="gem-rating-label">Популярность среди энтузиастов</div>
+                            <div class="gem-rating-value">⭐⭐⭐⭐⭐ Легенда (историческое значение для регги)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-images">
+                        <span class="year-badge">1983</span>
+                        <span class="price-badge">$200</span>
+                        <img src="https://pplx-res.cloudinary.com/image/upload/v1770220863/search_images/077aa709a94cb3d861256f72cd578656b87594f5.jpg" alt="Casio MT-65">
+                    </div>
+                    <div class="model-content">
+                        <h3 class="model-name">Casio MT-65</h3>
+                        <div class="model-specs">
+                            <span class="spec-tag">49 полноразмерных клавиш</span>
+                            <span class="spec-tag">ADSR envelope</span>
+                            <span class="spec-tag">Культовая модель</span>
+                        </div>
+                        <p class="model-description">
+                            Один из самых желанных Casiotone инструментов. Расширенные ADSR-параметры огибающей позволяли создавать гораздо более разнообразные звуки по сравнению с другими моделями. 49 полноразмерных клавиш. Использовался многими независимыми артистами и группами. Идентичен MT-68 (отличается только цветом корпуса).
+                        </p>
+                        <div class="price-info">
+                            <div class="price-item">
+                                <span class="price-label">США б/у:</span>
+                                <span class="price-value">$150-300</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Украина б/у:</span>
+                                <span class="price-value">₴5500-10500</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">OLX находка:</span>
+                                <span class="price-value">&lt;₴4500</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Крутая покупка:</span>
+                                <span class="price-value">&lt;₴3000</span>
+                            </div>
+                        </div>
+                        <div class="gem-rating">
+                            <div class="gem-rating-label">Популярность среди энтузиастов</div>
+                            <div class="gem-rating-value">⭐⭐⭐⭐⭐ Gem (один из самых желанных Casiotone)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Casio SK Series -->
+        <div class="series-section" data-brand="casio" data-series="sk">
+            <div class="series-header">
+                <span class="brand-badge brand-casio">Casio</span>
+                <h2>Серия SK Sampletone (1985+)</h2>
+            </div>
+            <div class="models-grid">
+                <div class="model-card">
+                    <div class="model-images">
+                        <span class="year-badge">1985</span>
+                        <span class="price-badge">$100</span>
+                        <img src="https://pplx-res.cloudinary.com/image/upload/v1770220581/search_images/4a86281d3d27b822342050e5aa1e52e444700c08.jpg" alt="Casio SK-1">
+                    </div>
+                    <div class="model-content">
+                        <h3 class="model-name">Casio SK-1</h3>
+                        <div class="model-specs">
+                            <span class="spec-tag">32 мини-клавиши</span>
+                            <span class="spec-tag">Сэмплирование</span>
+                            <span class="spec-tag">PCM синтез</span>
+                            <span class="spec-tag">Инновация</span>
+                        </div>
+                        <p class="model-description">
+                            Прорыв в домашних синтезаторах — первая доступная клавиатура с функцией сэмплирования. Встроенный микрофон для записи звуков (1-1.4 секунды). Возможность проигрывания сэмплов на клавиатуре. Переход Casio на PCM-синтез. Circuit-bending сообщество активно использует этот инструмент. Начало новой эры семплеров.
+                        </p>
+                        <div class="price-info">
+                            <div class="price-item">
+                                <span class="price-label">США б/у:</span>
+                                <span class="price-value">$80-250</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Украина б/у:</span>
+                                <span class="price-value">₴2800-8500</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">OLX находка:</span>
+                                <span class="price-value">&lt;₴2200</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Крутая покупка:</span>
+                                <span class="price-value">&lt;₴1500</span>
+                            </div>
+                        </div>
+                        <div class="gem-rating">
+                            <div class="gem-rating-label">Популярность среди энтузиастов</div>
+                            <div class="gem-rating-value">⭐⭐⭐⭐⭐ Культ (первый доступный семплер, circuit-bending)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Yamaha PSS Series -->
+        <div class="series-section" data-brand="yamaha" data-series="pss">
+            <div class="series-header">
+                <span class="brand-badge brand-yamaha">Yamaha</span>
+                <h2>Серия PSS PortaSound (1980-1997)</h2>
+            </div>
+            <div class="models-grid">
+                <div class="model-card">
+                    <div class="model-images">
+                        <span class="year-badge">1985</span>
+                        <span class="price-badge">$80</span>
+                        <img src="https://pplx-res.cloudinary.com/image/upload/v1770220853/search_images/8288e1e57edcd7b144615af55faa228275bda8ea.jpg" alt="Yamaha PSS-170">
+                    </div>
+                    <div class="model-content">
+                        <h3 class="model-name">Yamaha PSS-170</h3>
+                        <div class="model-specs">
+                            <span class="spec-tag">32 мини-клавиши</span>
+                            <span class="spec-tag">YM2413 FM-чип</span>
+                            <span class="spec-tag">Микрофон</span>
+                        </div>
+                        <p class="model-description">
+                            FM-синтез на доступном уровне. Использовал упрощенный FM-чип Yamaha YM2413. Встроенный микрофон и поддержка музыкальных карт. Портативная конструкция для образовательных целей. Популярен в circuit-bending сообществе за характерный lo-fi FM-звук.
+                        </p>
+                        <div class="price-info">
+                            <div class="price-item">
+                                <span class="price-label">США б/у:</span>
+                                <span class="price-value">$40-70</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Украина б/у:</span>
+                                <span class="price-value">₴1500-2500</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">OLX находка:</span>
+                                <span class="price-value">&lt;₴1200</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Крутая покупка:</span>
+                                <span class="price-value">&lt;₴800</span>
+                            </div>
+                        </div>
+                        <div class="gem-rating">
+                            <div class="gem-rating-label">Популярность среди энтузиастов</div>
+                            <div class="gem-rating-value">⭐⭐⭐ Популярна для circuit-bending</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-images">
+                        <span class="year-badge">1986</span>
+                        <span class="price-badge">$120</span>
+                        <img src="https://pplx-res.cloudinary.com/image/upload/v1770220863/search_images/c63f4388d80ed3cf7aa899cf0e353d32c887b690.jpg" alt="Yamaha PSS-190">
+                    </div>
+                    <div class="model-content">
+                        <h3 class="model-name">Yamaha PSS-190</h3>
+                        <div class="model-specs">
+                            <span class="spec-tag">49 клавиш</span>
+                            <span class="spec-tag">FM синтез</span>
+                            <span class="spec-tag">Расширенная версия</span>
+                        </div>
+                        <p class="model-description">
+                            Улучшенная модель с 49 клавишами полного размера. Более серьезный инструмент в линейке PortaSound. FM-синтез обеспечивал более реалистичные звуки. Встроенный динамик, возможность работы от батареек. Ориентирован на начинающих музыкантов и студентов.
+                        </p>
+                        <div class="price-info">
+                            <div class="price-item">
+                                <span class="price-label">США б/у:</span>
+                                <span class="price-value">$50-90</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Украина б/у:</span>
+                                <span class="price-value">₴1800-3200</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">OLX находка:</span>
+                                <span class="price-value">&lt;₴1400</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Крутая покупка:</span>
+                                <span class="price-value">&lt;₴1000</span>
+                            </div>
+                        </div>
+                        <div class="gem-rating">
+                            <div class="gem-rating-label">Популярность среди энтузиастов</div>
+                            <div class="gem-rating-value">⭐⭐⭐ Хороший вариант для начинающих</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-images">
+                        <span class="year-badge">1987</span>
+                        <span class="price-badge">$150</span>
+                        <img src="https://pplx-res.cloudinary.com/image/upload/v1770220854/search_images/3ad6dc505e7c547bf7f9de94bd099ead911c64de.jpg" alt="Yamaha PSS-470">
+                    </div>
+                    <div class="model-content">
+                        <h3 class="model-name">Yamaha PSS-470</h3>
+                        <div class="model-specs">
+                            <span class="spec-tag">37 клавиш</span>
+                            <span class="spec-tag">YM3812 FM-чип</span>
+                            <span class="spec-tag">Продвинутый FM</span>
+                        </div>
+                        <p class="model-description">
+                            Высококлассная модель с профессиональным FM-чипом Yamaha YM3812 (тот же, что в звуковых картах AdLib). Более сложный и выразительный FM-синтез. Секвенсор, разнообразные звуки и ритмы. Один из самых мощных инструментов серии PSS. Ценится коллекционерами за качественный звук.
+                        </p>
+                        <div class="price-info">
+                            <div class="price-item">
+                                <span class="price-label">США б/у:</span>
+                                <span class="price-value">$100-200</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Украина б/у:</span>
+                                <span class="price-value">₴3500-7000</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">OLX находка:</span>
+                                <span class="price-value">&lt;₴2800</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Крутая покупка:</span>
+                                <span class="price-value">&lt;₴2000</span>
+                            </div>
+                        </div>
+                        <div class="gem-rating">
+                            <div class="gem-rating-label">Популярность среди энтузиастов</div>
+                            <div class="gem-rating-value">⭐⭐⭐⭐⭐ Gem (YM3812 чип, лучший звук серии)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-images">
+                        <span class="year-badge">1988</span>
+                        <span class="price-badge">$200</span>
+                        <img src="https://pplx-res.cloudinary.com/image/upload/v1770220863/search_images/d31521f786b76d44fa99f17f749a13afcb3135c2.jpg" alt="Yamaha PSS-780">
+                    </div>
+                    <div class="model-content">
+                        <h3 class="model-name">Yamaha PSS-780</h3>
+                        <div class="model-specs">
+                            <span class="spec-tag">49 клавиш</span>
+                            <span class="spec-tag">Семплы</span>
+                            <span class="spec-tag">Высокое качество</span>
+                        </div>
+                        <p class="model-description">
+                            Флагманская модель серии с использованием PCM-семплов вместо FM-синтеза. 49 полноразмерных клавиш. Улучшенное качество звука приближается к профессиональным инструментам. Множество встроенных стилей аккомпанемента. Переход к более реалистичному звучанию.
+                        </p>
+                        <div class="price-info">
+                            <div class="price-item">
+                                <span class="price-label">США б/у:</span>
+                                <span class="price-value">$80-150</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Украина б/у:</span>
+                                <span class="price-value">₴2800-5200</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">OLX находка:</span>
+                                <span class="price-value">&lt;₴2200</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Крутая покупка:</span>
+                                <span class="price-value">&lt;₴1500</span>
+                            </div>
+                        </div>
+                        <div class="gem-rating">
+                            <div class="gem-rating-label">Популярность среди энтузиастов</div>
+                            <div class="gem-rating-value">⭐⭐⭐⭐ Топовая модель PSS серии</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Yamaha PSR Series -->
+        <div class="series-section" data-brand="yamaha" data-series="psr">
+            <div class="series-header">
+                <span class="brand-badge brand-yamaha">Yamaha</span>
+                <h2>Серия PSR PortaTone (1984+)</h2>
+            </div>
+            <div class="models-grid">
+                <div class="model-card">
+                    <div class="model-images">
+                        <span class="year-badge">1984</span>
+                        <span class="price-badge">$100</span>
+                        <img src="https://pplx-res.cloudinary.com/image/upload/v1770220853/search_images/cf63fdef1680de84036a58195f210364216ed7b6.jpg" alt="Yamaha PSR-6">
+                    </div>
+                    <div class="model-content">
+                        <h3 class="model-name">Yamaha PSR-6</h3>
+                        <div class="model-specs">
+                            <span class="spec-tag">32 мини-клавиши</span>
+                            <span class="spec-tag">PCM звуки</span>
+                            <span class="spec-tag">Портативный</span>
+                        </div>
+                        <p class="model-description">
+                            Компактная модель начального уровня в новой серии PSR. PCM-синтез для более реалистичных звуков по сравнению с FM. Легкий портативный дизайн. Базовые функции для обучения и домашнего использования. Начало успешной линейки PortaTone, которая продолжается до сих пор.
+                        </p>
+                        <div class="price-info">
+                            <div class="price-item">
+                                <span class="price-label">США б/у:</span>
+                                <span class="price-value">$30-60</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Украина б/у:</span>
+                                <span class="price-value">₴1000-2000</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">OLX находка:</span>
+                                <span class="price-value">&lt;₴800</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Крутая покупка:</span>
+                                <span class="price-value">&lt;₴500</span>
+                            </div>
+                        </div>
+                        <div class="gem-rating">
+                            <div class="gem-rating-label">Популярность среди энтузиастов</div>
+                            <div class="gem-rating-value">⭐⭐ Базовая модель для начинающих</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-images">
+                        <span class="year-badge">1987</span>
+                        <span class="price-badge">$300</span>
+                        <img src="https://pplx-res.cloudinary.com/image/upload/v1770220853/search_images/cf63fdef1680de84036a58195f210364216ed7b6.jpg" alt="Yamaha PSR-85">
+                    </div>
+                    <div class="model-content">
+                        <h3 class="model-name">Yamaha PSR-85</h3>
+                        <div class="model-specs">
+                            <span class="spec-tag">61 полноразмерных клавиш</span>
+                            <span class="spec-tag">8-голосная полифония</span>
+                            <span class="spec-tag">Секвенсор</span>
+                        </div>
+                        <p class="model-description">
+                            Профессиональная портативная модель. 61 полноразмерная клавиша, 8-нотная полифония. Встроенный секвенсор для записи композиций. Эффекты: reverb, chorus, delay. Использовалась Pet Shop Boys, Depeche Mode, The Cure. Надежный рабочий инструмент конца 80-х.
+                        </p>
+                        <div class="price-info">
+                            <div class="price-item">
+                                <span class="price-label">США б/у:</span>
+                                <span class="price-value">$150-300</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Украина б/у:</span>
+                                <span class="price-value">₴5500-10500</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">OLX находка:</span>
+                                <span class="price-value">&lt;₴4500</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Крутая покупка:</span>
+                                <span class="price-value">&lt;₴3000</span>
+                            </div>
+                        </div>
+                        <div class="gem-rating">
+                            <div class="gem-rating-label">Популярность среди энтузиастов</div>
+                            <div class="gem-rating-value">⭐⭐⭐⭐ Профессиональный инструмент 80-х</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="model-card">
+                    <div class="model-images">
+                        <span class="year-badge">1989</span>
+                        <span class="price-badge">$500</span>
+                        <img src="https://pplx-res.cloudinary.com/image/upload/v1770220853/search_images/cf63fdef1680de84036a58195f210364216ed7b6.jpg" alt="Yamaha PSR-4500">
+                    </div>
+                    <div class="model-content">
+                        <h3 class="model-name">Yamaha PSR-4500</h3>
+                        <div class="model-specs">
+                            <span class="spec-tag">61 клавиш</span>
+                            <span class="spec-tag">DASS система</span>
+                            <span class="spec-tag">FM + AWM</span>
+                            <span class="spec-tag">12-bit PCM</span>
+                        </div>
+                        <p class="model-description">
+                            Революционная архитектура DASS (Dual Architectural Synthesis System) — комбинация FM и AWM (Advanced Wave Memory) тон-генераторов. 12-битные PCM-семплы. Возможность редактирования attack, decay и других параметров звука. Мост между любительскими и профессиональными инструментами. Предшественник современных рабочих станций.
+                        </p>
+                        <div class="price-info">
+                            <div class="price-item">
+                                <span class="price-label">США б/у:</span>
+                                <span class="price-value">$200-400</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Украина б/у:</span>
+                                <span class="price-value">₴7000-14000</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">OLX находка:</span>
+                                <span class="price-value">&lt;₴5500</span>
+                            </div>
+                            <div class="price-item">
+                                <span class="price-label">Крутая покупка:</span>
+                                <span class="price-value">&lt;₴4000</span>
+                            </div>
+                        </div>
+                        <div class="gem-rating">
+                            <div class="gem-rating-label">Популярность среди энтузиастов</div>
+                            <div class="gem-rating-value">⭐⭐⭐⭐ Инновационная технология DASS</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Context Section -->
+        <div class="series-section">
+            <div class="series-header">
+                <span class="brand-badge brand-yamaha">Контекст</span>
+                <h2>📅 Эра DX7 и переход к цифровым синтезаторам</h2>
+            </div>
+            <div class="model-card">
+                <div class="model-content" style="padding: 24px;">
+                    <h3 style="font-size: 18px; margin-bottom: 12px; color: var(--color-primary);">Yamaha DX7 (1983) — Революция в синтезе</h3>
+                    <p style="margin-bottom: 16px; color: var(--color-text-secondary);">
+                        В 1983 году Yamaha представила DX7 — первый массовый цифровой синтезатор с FM-синтезом, который навсегда изменил музыкальную индустрию. DX7 стал бестселлером (более 200,000 проданных единиц) и определил звучание 1980-х годов.
+                    </p>
+                    <p style="margin-bottom: 16px; color: var(--color-text-secondary);">
+                        <strong>Ключевые инновации DX7:</strong> 6 FM-операторов, 32 алгоритма, 16-голосная полифония, MIDI, цифровое хранение патчей через SysEx, революционный дизайн с мембранными кнопками. Цена $1,995 сделала профессиональный цифровой синтез доступным.
+                    </p>
+                    <p style="color: var(--color-text-secondary);">
+                        Все представленные выше инструменты (Yamaha PSS/PSR, Casio VL/PT/MT/SK) относятся к <strong>эре до DX7</strong> или являются его <strong>домашними/упрощенными современниками</strong>, предлагая FM-синтез и PCM-семплы на доступном уровне для обучения и домашнего творчества.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const sections = document.querySelectorAll('.series-section');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const filter = button.dataset.filter;
+                
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                sections.forEach(section => {
+                    if (filter === 'all') {
+                        section.classList.remove('hidden');
+                    } else if (filter === 'yamaha' || filter === 'casio') {
+                        if (section.dataset.brand === filter) {
+                            section.classList.remove('hidden');
+                        } else {
+                            section.classList.add('hidden');
+                        }
+                    } else {
+                        if (section.dataset.series === filter) {
+                            section.classList.remove('hidden');
+                        } else {
+                            section.classList.add('hidden');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
