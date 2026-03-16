@@ -4,7 +4,7 @@
 </script>
 
 <div class="grid">
-  {#each filteredSynths as synth (synth.id)}
+  {#each $filteredSynths as synth (synth.id)}
     <SynthCard {synth} />
   {:else}
     <p>Ничего не найдено.</p>

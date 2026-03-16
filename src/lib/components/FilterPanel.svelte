@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { SynthModel } from '$lib/data/synths';
-  import { initFilters, applyFilters, getFilteredSynths, filteredSynths } from '$lib/stores/filters';
+  import { initFilters, applyFilters, searchQuery, selectedBrand, selectedSeries, selectedFormFactor, showGemsOnly } from '$lib/stores/filters';
 
   let { synths = [], brands = [], searchValue = '' }: { synths?: SynthModel[]; brands?: string[]; searchValue?: string } = $props();
   
@@ -8,11 +8,13 @@
   let localSeries: string | null = $state(null);
   let localFormFactor: string | null = $state(null);
   let localGemsOnly = $state(false);
+  let initialized = $state(false);
   
   // Initialize filters once when synths change
   $effect(() => {
-    if (synths.length > 0) {
+    if (synths.length > 0 && !initialized) {
       initFilters(synths);
+      initialized = true;
     }
   });
   
@@ -29,29 +31,29 @@
   $effect(() => {
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
-      applyFilters({ search: searchValue });
+      applyFilters({ search: searchValue }, synths);
     }, 300);
   });
 
   function updateBrand(brand: string | null) {
     localBrand = brand;
     localSeries = null;
-    applyFilters({ brand, series: null });
+    applyFilters({ brand, series: null }, synths);
   }
 
   function updateSeries(series: string | null) {
     localSeries = series;
-    applyFilters({ series });
+    applyFilters({ series }, synths);
   }
 
   function updateFormFactor(formFactor: string | null) {
     localFormFactor = formFactor;
-    applyFilters({ formFactor });
+    applyFilters({ formFactor }, synths);
   }
 
   function updateGemsOnly(gemsOnly: boolean) {
     localGemsOnly = gemsOnly;
-    applyFilters({ gemsOnly });
+    applyFilters({ gemsOnly }, synths);
   }
 </script>
 

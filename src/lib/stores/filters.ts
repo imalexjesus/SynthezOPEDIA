@@ -1,47 +1,24 @@
+import { writable, get } from 'svelte/store';
 import type { SynthModel } from '$lib/data/synths';
 
-// Simple module-level state
-let searchQuery = '';
-let selectedBrand: string | null = null;
-let selectedSeries: string | null = null;
-let selectedFormFactor: string | null = null;
-let showGemsOnly = false;
-let currentSynths: SynthModel[] = [];
-let filteredSynths: SynthModel[] = [];
+export const searchQuery = writable('');
+export const selectedBrand = writable<string | null>(null);
+export const selectedSeries = writable<string | null>(null);
+export const selectedFormFactor = writable<string | null>(null);
+export const showGemsOnly = writable(false);
+export const filteredSynths = writable<SynthModel[]>([]);
 
-export function getSearchQuery() { return searchQuery; }
-export function getSelectedBrand() { return selectedBrand; }
-export function getSelectedSeries() { return selectedSeries; }
-export function getSelectedFormFactor() { return selectedFormFactor; }
-export function getShowGemsOnly() { return showGemsOnly; }
-
-export function setSearchQuery(v: string) { 
-  searchQuery = v; 
-  applyFiltersInternal();
-}
-export function setSelectedBrand(v: string | null) { 
-  selectedBrand = v; 
-  if (v) selectedSeries = null;
-  applyFiltersInternal();
-}
-export function setSelectedSeries(v: string | null) { 
-  selectedSeries = v; 
-  applyFiltersInternal();
-}
-export function setSelectedFormFactor(v: string | null) { 
-  selectedFormFactor = v; 
-  applyFiltersInternal();
-}
-export function setShowGemsOnly(v: boolean) { 
-  showGemsOnly = v; 
-  applyFiltersInternal();
-}
-
-function applyFiltersInternal() {
+function applyFiltersInternal(currentSynths: SynthModel[]) {
+  const query = get(searchQuery);
+  const brand = get(selectedBrand);
+  const series = get(selectedSeries);
+  const formFactor = get(selectedFormFactor);
+  const gemsOnly = get(showGemsOnly);
+  
   const filtered = currentSynths.filter(synth => {
     // Search
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
+    if (query) {
+      const q = query.toLowerCase();
       const match = 
         synth.modelName.toLowerCase().includes(q) ||
         synth.series.toLowerCase().includes(q) ||
@@ -50,30 +27,22 @@ function applyFiltersInternal() {
       if (!match) return false;
     }
     // Filter by brand
-    if (selectedBrand && synth.brand !== selectedBrand) return false;
+    if (brand && synth.brand !== brand) return false;
     // Filter by series
-    if (selectedSeries && synth.series !== selectedSeries) return false;
+    if (series && synth.series !== series) return false;
     // Filter by form factor
-    if (selectedFormFactor && synth.formFactor !== selectedFormFactor) return false;
+    if (formFactor && synth.formFactor !== formFactor) return false;
     // Filter by gems
-    if (showGemsOnly && !synth.isGem) return false;
+    if (gemsOnly && !synth.isGem) return false;
     return true;
   });
   
-  filteredSynths = filtered;
+  filteredSynths.set(filtered);
 }
 
 export function initFilters(synths: SynthModel[]) {
-  currentSynths = synths;
-  applyFiltersInternal();
+  applyFiltersInternal(synths);
 }
-
-export function getFilteredSynths() {
-  return filteredSynths;
-}
-
-// Legacy exports for compatibility
-export { filteredSynths, searchQuery, selectedBrand, selectedSeries, selectedFormFactor, showGemsOnly };
 
 export function applyFilters(filters: {
   search?: string;
@@ -81,22 +50,22 @@ export function applyFilters(filters: {
   series?: string | null;
   formFactor?: string | null;
   gemsOnly?: boolean;
-}) {
+}, currentSynths: SynthModel[]) {
   if (filters.search !== undefined) {
-    searchQuery = filters.search;
+    searchQuery.set(filters.search);
   }
   if (filters.brand !== undefined) {
-    selectedBrand = filters.brand;
-    if (filters.brand) selectedSeries = null;
+    selectedBrand.set(filters.brand);
+    if (filters.brand) selectedSeries.set(null);
   }
   if (filters.series !== undefined) {
-    selectedSeries = filters.series;
+    selectedSeries.set(filters.series);
   }
   if (filters.formFactor !== undefined) {
-    selectedFormFactor = filters.formFactor;
+    selectedFormFactor.set(filters.formFactor);
   }
   if (filters.gemsOnly !== undefined) {
-    showGemsOnly = filters.gemsOnly;
+    showGemsOnly.set(filters.gemsOnly);
   }
-  applyFiltersInternal();
+  applyFiltersInternal(currentSynths);
 }
