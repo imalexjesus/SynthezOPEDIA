@@ -24,7 +24,7 @@
 
   function updateBrand(brand: string | null) {
     localBrand = brand;
-    localSeries = null; // сбросить серию при смене бренда
+    localSeries = null;
     applyFilters({ brand, series: null });
   }
 
@@ -45,35 +45,39 @@
 </script>
 
 <div class="filter-panel">
-  <!-- Фильтры: главная группа -->
-  <div class="filter-group">
-    <button class:active={!localBrand && !localGemsOnly} on:click={() => { updateBrand(null); updateGemsOnly(false); }}>Все</button>
-    <button class:active={localGemsOnly} on:click={() => updateGemsOnly(true)}>⭐ Только гемы</button>
+  <!-- Row 1: Main filters -->
+  <div class="filter-row">
+    <div class="filter-group">
+      <button class:active={!localBrand && !localGemsOnly} on:click={() => { updateBrand(null); updateGemsOnly(false); }}>Все</button>
+      <button class:active={localGemsOnly} on:click={() => updateGemsOnly(true)}>⭐ Только гемы</button>
+    </div>
+    <div class="filter-group">
+      <button class:active={localFormFactor === 'micro'} on:click={() => updateFormFactor('micro')}>📱 Микро</button>
+      <button class:active={localFormFactor === 'mini'} on:click={() => updateFormFactor('mini')}>👜 Мини</button>
+      <button class:active={localFormFactor === 'compact'} on:click={() => updateFormFactor('compact')}>💼 Компакт</button>
+      <button class:active={localFormFactor === 'full'} on:click={() => updateFormFactor('full')}>💻 Полноразмер</button>
+    </div>
   </div>
 
-  <!-- Фильтры по бренду -->
-  <div class="filter-group">
-    {#each brands as brand}
-      <button class:active={localBrand === brand} on:click={() => updateBrand(brand)}>{brand}</button>
-    {/each}
-  </div>
-
-  <!-- Фильтры по форм‑фактору -->
-  <div class="filter-group">
-    <button class:active={localFormFactor === 'micro'} on:click={() => updateFormFactor('micro')}>📱 Микро</button>
-    <button class:active={localFormFactor === 'mini'} on:click={() => updateFormFactor('mini')}>👜 Мини</button>
-    <button class:active={localFormFactor === 'compact'} on:click={() => updateFormFactor('compact')}>💼 Компакт</button>
-    <button class:active={localFormFactor === 'full'} on:click={() => updateFormFactor('full')}>💻 Полноразмер</button>
-  </div>
-
-  <!-- Фильтры по серии (только для выбранного бренда) -->
-  {#if localBrand}
-    <div class="filter-group series-group">
-      <div class="series-header">Серии бренда {localBrand}</div>
-      <button class:active={!localSeries} on:click={() => updateSeries(null)}>Все серии</button>
-      {#each availableSeries as s}
-        <button class:active={localSeries === s} on:click={() => updateSeries(s)}>{s}</button>
+  <!-- Row 2: Brands -->
+  <div class="filter-row">
+    <div class="filter-group brands">
+      {#each brands as brand}
+        <button class:active={localBrand === brand} on:click={() => updateBrand(brand)}>{brand}</button>
       {/each}
+    </div>
+  </div>
+
+  <!-- Row 3: Series (only for selected brand) -->
+  {#if localBrand}
+    <div class="filter-row">
+      <div class="filter-group series-group">
+        <div class="series-header">Серии бренда {localBrand}</div>
+        <button class:active={!localSeries} on:click={() => updateSeries(null)}>Все серии</button>
+        {#each availableSeries as s}
+          <button class:active={localSeries === s} on:click={() => updateSeries(s)}>{s}</button>
+        {/each}
+      </div>
     </div>
   {/if}
 </div>
@@ -84,8 +88,13 @@
     background: rgba(0,0,0,0.2);
     border-radius: 8px;
     display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .filter-row {
+    display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 1rem;
     align-items: center;
   }
   .filter-group {
@@ -93,6 +102,9 @@
     flex-wrap: wrap;
     gap: 0.5rem;
     align-items: center;
+  }
+  .filter-group.brands {
+    gap: 0.3rem;
   }
   .filter-group button {
     padding: 0.4rem 0.8rem;
@@ -116,10 +128,10 @@
     color: #888;
     font-size: 0.8rem;
     padding: 0.3rem 0.6rem;
+    margin-right: 0.5rem;
   }
   .series-group {
     width: 100%;
-    margin-top: 0.5rem;
     padding-top: 0.5rem;
     border-top: 1px solid rgba(255,255,255,0.1);
   }

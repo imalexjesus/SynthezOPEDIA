@@ -146,6 +146,9 @@
   .search-box {
     flex-shrink: 0;
     width: 200px;
+    background-color: #06001c;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
   }
   .search-box input {
     width: 100%;

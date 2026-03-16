@@ -127,6 +127,7 @@
     background: linear-gradient(145deg, #1a1a2e, #16213e);
     border-radius: 8px;
     overflow: hidden;
+    border: 1px ridge rgba(255,255,255,0.1);
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
     transition: transform 0.2s, box-shadow 0.2s;
     text-decoration: none;
@@ -308,10 +309,10 @@
     padding: 0.45rem 0.55rem;
   }
   .pop-label {
-    font-size: 0.62rem;
+    font-size: 0.58rem;
     text-transform: uppercase;
     color: #9fb7c5;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.2px;
     font-weight: 500;
     text-align: center;
   }

@@ -36,6 +36,7 @@
       <a href="/">Каталог</a>
       <a href="/compare">Сравнение</a>
       <a href="/gems">Топ‑гемы</a>
+      <a href="/photo-tool.html">🖼️ Редактор</a>
     </nav>
     <div class="header-right">
       <button onclick={toggleTheme} class="theme-toggle">
@@ -137,7 +138,7 @@
     flex: 1;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 1.5rem;
+    padding: 0 1.5rem 1.5rem;
     width: 100%;
   }
 </style>
