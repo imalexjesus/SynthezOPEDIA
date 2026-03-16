@@ -16,9 +16,10 @@
     }
   });
 
-  async function cacheImage(imageUrl: string) {
+  async function cacheImage(imageUrl: string, force: boolean = false) {
     try {
-      const response = await fetch(`/api/cache-image?url=${encodeURIComponent(imageUrl)}`);
+      const forceParam = force ? '&force=true' : '';
+      const response = await fetch(`/api/cache-image?url=${encodeURIComponent(imageUrl)}${forceParam}`);
       const data = await response.json();
       if (data.url) {
         displayImageUrl = data.url;
@@ -32,6 +33,13 @@
       displayImageUrl = imageUrl;
     } finally {
       isCaching = false;
+    }
+  }
+
+  function refreshImage() {
+    if (synth.images && synth.images.length > 0) {
+      isCaching = true;
+      cacheImage(synth.images[0], true);
     }
   }
 
@@ -93,6 +101,7 @@
       decoding="async"
       style={isCaching ? 'opacity: 0.5;' : ''}
     />
+    <button class="refresh-btn" onclick={refreshImage} title="Обновить фото">🔄</button>
     <span class="badge badge-price">{releasePrice ? `$${releasePrice}` : 'н/д'}</span>
     <span class="badge badge-year">{synth.year}</span>
   </div>
@@ -227,6 +236,27 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .refresh-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(0,0,0,0.6);
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 10;
+  }
+  .media:hover .refresh-btn {
+    opacity: 1;
+  }
+  .refresh-btn:hover {
+    background: rgba(0,0,0,0.8);
   }
   img {
     width: 100%;
