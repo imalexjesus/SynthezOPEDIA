@@ -6,6 +6,7 @@ import * as http from 'http';
 
 export async function GET({ url }: { url: URL }) {
     const imageUrl = url.searchParams.get('url');
+    const force = url.searchParams.get('force') === 'true';
     
     if (!imageUrl) {
         return json({ error: 'URL parameter is required' }, { status: 400 });
@@ -27,18 +28,28 @@ export async function GET({ url }: { url: URL }) {
             // Directory might already exist
         }
 
-        // Check if file already exists in cache
-        try {
-            await fs.access(cachePath);
-            console.log(`✅ Serving from cache: ${urlHash}${fileExt}`);
-            
-            // Return the cached file URL (served via API endpoint)
-            return json({
-                cached: true,
-                url: `/api/images/cache/${urlHash}${fileExt}`
-            });
-        } catch (e) {
-            // File doesn't exist in cache, download it
+        // Check if file already exists in cache (skip if force=true)
+        if (!force) {
+            try {
+                await fs.access(cachePath);
+                console.log(`✅ Serving from cache: ${urlHash}${fileExt}`);
+                
+                // Return the cached file URL (served via API endpoint)
+                return json({
+                    cached: true,
+                    url: `/api/images/cache/${urlHash}${fileExt}`
+                });
+            } catch (e) {
+                // File doesn't exist in cache, download it
+            }
+        } else {
+            // Force refresh: delete existing file
+            try {
+                await fs.unlink(cachePath);
+                console.log(`🗑️ Deleted cached file for refresh: ${urlHash}${fileExt}`);
+            } catch (e) {
+                // File doesn't exist, that's fine
+            }
         }
 
         // Download the image using native https module
