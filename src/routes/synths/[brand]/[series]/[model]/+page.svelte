@@ -1,10 +1,34 @@
 <script lang="ts">
   import ImageGallery from '$lib/components/ImageGallery.svelte';
   import { calculateInflation, formatUAH, formatUSD } from '$lib/utils/economy';
+  import { onMount } from 'svelte';
   
   export let data: { synth: import('$lib/data/synths').SynthModel };
   $: synth = data.synth;
   $: releasePrice = synth.releasePriceUSD ?? null;
+  
+  let cachedImageUrl: string | null = null;
+
+  onMount(() => {
+    // Cache the first image if it exists
+    if (synth.images && synth.images.length > 0) {
+      cacheImage(synth.images[0]);
+    }
+  });
+
+  async function cacheImage(imageUrl: string) {
+    try {
+      const response = await fetch(`/api/cache-image?url=${encodeURIComponent(imageUrl)}`);
+      const data = await response.json();
+      if (data.url) {
+        cachedImageUrl = data.url;
+      }
+    } catch (error) {
+      console.error('Error caching image:', error);
+      // Fallback to original URL if caching fails
+      cachedImageUrl = imageUrl;
+    }
+  }
   // inflation is now handled asynchronously in the template
   $: featureTags =
     synth.featureTags && synth.featureTags.length > 0
@@ -31,7 +55,13 @@
 
   <section class="hero-media">
     <div class="hero-image-wrap">
-      <img src={synth.images && synth.images[0] ? synth.images[0] : ''} alt={synth.modelName} loading="lazy" decoding="async" />
+      <img 
+        src={cachedImageUrl || (synth.images && synth.images[0] ? synth.images[0] : '')} 
+        alt={synth.modelName} 
+        loading="lazy" 
+        decoding="async"
+        on:error={(e) => { e.target.style.display = 'none'; }}
+      />
       <span class="badge badge-price">{releasePrice ? `$${releasePrice}` : 'н/д'}</span>
       <span class="badge badge-year">{synth.year}</span>
     </div>
