@@ -15,8 +15,8 @@ export async function GET({ url }: { url: URL }) {
         const urlHash = Buffer.from(imageUrl).toString('base64').replace(/[^a-zA-Z0-9]/g, '').substring(0, 50);
         const fileExt = path.extname(new URL(imageUrl).pathname) || '.jpg';
         
-        // Path where static files are served from
-        const cacheDir = path.join(process.cwd(), 'static', 'images', 'cache');
+        // Path where files are stored (not in static folder, as it's not copied to Docker)
+        const cacheDir = path.join(process.cwd(), 'data', 'cache', 'images');
         const cachePath = path.join(cacheDir, `${urlHash}${fileExt}`);
         
         // Create cache directory if it doesn't exist
@@ -31,10 +31,10 @@ export async function GET({ url }: { url: URL }) {
             await fs.access(cachePath);
             console.log(`✅ Serving from cache: ${urlHash}${fileExt}`);
             
-            // Return the cached file URL (static files are served from /)
+            // Return the cached file URL (served via API endpoint)
             return json({
                 cached: true,
-                url: `/images/cache/${urlHash}${fileExt}`
+                url: `/api/images/cache/${urlHash}${fileExt}`
             });
         } catch (e) {
             // File doesn't exist in cache, download it
@@ -60,7 +60,7 @@ export async function GET({ url }: { url: URL }) {
         // Return the cached file URL
         return json({
             cached: false,
-            url: `/images/cache/${urlHash}${fileExt}`
+            url: `/api/images/cache/${urlHash}${fileExt}`
         });
 
     } catch (error: unknown) {
