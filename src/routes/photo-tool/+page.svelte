@@ -1,13 +1,14 @@
 <script lang="ts">
     import { onMount } from 'svelte';
+    import type { SynthModel } from '$lib/data/synths';
     
-    let synths = [];
-    let overrides = {};
-    let selectedIds = new Set();
+    let synths: SynthModel[] = $state([]);
+    let overrides: Record<string, string[]> = $state({});
+    let selectedIds = new Set<string>();
     let searchQuery = '';
     let imageSearchQuery = '';
     let stats = '';
-    let cachedImages = new Set();
+    let cachedImages = new Set<string>();
     let loadingCache = $state(false);
 
     onMount(() => {
@@ -40,7 +41,7 @@
         loadingCache = false;
     }
 
-    function isImageCached(synth): boolean {
+    function isImageCached(synth: SynthModel): boolean {
         if (!synth.images || !synth.images[0]) return false;
         const hash = md5(synth.images[0]);
         return cachedImages.has(hash + '.jpg') || cachedImages.has(hash + '.png') || cachedImages.has(hash + '.jpeg');
@@ -56,13 +57,16 @@
         return Math.abs(hash).toString(16);
     }
 
-    function getImage(s) {
-        return overrides[s.id] ? overrides[s.id][0] : (s.images && s.images[0]) || '';
+    function getImage(s: SynthModel): string {
+        const id = s.id;
+        const override = overrides[id];
+        return override ? override[0] : (s.images && s.images[0]) || '';
     }
 
-    function getStatus(s) {
+    function getStatus(s: SynthModel): { label: string; class: string } {
         const img = getImage(s);
-        if (overrides[s.id]) return { label: 'Override', class: 'badge-gem' };
+        const id = s.id;
+        if (overrides[id] && overrides[id].length > 0) return { label: 'Override', class: 'badge-gem' };
         if (!img) return { label: 'No Image', class: 'badge-error' };
         if (img.includes('ytimg')) return { label: 'Bad Image', class: 'badge-warning' };
         return { label: 'OK', class: '' };
@@ -73,7 +77,7 @@
         stats = `${synths.length} models | ${Object.keys(overrides).length} overrides | ${cachedImages.size} cached`;
     }
 
-    function editOverride(id) {
+    function editOverride(id: string) {
         const url = prompt('Enter image URL:', overrides[id] ? overrides[id][0] : '');
         if (url) {
             overrides[id] = [url];
@@ -82,7 +86,7 @@
         }
     }
 
-    async function toggleCache(synth) {
+    async function toggleCache(synth: SynthModel) {
         if (!synth.images || !synth.images[0]) {
             alert('No image URL in this synth');
             return;
@@ -112,7 +116,7 @@
         }
     }
 
-    async function syncToDb(id) {
+    async function syncToDb(id: string) {
         try {
             const synth = synths.find(s => s.id === id);
             if (!synth) return;
@@ -133,7 +137,7 @@
         }
     }
 
-    async function syncFromDb(id) {
+    async function syncFromDb(id: string) {
         alert('Data is always loaded from DB on page load. To update fallback file, use the main editor.');
     }
 
@@ -231,7 +235,7 @@
             <tbody>
                 {#each synths.slice(0, 200) as s}
                     <tr>
-                        <td><img class="thumbnail" src={getImage(s) || ''} alt="" onerror={(e) => e.target.style.display='none'}></td>
+                        <td><img class="thumbnail" src={getImage(s) || ''} alt="" onerror={(e) => { const t = e.target as HTMLImageElement; if (t) t.style.display = 'none'; }}></td>
                         <td>{s.modelName} {s.isGem ? '<span class="badge badge-gem">GEM</span>' : ''}</td>
                         <td>{s.brand}</td>
                         <td><code>{s.id}</code></td>

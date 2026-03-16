@@ -2,7 +2,7 @@
   import FilterPanel from '$lib/components/FilterPanel.svelte';
   import SynthGrid from '$lib/components/SynthGrid.svelte';
   import { onMount } from 'svelte';
-  import { updateFilteredSynths, searchQuery } from '$lib/stores/filters';
+  import { updateFilteredSynths, initFilterSubscription, searchQuery } from '$lib/stores/filters';
   
   let { data } = $props();
   let synths = $derived(data.synths);
@@ -11,10 +11,10 @@
   let series = $derived(data.series);
   let brands = $derived(data.brands);
   
-  // Update filtered synths when data changes
+  // Initialize filter subscription and update filtered synths when data changes
   $effect(() => {
     if (synths.length > 0) {
-      updateFilteredSynths(synths);
+      initFilterSubscription(synths);
     }
   });
   
@@ -62,7 +62,7 @@
   </div>
 
   <section class="catalog">
-    <SynthGrid {synths} />
+    <SynthGrid />
   </section>
 </main>
 

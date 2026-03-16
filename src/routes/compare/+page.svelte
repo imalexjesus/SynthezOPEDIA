@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { SynthModel } from '$lib/data/synths';
+  
   let { data } = $props();
   let synths = $derived(data.synths);
   let allBrands = $derived(data.allBrands);
@@ -14,12 +16,12 @@
     | 'releasePriceUSD'
     | 'popularityStars';
 
-  let selectedBrand = 'all';
-  let selectedSeries = 'all';
-  let query = '';
-  let limit = 20;
-  let sortField: SortField = 'year';
-  let sortDirection: 'asc' | 'desc' = 'asc';
+  let selectedBrand = $state('all');
+  let selectedSeries = $state('all');
+  let query = $state('');
+  let limit = $state(20);
+  let sortField: SortField = $state('year');
+  let sortDirection: 'asc' | 'desc' = $state('asc');
 
   function cycleSort(field: SortField) {
     if (sortField === field) {
@@ -50,7 +52,7 @@
     return String(va).localeCompare(String(vb), 'ru') * direction;
   }
 
-  let filtered = $derived(synths.filter((s) => {
+  let filtered = $derived(synths.filter((s: SynthModel) => {
     if (selectedBrand !== 'all' && s.brand !== selectedBrand) return false;
     if (selectedSeries !== 'all' && s.series !== selectedSeries) return false;
 
@@ -115,15 +117,15 @@
   <table>
     <thead>
       <tr>
-        <th on:click={() => cycleSort('modelName')}>Модель {sortField==='modelName' ? (sortDirection==='asc' ? '▲' : '▼') : ''}</th>
-        <th on:click={() => cycleSort('brand')}>Бренд {sortField==='brand' ? (sortDirection==='asc' ? '▲' : '▼') : ''}</th>
-        <th on:click={() => cycleSort('series')}>Серия {sortField==='series' ? (sortDirection==='asc' ? '▲' : '▼') : ''}</th>
-        <th on:click={() => cycleSort('year')}>Год {sortField==='year' ? (sortDirection==='asc' ? '▲' : '▼') : ''}</th>
-        <th on:click={() => cycleSort('keysCount')}>Клавиш {sortField==='keysCount' ? (sortDirection==='asc' ? '▲' : '▼') : ''}</th>
-        <th on:click={() => cycleSort('formFactor')}>Форм‑фактор {sortField==='formFactor' ? (sortDirection==='asc' ? '▲' : '▼') : ''}</th>
-        <th on:click={() => cycleSort('releasePriceUSD')}>Цена старта {sortField==='releasePriceUSD' ? (sortDirection==='asc' ? '▲' : '▼') : ''}</th>
+        <th onclick={() => cycleSort('modelName')}>Модель {sortField==='modelName' ? (sortDirection==='asc' ? '▲' : '▼') : ''}</th>
+        <th onclick={() => cycleSort('brand')}>Бренд {sortField==='brand' ? (sortDirection==='asc' ? '▲' : '▼') : ''}</th>
+        <th onclick={() => cycleSort('series')}>Серия {sortField==='series' ? (sortDirection==='asc' ? '▲' : '▼') : ''}</th>
+        <th onclick={() => cycleSort('year')}>Год {sortField==='year' ? (sortDirection==='asc' ? '▲' : '▼') : ''}</th>
+        <th onclick={() => cycleSort('keysCount')}>Клавиш {sortField==='keysCount' ? (sortDirection==='asc' ? '▲' : '▼') : ''}</th>
+        <th onclick={() => cycleSort('formFactor')}>Форм‑фактор {sortField==='formFactor' ? (sortDirection==='asc' ? '▲' : '▼') : ''}</th>
+        <th onclick={() => cycleSort('releasePriceUSD')}>Цена старта {sortField==='releasePriceUSD' ? (sortDirection==='asc' ? '▲' : '▼') : ''}</th>
         <th>Рынок б/у</th>
-        <th on:click={() => cycleSort('popularityStars')}>Популярность {sortField==='popularityStars' ? (sortDirection==='asc' ? '▲' : '▼') : ''}</th>
+        <th onclick={() => cycleSort('popularityStars')}>Популярность {sortField==='popularityStars' ? (sortDirection==='asc' ? '▲' : '▼') : ''}</th>
       </tr>
     </thead>
     <tbody>

@@ -61,3 +61,25 @@ export function applyFilters(filters: {
   if (filters.formFactor !== undefined) selectedFormFactor.set(filters.formFactor);
   if (filters.gemsOnly !== undefined) showGemsOnly.set(filters.gemsOnly);
 }
+
+// Subscribe to filter changes to auto-update filtered synths
+// This assumes filteredSynths has been initialized with updateFilteredSynths()
+let initialized = false;
+let currentSynths: SynthModel[] = [];
+
+export function initFilterSubscription(synths: SynthModel[]) {
+  if (initialized) {
+    currentSynths = synths;
+    updateFilteredSynths(synths);
+    return;
+  }
+  currentSynths = synths;
+  
+  searchQuery.subscribe(() => updateFilteredSynths(currentSynths));
+  selectedBrand.subscribe(() => updateFilteredSynths(currentSynths));
+  selectedSeries.subscribe(() => updateFilteredSynths(currentSynths));
+  selectedFormFactor.subscribe(() => updateFilteredSynths(currentSynths));
+  showGemsOnly.subscribe(() => updateFilteredSynths(currentSynths));
+  
+  initialized = true;
+}

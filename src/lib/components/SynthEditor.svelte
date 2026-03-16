@@ -168,7 +168,8 @@
               <label class="checkbox-label">
                 <input 
                   type="checkbox" 
-                  bind:checked={synth[field.key]}
+                  checked={Boolean((synth as any)[field.key])}
+                  onchange={(e) => { (synth as any)[field.key] = e.currentTarget.checked; }}
                 />
                 <span>Да</span>
               </label>

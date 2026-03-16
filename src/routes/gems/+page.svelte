@@ -14,7 +14,7 @@
   <p>Самые культовые модели винтажных синтезаторов: редкость, уникальность звучания, историческая значимость.</p>
 
   <div class="gems-grid">
-    {#each sortedGems as gem, index}
+    {#each gems as gem, index}
       <div class="gem-item">
         <div class="rank">#{index + 1}</div>
         <SynthCard synth={gem} />
