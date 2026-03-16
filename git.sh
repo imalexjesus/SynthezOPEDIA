@@ -141,7 +141,7 @@ fi
 # PUSH
 # ============================================
 if [ "$COMMAND" = "push" ]; then
-    git push origin HEAD:master
+    git push origin HEAD:main
     exit 0
 fi
 
@@ -157,7 +157,7 @@ if [ "$COMMAND" = "all" ]; then
     git add -A
     git commit -m "$MESSAGE"
     echo "Committed: $MESSAGE"
-    git push origin HEAD:master
+    git push origin HEAD:main
     echo "Pushed to origin/master"
     exit 0
 fi

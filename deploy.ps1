@@ -13,7 +13,7 @@ $ErrorActionPreference = "Stop"
 $REPO_DIR = "C:\Users\aj\Documents\AI_OPENCODE\SynthezOPEDIA"
 $CONTAINER_NAME = "synthezopedia"
 $IMAGE_NAME = "synthezopedia:latest"
-$BRANCH = "master"
+$BRANCH = "main"
 
 if ($Help) {
     @"

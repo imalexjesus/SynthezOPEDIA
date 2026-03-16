@@ -8,7 +8,7 @@ set -e  # Exit on error
 REPO_DIR="/opt/docker/synthezopedia"
 CONTAINER_NAME="synthezopedia"
 IMAGE_NAME="synthezopedia:latest"
-BRANCH="master"
+BRANCH="main"
 
 show_help() {
     cat << EOF

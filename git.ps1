@@ -77,7 +77,7 @@ if ($Commit) {
 
 # PUSH
 if ($Push) {
-    git push origin HEAD:master
+    git push origin HEAD:main
     exit 0
 }
 
@@ -90,7 +90,7 @@ if ($All) {
     git add -A
     git commit -m $Message
     Write-Host "Committed: $Message"
-    git push origin HEAD:master
+    git push origin HEAD:main
     Write-Host "Pushed to origin/master" -ForegroundColor Green
     exit 0
 }
