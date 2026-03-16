@@ -1,17 +1,19 @@
 const fs = require('fs');
 const path = require('path');
-const axios = require('axios');
-const FormData = require('form-data');
 
-// --- НАСТРОЙКИ (ЗАПОЛНИТЕ ЭТИ ДАННЫЕ) ---
-const NOCODB_API_URL = 'http://localhost:8080/api/v1'; // URL вашего NocoDB API
-const NOCODB_API_TOKEN = 'YOUR_API_TOKEN_HERE'; // Ваш API Token из NocoDB
-const TABLE_ID = 'table_id_here'; // ID таблицы синтезаторов в NocoDB
-const ATTACHMENT_FIELD_ID = 'field_id_here'; // ID поля типа Attachment (например, IdAttachment)
-const BATCH_SIZE = 5; // Количество одновременных загрузок (чтобы не перегружать сервер)
-
-// Путь к файлу с синтами (локальная копия)
+// --- НАСТРОЙКИ ---
+const IMAGES_DIR = path.join(__dirname, '../static/images');
 const SYNTHS_FILE = path.join(__dirname, '../src/lib/data/synths.ts');
+
+console.log('Download Config:');
+console.log('  Images directory:', IMAGES_DIR);
+console.log('  Synths file:', SYNTHS_FILE);
+
+// Создаем папку для фото, если её нет
+if (!fs.existsSync(IMAGES_DIR)) {
+    fs.mkdirSync(IMAGES_DIR, { recursive: true });
+    console.log('✅ Создана папка для фото');
+}
 
 // Временная папка для скачанных фото
 const TEMP_DIR = path.join(__dirname, 'temp_photos');
@@ -67,28 +69,31 @@ async function downloadFile(url, filepath) {
     });
 }
 
-// Функция для загрузки файла в NocoDB
-async function uploadToNocoDB(synthId, filePath, fieldName) {
-    const url = `${NOCODB_API_URL}/tables/${TABLE_ID}/records/${synthId}/attachment`;
-    
-    const formData = new FormData();
-    formData.append('field', fieldName);
-    formData.append('files', fs.createReadStream(filePath));
-
-    const config = {
-        headers: {
-            ...formData.getHeaders(),
-            'xc-token': NOCODB_API_TOKEN
-        }
-    };
-
+// Функция для обновления файла synths.ts с локальными путями к фото
+function updateSynthsFile(synthId, localImagePath) {
     try {
-        const response = await axios.post(url, formData, config);
-        console.log(`✅ Успешно загружено для ${synthId}`);
-        return response.data;
+        let content = fs.readFileSync(SYNTHS_FILE, 'utf8');
+        
+        // Находим запись синта и обновляем images
+        // Ищем блок вида: id: 'synth-id', ... images: ['url1', 'url2']
+        const idRegex = new RegExp(`(id:\\s*'${synthId}'[\\s\\S]*?images:\\s*\\[)([^\\]]+)(\\])`, 'm');
+        
+        if (idRegex.test(content)) {
+            // Заменяем старые URL на локальный путь
+            content = content.replace(idRegex, (match, before, images, after) => {
+                return `${before}'/images/${path.basename(localImagePath)}'${after}`;
+            });
+            
+            fs.writeFileSync(SYNTHS_FILE, content, 'utf8');
+            console.log(`✅ Обновлен synths.ts для ${synthId}`);
+            return true;
+        } else {
+            console.warn(`⚠️ Не найдена запись для ${synthId} в synths.ts`);
+            return false;
+        }
     } catch (error) {
-        console.error(`❌ Ошибка загрузки для ${synthId}:`, error.response ? error.response.data : error.message);
-        return null;
+        console.error(`❌ Ошибка обновления synths.ts для ${synthId}:`, error.message);
+        return false;
     }
 }
 
@@ -97,39 +102,49 @@ async function main() {
     console.log('🚀 Запуск скрипта загрузки фото...');
     
     const synths = readSynthsFromFile();
+    let successCount = 0;
+    let errorCount = 0;
     
     for (let i = 0; i < synths.length; i++) {
         const synth = synths[i];
         const firstImageUrl = synth.imageUrls[0]; // Берем первое фото
         
-        if (!firstImageUrl) continue;
+        if (!firstImageUrl) {
+            console.log(`\n[${i + 1}/${synths.length}] Пропуск: ${synth.id} (нет фото)`);
+            continue;
+        }
 
         console.log(`\n[${i + 1}/${synths.length}] Обработка: ${synth.id}`);
         console.log(`Скачивание: ${firstImageUrl}`);
 
         const fileExt = path.extname(new URL(firstImageUrl).pathname) || '.jpg';
-        const localPath = path.join(TEMP_DIR, `${synth.id}${fileExt}`);
+        const localPath = path.join(IMAGES_DIR, `${synth.id}${fileExt}`);
 
         try {
             // Скачиваем фото
             await downloadFile(firstImageUrl, localPath);
-            console.log(`Скачано: ${localPath}`);
+            console.log(`✅ Скачано: ${localPath}`);
 
-            // Загружаем в NocoDB
-            await uploadToNocoDB(synth.id, localPath, ATTACHMENT_FIELD_ID);
-
-            // Удаляем временный файл
-            fs.unlinkSync(localPath);
+            // Обновляем synths.ts
+            const updated = updateSynthsFile(synth.id, localPath);
+            if (updated) {
+                successCount++;
+            } else {
+                errorCount++;
+            }
             
         } catch (error) {
             console.error(`❌ Ошибка при обработке ${synth.id}:`, error.message);
+            errorCount++;
         }
         
-        // Небольшая задержка между запросами
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Небольшая задержка между запросами (чтобы не перегружать Wikipedia)
+        await new Promise(resolve => setTimeout(resolve, 2000));
     }
 
-    console.log('\n✅ Готово! Все фото обработаны.');
+    console.log(`\n✅ Готово! Успешно: ${successCount}, Ошибок: ${errorCount}`);
+    console.log('⚠️ ВАЖНО: Теперь нужно пересобрать приложение и задеплоить на сервер');
+    console.log('   Команды: npm run build && ./deploy.sh --force');
 }
 
 // Запуск
