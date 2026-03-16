@@ -3,7 +3,12 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import * as https from 'https';
 import * as http from 'http';
+import * as crypto from 'crypto';
 import { synths } from '$lib/data/synths';
+
+function generateHash(url: string): string {
+    return crypto.createHash('md5').update(url).digest('hex');
+}
 
 async function downloadImage(imageUrl: string): Promise<Buffer | null> {
     return new Promise((resolve) => {
@@ -82,7 +87,7 @@ export async function POST() {
         processed++;
         
         try {
-            const urlHash = Buffer.from(imageUrl).toString('base64').replace(/[^a-zA-Z0-9]/g, '').substring(0, 50);
+            const urlHash = generateHash(imageUrl);
             const fileExt = path.extname(new URL(imageUrl).pathname) || '.jpg';
             const cachePath = path.join(cacheDir, `${urlHash}${fileExt}`);
 

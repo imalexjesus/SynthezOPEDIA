@@ -3,6 +3,11 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import * as https from 'https';
 import * as http from 'http';
+import * as crypto from 'crypto';
+
+function generateHash(url: string): string {
+    return crypto.createHash('md5').update(url).digest('hex');
+}
 
 export async function GET({ url }: { url: URL }) {
     const imageUrl = url.searchParams.get('url');
@@ -13,8 +18,8 @@ export async function GET({ url }: { url: URL }) {
     }
 
     try {
-        // Generate a unique filename based on the URL
-        const urlHash = Buffer.from(imageUrl).toString('base64').replace(/[^a-zA-Z0-9]/g, '').substring(0, 50);
+        // Generate a unique filename based on the URL using MD5
+        const urlHash = generateHash(imageUrl);
         const fileExt = path.extname(new URL(imageUrl).pathname) || '.jpg';
         
         // Path where files are stored (in static folder, accessible via API)

@@ -36,7 +36,9 @@
     }
   }
 
-  function refreshImage() {
+  function refreshImage(e: MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
     if (synth.images && synth.images.length > 0) {
       isCaching = true;
       cacheImage(synth.images[0], true);
