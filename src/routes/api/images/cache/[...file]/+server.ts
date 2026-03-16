@@ -24,8 +24,9 @@ export async function GET({ params }: { params: { file: string[] } }) {
         if (ext === '.gif') contentType = 'image/gif';
         if (ext === '.webp') contentType = 'image/webp';
         
-        // Return the image (convert Buffer to Uint8Array for Response)
-        return new Response(Uint8Array.from(imageData), {
+        // Return the image (Buffer is acceptable to Response in Node.js)
+        // @ts-ignore - Buffer is compatible with Response body in Node.js
+        return new Response(imageData, {
             headers: {
                 'Content-Type': contentType,
                 'Cache-Control': 'public, max-age=31536000' // Cache for 1 year
