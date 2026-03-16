@@ -9,6 +9,7 @@
   let totalGems = $derived(data.totalGems);
   let series = $derived(data.series);
   let brands = $derived(data.brands);
+  let seriesCount = $derived(Object.values(series).flat().length);
   
   let mounted = $state(false);
   let searchValue = $state('');
@@ -37,7 +38,7 @@
       <span class="stat-label">Гемов коллекции</span>
     </div>
     <div class="stat-item">
-      <span class="stat-value">{series.length}</span>
+      <span class="stat-value">{seriesCount}</span>
       <span class="stat-label">Серий</span>
     </div>
     <div class="stat-item">

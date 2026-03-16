@@ -142,8 +142,9 @@
     color: #aaa;
     margin-bottom: 0.3rem;
   }
-  .series-group {
-    flex-direction: column;
-    align-items: flex-start;
+  .filter-group.series-group {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
   }
 </style>
