@@ -60,7 +60,6 @@
         alt={synth.modelName} 
         loading="lazy" 
         decoding="async"
-        on:error={(e) => { e.target.style.display = 'none'; }}
       />
       <span class="badge badge-price">{releasePrice ? `$${releasePrice}` : 'н/д'}</span>
       <span class="badge badge-year">{synth.year}</span>

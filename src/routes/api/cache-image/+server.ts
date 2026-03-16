@@ -14,9 +14,11 @@ export async function GET({ url }: { url: URL }) {
         // Generate a unique filename based on the URL
         const urlHash = Buffer.from(imageUrl).toString('base64').replace(/[^a-zA-Z0-9]/g, '').substring(0, 50);
         const fileExt = path.extname(new URL(imageUrl).pathname) || '.jpg';
+        
+        // Path where static files are served from
         const cacheDir = path.join(process.cwd(), 'static', 'images', 'cache');
         const cachePath = path.join(cacheDir, `${urlHash}${fileExt}`);
-
+        
         // Create cache directory if it doesn't exist
         try {
             await fs.mkdir(cacheDir, { recursive: true });
@@ -29,7 +31,7 @@ export async function GET({ url }: { url: URL }) {
             await fs.access(cachePath);
             console.log(`✅ Serving from cache: ${urlHash}${fileExt}`);
             
-            // Return the cached file URL
+            // Return the cached file URL (static files are served from /)
             return json({
                 cached: true,
                 url: `/images/cache/${urlHash}${fileExt}`
@@ -48,8 +50,12 @@ export async function GET({ url }: { url: URL }) {
         });
 
         // Save to cache
-        await fs.writeFile(cachePath, response.data);
-        console.log(`✅ Saved to cache: ${urlHash}${fileExt}`);
+        try {
+            await fs.writeFile(cachePath, response.data);
+            console.log(`✅ Saved to cache: ${urlHash}${fileExt}`);
+        } catch (e) {
+            console.log('Could not save to cache:', e);
+        }
 
         // Return the cached file URL
         return json({
@@ -59,7 +65,10 @@ export async function GET({ url }: { url: URL }) {
 
     } catch (error: unknown) {
         console.error('Error caching image:', error);
-        const message = error instanceof Error ? error.message : 'Unknown error';
-        return json({ error: message }, { status: 500 });
+        // Return original URL on error
+        return json({
+            cached: false,
+            url: imageUrl
+        });
     }
 }

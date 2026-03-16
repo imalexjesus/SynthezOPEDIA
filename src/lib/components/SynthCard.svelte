@@ -6,8 +6,6 @@
   export let synth: SynthModel;
   
   let cachedImageUrl: string | null = null;
-  let imageLoaded = false;
-  let imageError = false;
 
   onMount(() => {
     // Cache the first image if it exists
@@ -25,8 +23,6 @@
       }
     } catch (error) {
       console.error('Error caching image:', error);
-      // Fallback to original URL if caching fails
-      cachedImageUrl = imageUrl;
     }
   }
 
@@ -86,11 +82,6 @@
       alt={synth.modelName} 
       loading="lazy" 
       decoding="async"
-      on:load={() => imageLoaded = true}
-      on:error={(e) => { 
-        imageError = true;
-        e.target.style.display = 'none'; 
-      }}
     />
     <span class="badge badge-price">{releasePrice ? `$${releasePrice}` : 'н/д'}</span>
     <span class="badge badge-year">{synth.year}</span>
