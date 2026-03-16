@@ -8,20 +8,23 @@
   let localSeries: string | null = null;
   let localFormFactor: string | null = null;
   let localGemsOnly = false;
-  $: availableSeries = localBrand
-    ? [...new Set(synths.filter((s) => s.brand === localBrand).map((s) => s.series))].sort((a, b) =>
-        a.localeCompare(b)
-      )
-    : [];
+  
+  let availableSeries = $derived(
+    localBrand
+      ? [...new Set(synths.filter((s) => s.brand === localBrand).map((s) => s.series))].sort((a, b) =>
+          a.localeCompare(b)
+        )
+      : []
+  );
 
   // Debounce search
   let debounceTimer: NodeJS.Timeout;
-  $: {
+  $effect(() => {
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
       applyFilters({ search: searchValue });
     }, 300);
-  }
+  });
 
   function updateBrand(brand: string | null) {
     localBrand = brand;
