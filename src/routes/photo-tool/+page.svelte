@@ -114,7 +114,10 @@
                         <td>{s.brand}</td>
                         <td><code>{s.id}</code></td>
                         <td><span class="badge {getStatus(s).class}">{getStatus(s).label}</span></td>
-                        <td><button class="btn-secondary edit-btn" on:click={() => editOverride(s.id)}>Edit</button></td>
+                        <td>
+                            <button class="btn-secondary edit-btn" on:click={() => editOverride(s.id)}>Edit img URL</button>
+                            <a href="/synths/{s.brand.toLowerCase()}/{encodeURIComponent(s.series)}/{encodeURIComponent(s.modelName)}" class="btn-link" target="_blank">Edit card</a>
+                        </td>
                     </tr>
                 {/each}
             </tbody>
@@ -122,12 +125,13 @@
     </div>
     <div class="sidebar">
         <h3>Quick Search</h3>
-        <input type="text" bind:value={imageSearchQuery} class="input-small" placeholder="Search images...">
-        <div style="max-height: 200px; overflow-y: auto; margin-top: 10px;">
-            {#each synths.filter(s => `${s.modelName} ${s.brand}`.toLowerCase().includes(imageSearchQuery.toLowerCase())).slice(0, 10) as s}
-                <div style="padding: 5px; background: #0f3460; margin-bottom: 3px; border-radius: 3px; cursor: pointer;"
-                     on:click={() => editOverride(s.id)}>
-                    {s.brand} {s.modelName}
+        <input type="text" bind:value={imageSearchQuery} class="input-small" placeholder="Search model...">
+        <div style="max-height: 300px; overflow-y: auto; margin-top: 10px;">
+            {#each synths.filter(s => `${s.modelName} ${s.brand}`.toLowerCase().includes(imageSearchQuery.toLowerCase())).slice(0, 20) as s}
+                <div style="padding: 8px; background: #0f3460; margin-bottom: 3px; border-radius: 3px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;"
+                     on:click={() => window.open(`/synths/${s.brand.toLowerCase()}/${encodeURIComponent(s.series)}/${encodeURIComponent(s.modelName)}`, '_blank')}>
+                    <span>{s.brand} {s.modelName}</span>
+                    <span style="color: #00d9ff; font-size: 12px;">→</span>
                 </div>
             {/each}
         </div>
@@ -169,5 +173,17 @@
     .input-small { width: 100%; padding: 6px; border: 1px solid #333; background: #0f3460; color: #fff; border-radius: 4px; }
     .badge { padding: 2px 6px; border-radius: 3px; font-size: 11px; }
     .badge-gem { background: #f39c12; color: #000; }
+    .edit-btn { margin-right: 5px; padding: 6px 12px; font-size: 12px; }
+    .btn-link { 
+        display: inline-block;
+        padding: 6px 12px; 
+        background: #0f3460; 
+        color: #00d9ff; 
+        text-decoration: none; 
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    .btn-link:hover { background: #00d9ff; color: #000; }
     .stats { color: #888; font-size: 13px; margin-top: 10px; }
 </style>

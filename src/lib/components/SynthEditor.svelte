@@ -108,7 +108,11 @@
   }
 
   function handleImagesChange(value: string) {
-    synth.images = value.split('\n').map(v => v.trim()).filter(v => v);
+    // Split by: comma, semicolon, space, tab, or newline
+    synth.images = value
+      .split(/[,;\s\t\n]+/)
+      .map(v => v.trim())
+      .filter(v => v && (v.startsWith('http://') || v.startsWith('https://')));
   }
 
   function getImagesValue(): string {
