@@ -138,14 +138,11 @@
   }
   .filters-search-row :global(.filter-panel) {
     flex: 1;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    align-items: center;
+    align-items: flex-start;
   }
   .search-box {
     flex-shrink: 0;
-    width: 200px;
+    width: 350px;
     background-color: #06001c;
     padding: 0.4rem 0.8rem;
     border-radius: 4px;

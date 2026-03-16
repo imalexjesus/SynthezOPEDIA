@@ -16,13 +16,13 @@
         .header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             margin-bottom: 20px;
             padding-bottom: 15px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         h1 { color: #00d9ff; margin: 0; }
-        .controls { display: flex; gap: 10px; }
+        .controls { display: flex; gap: 10px; flex-wrap: wrap; }
         button {
             padding: 10px 20px;
             border: none;
@@ -35,7 +35,7 @@
         .btn-primary:hover { background: #00b8d9; }
         .btn-secondary { background: #444; color: #fff; }
         .btn-secondary:hover { background: #555; }
-        .search { padding: 10px; border-radius: 6px; border: 1px solid #333; background: #16213e; color: #fff; width: 300px; }
+        .search { padding: 10px; border-radius: 6px; border: 1px solid #333; background: #16213e; color: #fff; width: 350px; }
         .main-grid { display: grid; grid-template-columns: 1fr 350px; gap: 20px; }
         table { width: 100%; border-collapse: collapse; background: #16213e; border-radius: 8px; overflow: hidden; }
         th, td { padding: 10px; text-align: left; border-bottom: 1px solid #333; }
@@ -53,9 +53,9 @@
         <h1>🖼️ Photo Override Tool</h1>
         <div class="controls">
             <input type="text" id="search" class="search" placeholder="Search models...">
-            <button class="btn-secondary" onclick="filterIssues()">Show Issues</button>
-            <button class="btn-secondary" onclick="showAll()">Show All</button>
-            <button class="btn-primary" onclick="exportOverrides()" id="exportBtn" disabled>Export</button>
+            <button class="btn-secondary" id="filterBtn">Show Issues</button>
+            <button class="btn-secondary" id="showAllBtn">Show All</button>
+            <button class="btn-primary" id="exportBtn" disabled>Export</button>
         </div>
     </div>
 
@@ -78,7 +78,7 @@
         </div>
         <div class="sidebar">
             <h3>Quick Search</h3>
-            <input type="text" id="imageSearch" class="input-small" placeholder="Search images..." onkeyup="searchImages(this.value)">
+            <input type="text" id="imageSearch" class="input-small" placeholder="Search images...">
             <div id="imageResults" style="max-height: 200px; overflow-y: auto; margin-top: 10px;"></div>
         </div>
     </div>
@@ -132,13 +132,18 @@
                         <td>${s.brand}</td>
                         <td><code>${s.id}</code></td>
                         <td><span class="badge ${status.class}">${status.label}</span></td>
-                        <td><button onclick="editOverride('${s.id}')">Edit</button></td>
+                        <td><button class="btn-secondary edit-btn" data-id="${s.id}">Edit</button></td>
                     </tr>
                 `;
             }).join('');
 
             document.getElementById('stats').textContent = `${synths.length} models | ${Object.keys(overrides).length} overrides`;
             document.getElementById('exportBtn').disabled = Object.keys(overrides).length === 0;
+
+            // Attach event listeners to edit buttons
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', () => editOverride(btn.dataset.id));
+            });
         }
 
         function editOverride(id) {
@@ -165,7 +170,7 @@
                         <td>${s.brand}</td>
                         <td><code>${s.id}</code></td>
                         <td>Issue</td>
-                        <td><button onclick="editOverride('${s.id}')">Fix</button></td>
+                        <td><button class="btn-secondary" onclick="editOverride('${s.id}')">Fix</button></td>
                     </tr>
                 `;
             }).join('');
@@ -201,7 +206,13 @@
             a.click();
         }
 
+        // Event listeners
         document.getElementById('search').addEventListener('input', renderTable);
+        document.getElementById('filterBtn').addEventListener('click', filterIssues);
+        document.getElementById('showAllBtn').addEventListener('click', showAll);
+        document.getElementById('exportBtn').addEventListener('click', exportOverrides);
+        document.getElementById('imageSearch').addEventListener('keyup', (e) => searchImages(e.target.value));
+
         loadData();
     </script>
 </body>
