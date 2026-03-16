@@ -5,7 +5,7 @@
   export let data: { synth: import('$lib/data/synths').SynthModel };
   $: synth = data.synth;
   $: releasePrice = synth.releasePriceUSD ?? null;
-  $: inflation = releasePrice ? calculateInflation(releasePrice, synth.year) : null;
+  // inflation is now handled asynchronously in the template
   $: featureTags =
     synth.featureTags && synth.featureTags.length > 0
       ? synth.featureTags
@@ -36,8 +36,14 @@
       <span class="badge badge-year">{synth.year}</span>
     </div>
     <p class="inflation-line">
-      {#if inflation}
-        C поправкой на инфляцию: {formatUSD(inflation.adjustedUSD)} • {formatUAH(inflation.convertedUAH)}
+      {#if releasePrice}
+        {#await calculateInflation(releasePrice, synth.year)}
+          C поправкой на инфляцию: ...
+        {:then inflation}
+          C поправкой на инфляцию: {formatUSD(inflation.adjustedUSD)} • {formatUAH(inflation.convertedUAH)}
+        {:catch}
+          C поправкой на инфляцию: н/д • н/д
+        {/await}
       {:else}
         C поправкой на инфляцию: н/д • н/д
       {/if}

@@ -49,7 +49,7 @@
   $: featureTags = buildFeatureTags(synth);
 
   $: releasePrice = synth.releasePriceUSD ?? null;
-  $: inflation = releasePrice ? calculateInflation(releasePrice, synth.year) : null;
+  // Note: calculateInflation is now async. We handle it in the template.
   $: stars = '★'.repeat(synth.popularity?.stars ?? 0) + '☆'.repeat(5 - (synth.popularity?.stars ?? 0));
 </script>
 
@@ -104,9 +104,15 @@
           >
         </div>
         <div class="summary-value">
-          {#if inflation}
-            {formatUSD(inflation.adjustedUSD)}
-            <span class="uah-inline">({formatUAH(inflation.convertedUAH)})</span>
+          {#if releasePrice}
+            {#await calculateInflation(releasePrice, synth.year)}
+              <span>...</span>
+            {:then inflation}
+              {formatUSD(inflation.adjustedUSD)}
+              <span class="uah-inline">({formatUAH(inflation.convertedUAH)})</span>
+            {:catch}
+              н/д
+            {/await}
           {:else}
             н/д
           {/if}
