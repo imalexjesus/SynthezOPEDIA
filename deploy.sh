@@ -29,17 +29,12 @@ Options:
     -p, --pull      Pull changes and restart (fast update)
     -c, --check     Check container status and logs
     -h, --hard      Full reinstall (stop, remove, rebuild, start)
-    -i, --images    List cached images
-    -r, --refresh   Refresh all image cache from URLs
-    -s, --sync      Sync all synths to NocoDB
     --help          Show this help message
 
 Examples:
     ./deploy.sh -p          # Fast update (pull + restart)
-    ./deploy.sh --check     # Check status and logs
-    ./deploy.sh --hard      # Full reinstall
-    ./deploy.sh --images    # List cached images
-    ./deploy.sh --refresh   # Refresh all image cache
+    ./deploy.sh --check    # Check status and logs
+    ./deploy.sh --hard     # Full reinstall
 EOF
 }
 
@@ -57,18 +52,6 @@ while [[ $# -gt 0 ]]; do
             ;;
         -h|--hard)
             MODE="hard"
-            shift
-            ;;
-        -i|--images)
-            MODE="images"
-            shift
-            ;;
-        -r|--refresh)
-            MODE="refresh"
-            shift
-            ;;
-        -s|--sync)
-            MODE="sync"
             shift
             ;;
         --help)

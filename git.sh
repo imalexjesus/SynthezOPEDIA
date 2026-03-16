@@ -13,19 +13,20 @@ Usage: ./git.sh [OPTIONS]
 
 Options:
     -s, --status     Check git status
-    -l, --log         Show recent commits
-    -d, --diff        Show unstaged changes
-    -a, --add         Add all changes and show diff
-    -c, --commit      Commit with message (use -m "message")
-    -p, --push        Push to remote
-    -m, --message     Commit message (use with -c)
-    --all             Add, commit and push
-    --help            Show this help message
+    -l, --log        Show recent commits
+    -d, --diff       Show unstaged changes
+    -A, --add        Add all changes and show status
+    -c, --commit     Commit with message (use -m "message")
+    -p, --push       Push to remote
+    -m, --message    Commit message (use with -c or --all)
+    --all            Add, commit and push
+    --help           Show this help message
 
 Examples:
     ./git.sh --status           # Check status
     ./git.sh --log -3           # Show last 3 commits
     ./git.sh --diff             # Show changes
+    ./git.sh --add              # Add all files
     ./git.sh --commit -m "Fix bug"   # Commit with message
     ./git.sh --all -m "Feature"      # Add, commit, push
 EOF
@@ -55,7 +56,7 @@ while [[ $# -gt 0 ]]; do
             COMMAND="diff"
             shift
             ;;
-        -a|--add)
+        -A|--add)
             COMMAND="add"
             shift
             ;;

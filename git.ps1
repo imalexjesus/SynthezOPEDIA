@@ -91,7 +91,7 @@ if ($All) {
     git commit -m $Message
     Write-Host "Committed: $Message"
     git push origin HEAD:main
-    Write-Host "Pushed to origin/master" -ForegroundColor Green
+    Write-Host "Pushed to origin/main" -ForegroundColor Green
     exit 0
 }
 
