@@ -1,4 +1,4 @@
-import { synths } from '$lib/data/synths';
+import { listSynths } from '$lib/server/synth-api';
 
 export const load = async ({ params }: { params: Record<string, string> }) => {
   const { brand, series, model } = params;
@@ -7,23 +7,24 @@ export const load = async ({ params }: { params: Record<string, string> }) => {
   const decodedSeries = decodeURIComponent(series);
   const decodedModel = decodeURIComponent(model);
   
-  // Найти модель по ID или по совпадению brand, series и modelName
-  // ID format: {brand}-{series}-{model} (e.g., casio-sk-sk-1)
-  // Note: series in ID might be different from full series name (e.g., "pss" vs "PSS (PortaSound)")
-  const expectedId = `${brand}-${series}-${model}`;
+  // Get all synths from DB
+  const allSynths = await listSynths();
   
-  const synth = synths.find(s => 
-    s.id === expectedId ||
-    s.id === `${brand}-${decodedSeries.toLowerCase().replace(/[^a-z0-9]/g, '')}-${decodedModel.toLowerCase()}` ||
-    (
+  // Try to find by ID first
+  const expectedId = `${brand}-${series}-${model}`;
+  let synth = allSynths.find((s: any) => s.id === expectedId);
+  
+  // If not found, try to find by brand/series/model match
+  if (!synth) {
+    synth = allSynths.find((s: any) => 
       s.brand.toLowerCase() === brand.toLowerCase() &&
       s.series.toLowerCase().includes(decodedSeries.toLowerCase()) &&
       s.modelName.toLowerCase() === decodedModel.toLowerCase()
-    )
-  );
+    );
+  }
   
   if (!synth) {
-    throw new Error(`Model not found: ${expectedId} (tried: ${brand}/${decodedSeries}/${decodedModel})`);
+    throw new Error(`Model not found: ${brand}/${decodedSeries}/${decodedModel}`);
   }
   
   return { synth };
