@@ -5,10 +5,19 @@
 
 set -e  # Exit on error
 
-REPO_DIR="/opt/docker/synthezopedia"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
+# Make scripts executable
+chmod +x "$SCRIPT_DIR/deploy.sh" "$SCRIPT_DIR/api.sh" "$SCRIPT_DIR/git.sh" 2>/dev/null || true
+
+REPO_DIR="$SCRIPT_DIR"
 CONTAINER_NAME="synthezopedia"
 IMAGE_NAME="synthezopedia:latest"
 BRANCH="main"
+
+# Set upstream branch
+git branch --set-upstream-to=origin/$BRANCH $BRANCH 2>/dev/null || true
 
 show_help() {
     cat << EOF
