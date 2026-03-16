@@ -1,15 +1,16 @@
 #!/bin/bash
 
-# SynthezOPEDIA Git workflow script
-# Usage: ./git.sh [options]
+# SynthezOPEDIA Git Workflow Script (LOCAL)
+# Run locally for git operations
+# Usage: ./git-local.sh [options]
 
 set -e
 
 show_help() {
     cat << EOF
-SynthezOPEDIA Git Workflow Script
+SynthezOPEDIA Git Workflow Script (LOCAL)
 
-Usage: ./git.sh [OPTIONS]
+Usage: ./git-local.sh [OPTIONS]
 
 Options:
     -s, --status     Check git status
@@ -23,12 +24,12 @@ Options:
     --help           Show this help message
 
 Examples:
-    ./git.sh --status           # Check status
-    ./git.sh --log -3           # Show last 3 commits
-    ./git.sh --diff             # Show changes
-    ./git.sh --add              # Add all files
-    ./git.sh --commit -m "Fix bug"   # Commit with message
-    ./git.sh --all -m "Feature"      # Add, commit, push
+    ./git-local.sh --status           # Check status
+    ./git-local.sh --log -3           # Show last 3 commits
+    ./git-local.sh --diff             # Show changes
+    ./git-local.sh --add              # Add all files
+    ./git-local.sh --commit -m "Fix bug"   # Commit with message
+    ./git-local.sh --all -m "Feature"      # Add, commit, push
 EOF
 }
 
@@ -46,7 +47,6 @@ while [[ $# -gt 0 ]]; do
         -l|--log)
             COMMAND="log"
             shift
-            # Check if next arg is a number
             if [[ "$1" =~ ^[0-9]+$ ]]; then
                 LOG_COUNT=$1
                 shift
@@ -89,33 +89,25 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# ============================================
 # STATUS
-# ============================================
 if [ "$COMMAND" = "status" ]; then
     git status
     exit 0
 fi
 
-# ============================================
 # LOG
-# ============================================
 if [ "$COMMAND" = "log" ]; then
     git log --oneline -"$LOG_COUNT"
     exit 0
 fi
 
-# ============================================
 # DIFF
-# ============================================
 if [ "$COMMAND" = "diff" ]; then
     git diff
     exit 0
 fi
 
-# ============================================
 # ADD ALL
-# ============================================
 if [ "$COMMAND" = "add" ]; then
     git add -A
     echo "Added all files to staging"
@@ -123,9 +115,7 @@ if [ "$COMMAND" = "add" ]; then
     exit 0
 fi
 
-# ============================================
 # COMMIT
-# ============================================
 if [ "$COMMAND" = "commit" ]; then
     if [ -z "$MESSAGE" ]; then
         echo "Error: -m required for commit"
@@ -138,17 +128,13 @@ if [ "$COMMAND" = "commit" ]; then
     exit 0
 fi
 
-# ============================================
 # PUSH
-# ============================================
 if [ "$COMMAND" = "push" ]; then
     git push origin HEAD:main
     exit 0
 fi
 
-# ============================================
 # ALL (add + commit + push)
-# ============================================
 if [ "$COMMAND" = "all" ]; then
     if [ -z "$MESSAGE" ]; then
         echo "Error: -m required for --all"

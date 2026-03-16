@@ -1,5 +1,6 @@
-# SynthezOPEDIA Deploy Script (PowerShell)
-# Usage: .\deploy.ps1 [options]
+# SynthezOPEDIA Deploy Script (VPS)
+# Run on VPS to update from GitHub
+# Usage: .\deploy-vps.ps1 [options]
 
 param(
     [switch]$Pull,
@@ -10,16 +11,21 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$REPO_DIR = "C:\Users\aj\Documents\AI_OPENCODE\SynthezOPEDIA"
+$SCRIPT_DIR = Split-Path -Parent $MyInvocation.MyCommand.Path
+Set-Location $SCRIPT_DIR
+
 $CONTAINER_NAME = "synthezopedia"
 $IMAGE_NAME = "synthezopedia:latest"
 $BRANCH = "main"
 
+# Set upstream branch
+git branch --set-upstream-to=origin/$BRANCH $BRANCH 2>$null
+
 if ($Help) {
     @"
-SynthezOPEDIA Deploy Script (PowerShell)
+SynthezOPEDIA Deploy Script (VPS)
 
-Usage: .\deploy.ps1 [OPTIONS]
+Usage: .\deploy-vps.ps1 [OPTIONS]
 
 Options:
     -Pull     Pull changes and restart (fast update)
@@ -28,14 +34,13 @@ Options:
     -Help     Show this help
 
 Examples:
-    .\deploy.ps1 -Pull      # Fast update
-    .\deploy.ps1 -Check     # Check status
-    .\deploy.ps1 -Hard      # Full reinstall
+    .\deploy-vps.ps1 -Pull      # Fast update
+    .\deploy-vps.ps1 -Check     # Check status
+    .\deploy-vps.ps1 -Hard      # Full reinstall
 "@
     exit 0
 }
 
-# Default to pull if no mode specified
 $MODE = "pull"
 if ($Check) { $MODE = "check" }
 if ($Hard) { $MODE = "hard" }
@@ -70,7 +75,6 @@ if ($MODE -eq "hard") {
     docker image rm $IMAGE_NAME 2>$null
     
     Write-Host "Pulling latest code..." -ForegroundColor Yellow
-    Set-Location $REPO_DIR
     git fetch --all
     git reset --hard origin/$BRANCH
     
@@ -87,8 +91,7 @@ if ($MODE -eq "hard") {
 }
 
 # PULL AND RESTART
-Write-Host "Pulling changes..." -ForegroundColor Yellow
-Set-Location $REPO_DIR
+Write-Host "Pulling changes from GitHub..." -ForegroundColor Yellow
 git fetch --all
 git pull origin $BRANCH 2>$null
 if ($LASTEXITCODE -ne 0) { git reset --hard origin/$BRANCH }

@@ -1,5 +1,6 @@
-# SynthezOPEDIA API Management Script (PowerShell)
-# Usage: .\api.ps1 [options]
+# SynthezOPEDIA API Management Script (VPS)
+# Run on VPS to manage API
+# Usage: .\api-vps.ps1 [options]
 
 param(
     [switch]$List,
@@ -17,9 +18,9 @@ $BASE_URL = "http://localhost:3001"
 
 if ($Help) {
     @"
-SynthezOPEDIA API Management Script (PowerShell)
+SynthezOPEDIA API Management Script (VPS)
 
-Usage: .\api.ps1 [OPTIONS]
+Usage: .\api-vps.ps1 [OPTIONS]
 
 Options:
     -List       List cached images
@@ -30,16 +31,15 @@ Options:
     -Help       Show this help
 
 Examples:
-    .\api.ps1 -List
-    .\api.ps1 -Refresh
-    .\api.ps1 -Sync
-    .\api.ps1 -Get
-    .\api.ps1 -Noco
+    .\api-vps.ps1 -List
+    .\api-vps.ps1 -Refresh
+    .\api-vps.ps1 -Sync
+    .\api-vps.ps1 -Get
+    .\api-vps.ps1 -Noco
 "@
     exit 0
 }
 
-# Default: show help
 if (-not ($List -or $Refresh -or $Sync -or $Get -or $Noco)) {
     & $PSCommandPath -Help
     exit 1
@@ -55,7 +55,7 @@ if ($List) {
 # REFRESH ALL IMAGE CACHE
 if ($Refresh) {
     Write-Host "Refreshing all image cache..." -ForegroundColor Cyan
-    Write-Host "This may take a while..."
+    Write-Host "This may take a while..." -ForegroundColor Yellow
     Invoke-RestMethod -Uri "$BASE_URL/api/cache-image/refresh-all" -Method POST
     Write-Host "Done!" -ForegroundColor Green
     exit 0
@@ -64,7 +64,7 @@ if ($Refresh) {
 # SYNC ALL SYNTHS TO NOCODB
 if ($Sync) {
     Write-Host "Syncing all synths to NocoDB..." -ForegroundColor Cyan
-    Write-Host "Getting all synths..."
+    Write-Host "Getting all synths..." -ForegroundColor Yellow
     
     $synths = Invoke-RestMethod -Uri "$BASE_URL/api/synths?includeInactive=true"
     $count = $synths.items.Count

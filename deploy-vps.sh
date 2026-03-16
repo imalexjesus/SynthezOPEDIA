@@ -1,17 +1,17 @@
 #!/bin/bash
 
-# Script to update and deploy SynthezOPEDIA
-# Usage: ./deploy.sh [options]
+# SynthezOPEDIA Deploy Script (VPS)
+# Run on VPS to update from GitHub
+# Usage: ./deploy-vps.sh [options]
 
-set -e  # Exit on error
+set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
 # Make scripts executable
-chmod +x "$SCRIPT_DIR/deploy.sh" "$SCRIPT_DIR/api.sh" "$SCRIPT_DIR/git.sh" 2>/dev/null || true
+chmod +x "$SCRIPT_DIR"/*.sh 2>/dev/null || true
 
-REPO_DIR="$SCRIPT_DIR"
 CONTAINER_NAME="synthezopedia"
 IMAGE_NAME="synthezopedia:latest"
 BRANCH="main"
@@ -21,9 +21,9 @@ git branch --set-upstream-to=origin/$BRANCH $BRANCH 2>/dev/null || true
 
 show_help() {
     cat << EOF
-SynthezOPEDIA Deploy Script
+SynthezOPEDIA Deploy Script (VPS)
 
-Usage: ./deploy.sh [OPTIONS]
+Usage: ./deploy-vps.sh [OPTIONS]
 
 Options:
     -p, --pull      Pull changes and restart (fast update)
@@ -32,9 +32,9 @@ Options:
     --help          Show this help message
 
 Examples:
-    ./deploy.sh -p          # Fast update (pull + restart)
-    ./deploy.sh --check    # Check status and logs
-    ./deploy.sh --hard     # Full reinstall
+    ./deploy-vps.sh -p          # Fast update (pull + restart)
+    ./deploy-vps.sh --check    # Check status and logs
+    ./deploy-vps.sh --hard     # Full reinstall
 EOF
 }
 
@@ -66,16 +66,13 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# Default to pull if no mode specified
 if [ -z "$MODE" ]; then
     MODE="pull"
 fi
 
 echo "🚀 Mode: $MODE"
 
-# ============================================
-# MODE: CHECK STATUS
-# ============================================
+# CHECK STATUS
 if [ "$MODE" = "check" ]; then
     echo ""
     echo "📊 Container status:"
@@ -89,9 +86,7 @@ if [ "$MODE" = "check" ]; then
     exit 0
 fi
 
-# ============================================
-# MODE: HARD REINSTALL
-# ============================================
+# HARD REINSTALL
 if [ "$MODE" = "hard" ]; then
     echo "🛑 Stopping and removing container..."
     docker stop "$CONTAINER_NAME" 2>/dev/null || true
@@ -99,9 +94,6 @@ if [ "$MODE" = "hard" ]; then
     
     echo "🗑️ Removing old image..."
     docker image rm "$IMAGE_NAME" 2>/dev/null || true
-    
-    echo "📁 Changing to project directory..."
-    cd "$REPO_DIR" || exit 1
     
     echo "📥 Pulling latest code..."
     git fetch --all
@@ -122,12 +114,7 @@ if [ "$MODE" = "hard" ]; then
     exit 0
 fi
 
-# ============================================
-# MODE: PULL AND RESTART (default)
-# ============================================
-echo "📁 Changing to project directory..."
-cd "$REPO_DIR" || exit 1
-
+# PULL AND RESTART (default)
 echo "📥 Pulling changes from GitHub..."
 git fetch --all
 git pull origin "$BRANCH" || git reset --hard origin/"$BRANCH"

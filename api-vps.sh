@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# SynthezOPEDIA API management script
-# Usage: ./api.sh [options]
+# SynthezOPEDIA API Management Script (VPS)
+# Run on VPS to manage API
+# Usage: ./api-vps.sh [options]
 
 set -e
 
@@ -10,9 +11,9 @@ BASE_URL="http://localhost:3001"
 
 show_help() {
     cat << EOF
-SynthezOPEDIA API Management Script
+SynthezOPEDIA API Management Script (VPS)
 
-Usage: ./api.sh [OPTIONS]
+Usage: ./api-vps.sh [OPTIONS]
 
 Options:
     -l, --list          List cached images
@@ -23,9 +24,9 @@ Options:
     --help              Show this help message
 
 Examples:
-    ./api.sh --list           # List cached images
-    ./api.sh --refresh       # Refresh all image cache
-    ./api.sh --sync          # Sync all synths to NocoDB
+    ./api-vps.sh --list           # List cached images
+    ./api-vps.sh --refresh       # Refresh all image cache
+    ./api-vps.sh --sync          # Sync all synths to NocoDB
 EOF
 }
 
@@ -70,18 +71,14 @@ if [ -z "$MODE" ]; then
     exit 1
 fi
 
-# ============================================
 # LIST CACHED IMAGES
-# ============================================
 if [ "$MODE" = "list" ]; then
     echo "📸 Listing cached images..."
     curl -s "$BASE_URL/api/images/list" | head -50
     exit 0
 fi
 
-# ============================================
 # REFRESH ALL IMAGE CACHE
-# ============================================
 if [ "$MODE" = "refresh" ]; then
     echo "🔄 Refreshing all image cache..."
     echo "This may take a while..."
@@ -91,9 +88,7 @@ if [ "$MODE" = "refresh" ]; then
     exit 0
 fi
 
-# ============================================
 # SYNC ALL SYNTHS TO NOCODB
-# ============================================
 if [ "$MODE" = "sync" ]; then
     echo "🔄 Syncing all synths to NocoDB..."
     echo "Getting all synths..."
@@ -110,18 +105,14 @@ if [ "$MODE" = "sync" ]; then
     exit 0
 fi
 
-# ============================================
 # GET ALL SYNTHS
-# ============================================
 if [ "$MODE" = "get" ]; then
     echo "📋 Getting all synths from API..."
     curl -s "$BASE_URL/api/synths" | head -100
     exit 0
 fi
 
-# ============================================
 # TEST NOCODB CONNECTION
-# ============================================
 if [ "$MODE" = "noco" ]; then
     echo "🔗 Testing NocoDB connection..."
     docker exec "$CONTAINER_NAME" sh -c 'echo $NOCODB_BASE_URL'
