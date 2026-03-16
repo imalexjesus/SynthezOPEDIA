@@ -2,15 +2,17 @@
   import ImageGallery from '$lib/components/ImageGallery.svelte';
   import { calculateInflation, formatUAH, formatUSD } from '$lib/utils/economy';
   import { onMount } from 'svelte';
+  import SynthEditor from '$lib/components/SynthEditor.svelte';
   
   export let data: { synth: import('$lib/data/synths').SynthModel };
   $: synth = data.synth;
   $: releasePrice = synth.releasePriceUSD ?? null;
   
   let cachedImageUrl: string | null = null;
+  let showEditor = $state(false);
+  let editedSynth = $state<typeof synth | null>(null);
 
   onMount(() => {
-    // Cache the first image if it exists
     if (synth.images && synth.images.length > 0) {
       cacheImage(synth.images[0]);
     }
@@ -19,22 +21,56 @@
   async function cacheImage(imageUrl: string) {
     try {
       const response = await fetch(`/api/cache-image?url=${encodeURIComponent(imageUrl)}`);
-      const data = await response.json();
-      if (data.url) {
-        cachedImageUrl = data.url;
+      const result = await response.json();
+      if (result.url) {
+        cachedImageUrl = result.url;
       }
     } catch (error) {
       console.error('Error caching image:', error);
-      // Fallback to original URL if caching fails
       cachedImageUrl = imageUrl;
     }
   }
-  // inflation is now handled asynchronously in the template
-  $: featureTags =
+  
+  function openEditor() {
+    editedSynth = JSON.parse(JSON.stringify(synth));
+    showEditor = true;
+  }
+  
+  function closeEditor() {
+    showEditor = false;
+    editedSynth = null;
+  }
+  
+  async function saveChanges() {
+    if (!editedSynth) return;
+    
+    try {
+      const response = await fetch('/api/synths/' + synth.id, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editedSynth)
+      });
+      
+      if (response.ok) {
+        const updated = await response.json();
+        // Update local data
+        Object.assign(synth, updated);
+        showEditor = false;
+        alert('Сохранено!');
+      } else {
+        alert('Ошибка сохранения');
+      }
+    } catch (e) {
+      console.error('Error saving:', e);
+      alert('Ошибка сохранения');
+    }
+  }
+
+  let featureTags =
     synth.featureTags && synth.featureTags.length > 0
       ? synth.featureTags
       : [`${synth.keysCount} клавиш`, synth.synthEngine, synth.formFactor];
-  $: stars = '★'.repeat(synth.popularity?.stars ?? 0) + '☆'.repeat(5 - (synth.popularity?.stars ?? 0));
+  let stars = '★'.repeat(synth.popularity?.stars ?? 0) + '☆'.repeat(5 - (synth.popularity?.stars ?? 0));
 </script>
 
 <svelte:head>
@@ -43,8 +79,13 @@
 
 <main class="detail-page">
   <header class="model-header">
-    <h1>{synth.brand} {synth.modelName}</h1>
-    <p class="series">{synth.series} • {synth.year}</p>
+    <div class="header-top">
+      <div>
+        <h1>{synth.brand} {synth.modelName}</h1>
+        <p class="series">{synth.series} • {synth.year}</p>
+      </div>
+      <button class="edit-btn" onclick={openEditor}>✏️ Редактировать</button>
+    </div>
     <div class="feature-tags">
       {#each featureTags as tag}
         <span class="feature-tag">{tag}</span>
@@ -99,45 +140,45 @@
         <span class="value">{synth.year}</span>
       </div>
       <div class="spec-item">
-        <span class="label">Форм‑фактор</span>
+        <span class="label">Тип</span>
         <span class="value">{synth.formFactor}</span>
       </div>
       <div class="spec-item">
-        <span class="label">Количество клавиш</span>
+        <span class="label">Клавиши</span>
         <span class="value">{synth.keysCount}</span>
       </div>
       <div class="spec-item">
-        <span class="label">Тип синтеза</span>
+        <span class="label">Звуковой движок</span>
         <span class="value">{synth.synthEngine}</span>
       </div>
       {#if synth.dimensions}
         <div class="spec-item">
-          <span class="label">Габариты</span>
+          <span class="label">Размеры</span>
           <span class="value">{synth.dimensions}</span>
         </div>
       {/if}
       {#if synth.polyphony}
         <div class="spec-item">
           <span class="label">Полифония</span>
-          <span class="value">{synth.polyphony} нот</span>
+          <span class="value">{synth.polyphony} голосов</span>
         </div>
       {/if}
-      {#if synth.midi !== undefined}
+      {#if synth.midi}
         <div class="spec-item">
           <span class="label">MIDI</span>
-          <span class="value">{synth.midi ? 'Да' : 'Нет'}</span>
+          <span class="value">✅</span>
         </div>
       {/if}
-      {#if synth.sequencer !== undefined}
+      {#if synth.sequencer}
         <div class="spec-item">
-          <span class="label">Секвенсор</span>
-          <span class="value">{synth.sequencer ? 'Да' : 'Нет'}</span>
+          <span class="label">Секвенсер</span>
+          <span class="value">✅</span>
         </div>
       {/if}
-      {#if synth.autoAccompaniment !== undefined}
+      {#if synth.autoAccompaniment}
         <div class="spec-item">
           <span class="label">Автоаккомпанемент</span>
-          <span class="value">{synth.autoAccompaniment ? 'Да' : 'Нет'}</span>
+          <span class="value">✅</span>
         </div>
       {/if}
       {#if synth.power}
@@ -154,192 +195,238 @@
     <p>{synth.description}</p>
   </section>
 
-  <section class="market-section">
-    <h2>Рынок и ценность</h2>
-    <div class="market-grid">
-      <div class="market-item">
-        <span class="label">США б/у:</span>
-        <span class="value">{synth.marketPrices?.usaUsed ?? 'н/д'}</span>
+  {#if synth.marketPrices}
+    <section class="market-section">
+      <h2>Цены на вторичном рынке</h2>
+      <div class="market-grid">
+        {#if synth.marketPrices.usaUsed}
+          <div class="market-card">
+            <span class="flag">🇺🇸</span>
+            <span class="label">США б/у</span>
+            <span class="price">{synth.marketPrices.usaUsed}</span>
+          </div>
+        {/if}
+        {#if synth.marketPrices.uaUsed}
+          <div class="market-card">
+            <span class="flag">🇺🇦</span>
+            <span class="label">Украина б/у</span>
+            <span class="price">{synth.marketPrices.uaUsed}</span>
+          </div>
+        {/if}
+        {#if synth.marketPrices.olxLowest}
+          <div class="market-card">
+            <span class="flag">🔎</span>
+            <span class="label">OLX находка</span>
+            <span class="price">{synth.marketPrices.olxLowest}</span>
+          </div>
+        {/if}
+        {#if synth.marketPrices.coolDeal}
+          <div class="market-card">
+            <span class="flag">🎯</span>
+            <span class="label">Крутая покупка</span>
+            <span class="price">{synth.marketPrices.coolDeal}</span>
+          </div>
+        {/if}
       </div>
-      <div class="market-item">
-        <span class="label">Украина б/у:</span>
-        <span class="value">{synth.marketPrices?.uaUsed ?? 'н/д'}</span>
-      </div>
-      <div class="market-item">
-        <span class="label">OLX находка:</span>
-        <span class="value">{synth.marketPrices?.olxLowest ?? 'н/д'}</span>
-      </div>
-      <div class="market-item">
-        <span class="label">Крутая покупка:</span>
-        <span class="value">{synth.marketPrices?.coolDeal ?? 'н/д'}</span>
-      </div>
-    </div>
-    <div class="popularity">
-      <div class="pop-label">{synth.popularity?.label ?? 'Популярность среди энтузиастов'}</div>
-      <div class="pop-stars">{stars}</div>
-      <div class="pop-status">{synth.popularity?.status ?? 'Оценка будет добавлена'}</div>
-    </div>
-  </section>
+    </section>
+  {/if}
 
-  <section class="similar-section">
-    <h2>Похожие модели</h2>
-    <!-- Здесь можно добавить компонент с похожими моделями -->
-    <p>Скоро будет добавлен блок похожих моделей.</p>
-  </section>
+  {#if synth.popularity}
+    <section class="popularity-section">
+      <h2>Популярность</h2>
+      <div class="popularity-card">
+        <div class="stars">{stars}</div>
+        <div class="status">{synth.popularity.status}</div>
+      </div>
+    </section>
+  {/if}
 </main>
+
+{#if showEditor && editedSynth}
+  <SynthEditor 
+    synth={editedSynth} 
+    onSave={saveChanges}
+    onCancel={closeEditor}
+  />
+{/if}
 
 <style>
   .detail-page {
-    max-width: 900px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 1rem;
+    padding: 20px;
   }
-  .model-header {
-    text-align: center;
-    margin-bottom: 2rem;
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
   }
-  .model-header h1 {
+  .edit-btn {
+    background: #0f3460;
+    color: #fff;
+    border: 1px solid #00d9ff;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+  .edit-btn:hover {
+    background: #00d9ff;
+    color: #000;
+  }
+  h1 {
+    color: #00d9ff;
     margin: 0;
     font-size: 2rem;
   }
   .series {
     color: #888;
-    margin-top: 0.5rem;
+    margin: 5px 0 0;
+  }
+  .model-header {
+    margin-bottom: 30px;
+  }
+  .feature-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+  }
+  .feature-tag {
+    background: rgba(0, 217, 255, 0.1);
+    border: 1px solid rgba(0, 217, 255, 0.3);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #00d9ff;
   }
   .gem-badge {
     display: inline-block;
-    background: #ffd700;
-    color: #333;
-    padding: 0.3rem 0.8rem;
-    border-radius: 4px;
-    font-weight: bold;
-    margin-top: 0.5rem;
-  }
-  .gallery-section {
-    margin-bottom: 2rem;
-  }
-  .feature-tags {
-    margin-top: 0.8rem;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
-  .feature-tag {
-    border: 1px solid rgba(80, 220, 220, 0.45);
-    color: #8ce2ff;
-    border-radius: 999px;
-    padding: 0.15rem 0.5rem;
-    font-size: 0.75rem;
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+    color: #000;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+    margin-top: 10px;
   }
   .hero-media {
-    margin-bottom: 1.4rem;
+    margin-bottom: 30px;
   }
   .hero-image-wrap {
     position: relative;
-    border-radius: 10px;
+    background: #16213e;
+    border-radius: 12px;
     overflow: hidden;
+    margin-bottom: 15px;
   }
   .hero-image-wrap img {
     width: 100%;
-    max-height: 360px;
-    object-fit: cover;
+    max-height: 500px;
+    object-fit: contain;
     display: block;
   }
   .badge {
     position: absolute;
-    top: 12px;
-    padding: 0.25rem 0.6rem;
+    padding: 5px 12px;
     border-radius: 8px;
-    color: #fff;
     font-weight: 700;
+    font-size: 1rem;
   }
   .badge-price {
-    left: 12px;
+    right: 15px;
+    top: 15px;
     background: #ff5459;
+    color: #fff;
   }
   .badge-year {
-    right: 12px;
+    right: 15px;
+    top: 55px;
     background: #32b8c6;
+    color: #fff;
   }
   .inflation-line {
-    margin: 0.5rem 0 0;
-    color: #a5c2d4;
-    font-size: 0.9rem;
+    text-align: center;
+    color: #888;
+    font-size: 1.1rem;
   }
-  .specs-section h2, .description-section h2, .similar-section h2, .market-section h2 {
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
+  .specs-section, .description-section, .market-section, .popularity-section {
+    margin-bottom: 40px;
+  }
+  h2 {
+    color: #00d9ff;
+    border-bottom: 1px solid rgba(0, 217, 255, 0.2);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
   }
   .specs-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1rem;
+    gap: 15px;
   }
   .spec-item {
-    background: rgba(0,0,0,0.2);
-    padding: 0.8rem;
-    border-radius: 6px;
+    background: #16213e;
+    padding: 15px;
+    border-radius: 8px;
   }
   .spec-item .label {
     display: block;
-    font-size: 0.8rem;
     color: #888;
-    margin-bottom: 0.3rem;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
   }
   .spec-item .value {
-    font-weight: bold;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
   }
   .description-section p {
+    color: #ccc;
     line-height: 1.6;
-  }
-  .market-section {
-    margin-top: 1.5rem;
   }
   .market-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.8rem;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
   }
-  .market-item {
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 6px;
-    padding: 0.75rem;
+  .market-card {
+    background: #16213e;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
   }
-  .market-item .label {
+  .market-card .flag {
+    font-size: 24px;
     display: block;
-    color: #95a7b7;
-    font-size: 0.8rem;
+    margin-bottom: 8px;
   }
-  .market-item .value {
+  .market-card .label {
     display: block;
-    margin-top: 0.15rem;
-    font-size: 1rem;
+    color: #888;
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+  .market-card .price {
+    color: #00d9ff;
+    font-size: 1.1rem;
     font-weight: 700;
   }
-  .popularity {
-    margin-top: 0.9rem;
-    background: rgba(50, 184, 198, 0.16);
-    border-left: 4px solid #32b8c6;
-    padding: 0.65rem 0.8rem;
-    border-radius: 7px;
+  .popularity-card {
+    background: #16213e;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
   }
-  .pop-label {
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    color: #99b4c4;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-  }
-  .pop-stars {
-    margin-top: 0.2rem;
+  .popularity-card .stars {
     color: #ffd04f;
-    letter-spacing: 1px;
+    font-size: 2rem;
+    letter-spacing: 5px;
   }
-  .pop-status {
-    margin-top: 0.2rem;
-    color: #79e4ed;
-    font-weight: 700;
+  .popularity-card .status {
+    color: #00d9ff;
+    margin-top: 10px;
+    font-size: 1.2rem;
   }
 </style>

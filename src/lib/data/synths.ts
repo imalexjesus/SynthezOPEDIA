@@ -13,6 +13,7 @@ export interface SynthModel {
   synthEngine: string;
   description: string;
   isGem: boolean;
+  isActive?: boolean; // Для скрытия из каталога
   images: string[];
   
   // Existing Fields (for compatibility)
