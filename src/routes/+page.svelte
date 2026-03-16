@@ -2,7 +2,6 @@
   import FilterPanel from '$lib/components/FilterPanel.svelte';
   import SynthGrid from '$lib/components/SynthGrid.svelte';
   import { onMount } from 'svelte';
-  import { updateFilteredSynths, initFilterSubscription, searchQuery } from '$lib/stores/filters';
   
   let { data } = $props();
   let synths = $derived(data.synths);
@@ -10,13 +9,6 @@
   let totalGems = $derived(data.totalGems);
   let series = $derived(data.series);
   let brands = $derived(data.brands);
-  
-  // Initialize filter subscription and update filtered synths when data changes
-  $effect(() => {
-    if (synths.length > 0) {
-      initFilterSubscription(synths);
-    }
-  });
   
   let mounted = $state(false);
   let searchValue = $state('');

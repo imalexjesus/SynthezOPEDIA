@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { searchQuery, selectedBrand, selectedSeries, selectedFormFactor, showGemsOnly, applyFilters } from '$lib/stores/filters';
   import type { SynthModel } from '$lib/data/synths';
+  import { initFilters, applyFilters, getFilteredSynths, filteredSynths } from '$lib/stores/filters';
 
   let { synths = [], brands = [], searchValue = '' }: { synths?: SynthModel[]; brands?: string[]; searchValue?: string } = $props();
   
@@ -8,6 +8,13 @@
   let localSeries: string | null = $state(null);
   let localFormFactor: string | null = $state(null);
   let localGemsOnly = $state(false);
+  
+  // Initialize filters once when synths change
+  $effect(() => {
+    if (synths.length > 0) {
+      initFilters(synths);
+    }
+  });
   
   let availableSeries = $derived(
     localBrand
@@ -18,7 +25,7 @@
   );
 
   // Debounce search
-  let debounceTimer: NodeJS.Timeout;
+  let debounceTimer: ReturnType<typeof setTimeout>;
   $effect(() => {
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
@@ -112,31 +119,29 @@
   }
   .filter-group button {
     padding: 0.4rem 0.8rem;
-    border: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
+    color: #e0e0e0;
     border-radius: 4px;
-    background: rgba(255,255,255,0.1);
-    color: #aaa;
     cursor: pointer;
-    transition: all 0.2s;
     font-size: 0.85rem;
+    transition: all 0.2s;
   }
   .filter-group button:hover {
     background: rgba(255,255,255,0.15);
-    color: #fff;
   }
   .filter-group button.active {
-    background: #4a90e2;
+    background: #6366f1;
+    border-color: #6366f1;
     color: white;
   }
   .series-header {
-    color: #888;
     font-size: 0.8rem;
-    padding: 0.3rem 0.6rem;
-    margin-right: 0.5rem;
+    color: #aaa;
+    margin-bottom: 0.3rem;
   }
   .series-group {
-    width: 100%;
-    padding-top: 0.5rem;
-    border-top: 1px solid rgba(255,255,255,0.1);
+    flex-direction: column;
+    align-items: flex-start;
   }
 </style>
