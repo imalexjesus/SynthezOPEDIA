@@ -1,8 +1,34 @@
 <script lang="ts">
   import type { SynthModel } from '$lib/data/synths';
   import { calculateInflation, formatUAH, formatUSD } from '$lib/utils/economy';
+  import { onMount } from 'svelte';
 
   export let synth: SynthModel;
+  
+  let cachedImageUrl: string | null = null;
+  let imageLoaded = false;
+  let imageError = false;
+
+  onMount(() => {
+    // Cache the first image if it exists
+    if (synth.images && synth.images.length > 0) {
+      cacheImage(synth.images[0]);
+    }
+  });
+
+  async function cacheImage(imageUrl: string) {
+    try {
+      const response = await fetch(`/api/cache-image?url=${encodeURIComponent(imageUrl)}`);
+      const data = await response.json();
+      if (data.url) {
+        cachedImageUrl = data.url;
+      }
+    } catch (error) {
+      console.error('Error caching image:', error);
+      // Fallback to original URL if caching fails
+      cachedImageUrl = imageUrl;
+    }
+  }
 
   function normalizeTag(text: string) {
     return text.toLowerCase().replace(/[^a-zа-я0-9]+/gi, ' ').trim();
@@ -56,11 +82,15 @@
 <a href="/synths/{synth.brand}/{synth.series}/{synth.modelName}" class="card" class:gem-card={synth.isGem}>
   <div class="media">
     <img 
-      src={synth.images && synth.images[0] ? synth.images[0] : ''} 
+      src={cachedImageUrl || (synth.images && synth.images[0] ? synth.images[0] : '')} 
       alt={synth.modelName} 
       loading="lazy" 
       decoding="async"
-      on:error={(e) => { e.target.style.display = 'none'; }}
+      on:load={() => imageLoaded = true}
+      on:error={(e) => { 
+        imageError = true;
+        e.target.style.display = 'none'; 
+      }}
     />
     <span class="badge badge-price">{releasePrice ? `$${releasePrice}` : 'н/д'}</span>
     <span class="badge badge-year">{synth.year}</span>
