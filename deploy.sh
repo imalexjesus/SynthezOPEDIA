@@ -17,24 +17,35 @@ SynthezOPEDIA Deploy Script
 Usage: ./deploy.sh [OPTIONS]
 
 Options:
-    -f, --force    Force pull (reset local changes)
-    -h, --help     Show this help message
+    -p, --pull     Pull changes and restart (fast update)
+    -c, --check    Check container status and logs
+    -h, --hard     Full reinstall (stop, remove, rebuild, start)
+    --help         Show this help message
 
 Examples:
-    ./deploy.sh           # Normal update
-    ./deploy.sh --force   # Force update (reset changes)
+    ./deploy.sh -p          # Fast update (pull + restart)
+    ./deploy.sh --check    # Check status and logs
+    ./deploy.sh --hard     # Full reinstall
 EOF
 }
 
 # Parse arguments
-FORCE=false
+MODE=""
 while [[ $# -gt 0 ]]; do
     case $1 in
-        -f|--force)
-            FORCE=true
+        -p|--pull)
+            MODE="pull"
             shift
             ;;
-        -h|--help)
+        -c|--check)
+            MODE="check"
+            shift
+            ;;
+        -h|--hard)
+            MODE="hard"
+            shift
+            ;;
+        --help)
             show_help
             exit 0
             ;;
@@ -46,31 +57,78 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-echo "🚀 Starting deployment..."
+# Default to pull if no mode specified
+if [ -z "$MODE" ]; then
+    MODE="pull"
+fi
 
-# Step 1: Navigate to project directory
+echo "🚀 Mode: $MODE"
+
+# ============================================
+# MODE: CHECK STATUS
+# ============================================
+if [ "$MODE" = "check" ]; then
+    echo ""
+    echo "📊 Container status:"
+    docker ps -a | grep "$CONTAINER_NAME" || echo "Container not found"
+    echo ""
+    echo "📜 Recent logs:"
+    docker logs "$CONTAINER_NAME" --tail 30 2>&1 || echo "No logs available"
+    echo ""
+    echo "🌐 Port check:"
+    curl -s --connect-timeout 5 http://localhost:3001/ | head -10 || echo "Connection failed"
+    exit 0
+fi
+
+# ============================================
+# MODE: HARD REINSTALL
+# ============================================
+if [ "$MODE" = "hard" ]; then
+    echo "🛑 Stopping and removing container..."
+    docker stop "$CONTAINER_NAME" 2>/dev/null || true
+    docker rm "$CONTAINER_NAME" 2>/dev/null || true
+    
+    echo "🗑️ Removing old image..."
+    docker image rm "$IMAGE_NAME" 2>/dev/null || true
+    
+    echo "📁 Changing to project directory..."
+    cd "$REPO_DIR" || exit 1
+    
+    echo "📥 Pulling latest code..."
+    git fetch --all
+    git reset --hard origin/"$BRANCH"
+    
+    echo "🏗️ Building Docker image..."
+    docker build -t "$IMAGE_NAME" .
+    
+    echo "🚀 Starting container..."
+    docker run -d --name "$CONTAINER_NAME" --restart=unless-stopped -p 3001:3000 \
+        -v ./data:/app/data \
+        -v ./cache:/app/static/images/cache \
+        --env-file .env "$IMAGE_NAME"
+    
+    echo ""
+    echo "✅ Hard reinstall complete!"
+    docker ps -a | grep "$CONTAINER_NAME"
+    exit 0
+fi
+
+# ============================================
+# MODE: PULL AND RESTART (default)
+# ============================================
 echo "📁 Changing to project directory..."
 cd "$REPO_DIR" || exit 1
 
-# Step 2: Pull changes from GitHub
 echo "📥 Pulling changes from GitHub..."
-if [ "$FORCE" = true ]; then
-    echo "   Force mode enabled - resetting local changes..."
-    git fetch --all
-    git reset --hard origin/"$BRANCH"
-else
-    git pull origin "$BRANCH"
-fi
+git fetch --all
+git pull origin "$BRANCH" || git reset --hard origin/"$BRANCH"
 
-# Step 3: Build Docker image
 echo "🏗️ Building Docker image..."
 docker build -t "$IMAGE_NAME" .
 
-# Step 4: Restart container
 echo "🔄 Restarting container..."
 docker restart "$CONTAINER_NAME"
 
-# Step 5: Show status
 echo ""
 echo "✅ Deployment complete!"
 echo ""
@@ -79,37 +137,3 @@ docker ps -a | grep "$CONTAINER_NAME" || echo "Container not found"
 echo ""
 echo "Access the site at:"
 echo "   http://62.171.162.59:3001/"
-echo "   http://synth.alexj.top (when NPM configured)"
-
-# ============================================
-# ADDITIONAL COMMANDS (run manually on server)
-# ============================================
-
-# 1. Обновление изменений:
-# ------------------------------------
-# 1. Войти в директорию проекта
-# cd /opt/docker/synthezopedia
-# 2. Обновить код с GitHub
-# git pull origin master --force
-# 3. Пересобрать Docker образ
-# docker build -t synthezopedia:latest .
-# 4. Перезапустить контейнер
-# docker restart synthezopedia
-
-# 2. Проверка статуса:
-# ------------------------------------
-# Статус контейнера
-# docker ps -a | grep synthezopedia
-# Логи контейнера
-# docker logs synthezopedia --tail 20
-# Проверка порта
-# curl http://localhost:3001/ | head -5
-
-# 3. Полная переустановка (если сломалось):
-# ------------------------------------
-# Остановить и удалить
-# docker stop synthezopedia && docker rm synthezopedia
-# docker image rm synthezopedia:latest
-# Собрать заново
-# docker build -t synthezopedia:latest .
-# docker run -d --name synthezopedia --restart=unless-stopped -p 3001:3000 synthezopedia:latest
