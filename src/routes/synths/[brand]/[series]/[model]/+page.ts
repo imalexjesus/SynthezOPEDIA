@@ -1,14 +1,14 @@
-import { listSynths } from '$lib/server/synth-api';
-
-export const load = async ({ params }: { params: Record<string, string> }) => {
+export const load = async ({ params, fetch }: { params: Record<string, string>; fetch: any }) => {
   const { brand, series, model } = params;
   
   // Decode URL-encoded characters (e.g., %20 -> space)
   const decodedSeries = decodeURIComponent(series);
   const decodedModel = decodeURIComponent(model);
   
-  // Get all synths from DB
-  const allSynths = await listSynths();
+  // Get all synths from API
+  const resp = await fetch('/api/synths?includeInactive=true');
+  const data = await resp.json();
+  const allSynths = data.items || data;
   
   // Try to find by ID first
   const expectedId = `${brand}-${series}-${model}`;
