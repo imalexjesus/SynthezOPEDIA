@@ -31,7 +31,7 @@
 
   <section class="hero-media">
     <div class="hero-image-wrap">
-      <img src={synth.images[0]} alt={synth.modelName} loading="lazy" decoding="async" />
+      <img src={synth.images && synth.images[0] ? synth.images[0] : ''} alt={synth.modelName} loading="lazy" decoding="async" />
       <span class="badge badge-price">{releasePrice ? `$${releasePrice}` : 'н/д'}</span>
       <span class="badge badge-year">{synth.year}</span>
     </div>
