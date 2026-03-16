@@ -2,7 +2,7 @@
   import { searchQuery, selectedBrand, selectedSeries, selectedFormFactor, showGemsOnly, applyFilters } from '$lib/stores/filters';
   import { brands, synths } from '$lib/data/synths';
 
-  let localSearch = '';
+  export let searchValue = '';
   let localBrand: string | null = null;
   let localSeries: string | null = null;
   let localFormFactor: string | null = null;
@@ -18,7 +18,7 @@
   $: {
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
-      applyFilters({ search: localSearch });
+      applyFilters({ search: searchValue });
     }, 300);
   }
 
@@ -45,11 +45,6 @@
 </script>
 
 <div class="filter-panel">
-  <!-- Поиск -->
-  <div class="search-box">
-    <input type="text" bind:value={localSearch} placeholder="Поиск моделей..." />
-  </div>
-
   <!-- Фильтры: главная группа -->
   <div class="filter-group">
     <button class:active={!localBrand && !localGemsOnly} on:click={() => { updateBrand(null); updateGemsOnly(false); }}>Все</button>
@@ -88,65 +83,44 @@
     padding: 1rem;
     background: rgba(0,0,0,0.2);
     border-radius: 8px;
-    margin-bottom: 1rem;
-  }
-  .search-box input {
-    width: 100%;
-    padding: 0.5rem;
-    border: none;
-    border-radius: 4px;
-    background: rgba(255,255,255,0.1);
-    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
   }
   .filter-group {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-top: 0.5rem;
+    align-items: center;
   }
   .filter-group button {
     padding: 0.4rem 0.8rem;
     border: none;
     border-radius: 4px;
     background: rgba(255,255,255,0.1);
-    color: white;
+    color: #aaa;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s;
+    font-size: 0.85rem;
   }
   .filter-group button:hover {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.15);
+    color: #fff;
   }
   .filter-group button.active {
     background: #4a90e2;
     color: white;
   }
+  .series-header {
+    color: #888;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+  }
   .series-group {
-    margin-top: 1rem;
+    width: 100%;
+    margin-top: 0.5rem;
     padding-top: 0.5rem;
     border-top: 1px solid rgba(255,255,255,0.1);
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0.45rem;
-    max-width: 760px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .series-header {
-    color: #9fb7d1;
-    font-size: 0.82rem;
-    font-weight: 700;
-    margin-bottom: 0.1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-  }
-  .series-group button {
-    width: 100%;
-    text-align: left;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(255, 255, 255, 0.07);
-    border-radius: 6px;
-  }
-  .series-group button.active {
-    background: linear-gradient(90deg, #4a90e2, #32b8c6);
   }
 </style>

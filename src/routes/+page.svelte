@@ -5,6 +5,8 @@
   import { onMount } from 'svelte';
   
   let mounted = $state(false);
+  let searchValue = $state('');
+  
   onMount(() => { mounted = true; });
 </script>
 
@@ -14,6 +16,11 @@
 </svelte:head>
 
 <main class:mounted>
+  <header class="page-header">
+    <h1>🎹 Энциклопедия Винтажных Синтезаторов <span class="version">v3.0</span></h1>
+    <p class="subtitle">Полная база Yamaha, Casio, Bontempi (1970‑е–1980‑е)</p>
+  </header>
+
   <section class="stats">
     <div class="stat-item">
       <span class="stat-value">{totalModels}</span>
@@ -34,7 +41,10 @@
   </section>
 
   <div class="filters-search-row">
-    <FilterPanel />
+    <FilterPanel {searchValue} />
+    <div class="search-box">
+      <input type="text" bind:value={searchValue} placeholder="Поиск моделей..." />
+    </div>
   </div>
 
   <section class="catalog">
@@ -62,6 +72,30 @@
   main.mounted {
     opacity: 1;
     transform: translateY(0);
+  }
+  .page-header {
+    text-align: center;
+    padding: 1.5rem 1rem 1rem;
+  }
+  h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .version {
+    display: inline-block;
+    background: #4a90e2;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    margin-left: 0.5rem;
+  }
+  .subtitle {
+    color: #888;
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
   }
   .stats {
     display: flex;
@@ -99,10 +133,31 @@
   .filters-search-row {
     display: flex;
     gap: 1rem;
-    align-items: flex-start;
+    align-items: center;
+    padding: 1rem;
   }
   .filters-search-row :global(.filter-panel) {
     flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .search-box {
+    flex-shrink: 0;
+    width: 200px;
+  }
+  .search-box input {
+    width: 100%;
+    padding: 0.5rem 0.8rem;
+    border: none;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    font-size: 0.9rem;
+  }
+  .search-box input::placeholder {
+    color: #666;
   }
   .catalog {
     padding: 1rem;
