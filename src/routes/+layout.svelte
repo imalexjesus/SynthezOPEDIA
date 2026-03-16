@@ -36,7 +36,7 @@
       <a href="/">Каталог</a>
       <a href="/compare">Сравнение</a>
       <a href="/gems">Топ‑гемы</a>
-      <a href="/photo-tool.html">🖼️ Редактор</a>
+      <a href="/photo-tool">🖼️ Редактор</a>
     </nav>
     <div class="header-right">
       <button onclick={toggleTheme} class="theme-toggle">
