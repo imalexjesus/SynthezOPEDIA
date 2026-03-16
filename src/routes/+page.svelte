@@ -1,8 +1,22 @@
 <script lang="ts">
-  import { synths, totalModels, totalGems, series, brands } from '$lib/data/synths';
   import FilterPanel from '$lib/components/FilterPanel.svelte';
   import SynthGrid from '$lib/components/SynthGrid.svelte';
   import { onMount } from 'svelte';
+  import { updateFilteredSynths, searchQuery } from '$lib/stores/filters';
+  
+  let { data } = $props();
+  let synths = $derived(data.synths);
+  let totalModels = $derived(data.totalModels);
+  let totalGems = $derived(data.totalGems);
+  let series = $derived(data.series);
+  let brands = $derived(data.brands);
+  
+  // Update filtered synths when data changes
+  $effect(() => {
+    if (synths.length > 0) {
+      updateFilteredSynths(synths);
+    }
+  });
   
   let mounted = $state(false);
   let searchValue = $state('');
@@ -41,14 +55,14 @@
   </section>
 
   <div class="filters-search-row">
-    <FilterPanel {searchValue} />
+    <FilterPanel {synths} {brands} {searchValue} />
     <div class="search-box">
       <input type="text" bind:value={searchValue} placeholder="Поиск моделей..." />
     </div>
   </div>
 
   <section class="catalog">
-    <SynthGrid />
+    <SynthGrid {synths} />
   </section>
 </main>
 

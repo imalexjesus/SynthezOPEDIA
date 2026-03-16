@@ -1,8 +1,9 @@
 <script lang="ts">
   import { searchQuery, selectedBrand, selectedSeries, selectedFormFactor, showGemsOnly, applyFilters } from '$lib/stores/filters';
-  import { brands, synths } from '$lib/data/synths';
+  import type { SynthModel } from '$lib/data/synths';
 
-  export let searchValue = '';
+  let { synths = [], brands = [], searchValue = '' }: { synths?: SynthModel[]; brands?: string[]; searchValue?: string } = $props();
+  
   let localBrand: string | null = null;
   let localSeries: string | null = null;
   let localFormFactor: string | null = null;

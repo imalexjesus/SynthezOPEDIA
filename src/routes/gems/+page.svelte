@@ -1,12 +1,8 @@
 <script lang="ts">
-  import { synths } from '$lib/data/synths';
   import SynthCard from '$lib/components/SynthCard.svelte';
   
-  // Получаем гемы (isGem === true)
-  const gems = synths.filter(s => s.isGem);
-  
-  // Сортируем по году (старые сначала) или можно по другому критерию
-  const sortedGems = [...gems].sort((a, b) => a.year - b.year);
+  let { data } = $props();
+  let gems = $derived(data.gems);
 </script>
 
 <svelte:head>

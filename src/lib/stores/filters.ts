@@ -1,5 +1,5 @@
-import { writable, derived } from 'svelte/store';
-import { synths } from '$lib/data/synths';
+import { writable, get } from 'svelte/store';
+import type { SynthModel } from '$lib/data/synths';
 
 export const searchQuery = writable('');
 export const selectedBrand = writable<string | null>(null);
@@ -7,34 +7,47 @@ export const selectedSeries = writable<string | null>(null);
 export const selectedFormFactor = writable<string | null>(null);
 export const showGemsOnly = writable(false);
 
-export const filteredSynths = derived(
-  [searchQuery, selectedBrand, selectedSeries, selectedFormFactor, showGemsOnly],
-  ([$query, $brand, $series, $formFactor, $gemsOnly]) => {
-    return synths.filter(synth => {
-      // Поиск
-      if ($query) {
-        const q = $query.toLowerCase();
-        const match = 
-          synth.modelName.toLowerCase().includes(q) ||
-          synth.series.toLowerCase().includes(q) ||
-          synth.brand.toLowerCase().includes(q) ||
-          synth.description.toLowerCase().includes(q);
-        if (!match) return false;
-      }
-      // Фильтр по бренду
-      if ($brand && synth.brand !== $brand) return false;
-      // Фильтр по серии
-      if ($series && synth.series !== $series) return false;
-      // Фильтр по форм‑фактору
-      if ($formFactor && synth.formFactor !== $formFactor) return false;
-      // Фильтр по гемам
-      if ($gemsOnly && !synth.isGem) return false;
-      return true;
-    });
-  }
-);
+// Simple writable store for filtered synths
+export const filteredSynths = writable<SynthModel[]>([]);
 
-// Функция applyFilters (можно вызывать из UI)
+// Function to update filtered synths
+export function updateFilteredSynths(synths: SynthModel[]) {
+  const $query = get(searchQuery);
+  const $brand = get(selectedBrand);
+  const $series = get(selectedSeries);
+  const $formFactor = get(selectedFormFactor);
+  const $gemsOnly = get(showGemsOnly);
+  
+  const filtered = synths.filter(synth => {
+    // Поиск
+    if ($query) {
+      const q = $query.toLowerCase();
+      const match = 
+        synth.modelName.toLowerCase().includes(q) ||
+        synth.series.toLowerCase().includes(q) ||
+        synth.brand.toLowerCase().includes(q) ||
+        (synth.description && synth.description.toLowerCase().includes(q));
+      if (!match) return false;
+    }
+    // Фильтр по бренду
+    if ($brand && synth.brand !== $brand) return false;
+    // Фильтр по серии
+    if ($series && synth.series !== $series) return false;
+    // Фильтр по форм‑фактору
+    if ($formFactor && synth.formFactor !== $formFactor) return false;
+    // Фильтр по гемам
+    if ($gemsOnly && !synth.isGem) return false;
+    return true;
+  });
+  
+  filteredSynths.set(filtered);
+}
+
+// Subscribe to filter changes
+searchQuery.subscribe(() => {
+  // Will be handled by parent
+});
+
 export function applyFilters(filters: {
   search?: string;
   brand?: string | null;

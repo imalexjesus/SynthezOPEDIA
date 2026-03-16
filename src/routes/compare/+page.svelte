@@ -1,5 +1,8 @@
 <script lang="ts">
-  import { synths, type SynthModel } from '$lib/data/synths';
+  let { data } = $props();
+  let synths = $derived(data.synths);
+  let allBrands = $derived(data.allBrands);
+  let allSeries = $derived(data.allSeries);
 
   type SortField =
     | 'modelName'
@@ -10,9 +13,6 @@
     | 'formFactor'
     | 'releasePriceUSD'
     | 'popularityStars';
-
-  const allBrands = Array.from(new Set(synths.map((s) => s.brand))).sort();
-  const allSeries = Array.from(new Set(synths.map((s) => s.series))).sort();
 
   let selectedBrand = 'all';
   let selectedSeries = 'all';
