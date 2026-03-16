@@ -1,7 +1,37 @@
 import { env } from '$env/dynamic/private';
 import { synths, type SynthModel } from '$lib/data/synths';
+import * as fs from 'fs/promises';
+import * as path from 'path';
 
 let runtimeSynths: SynthModel[] = [...synths];
+
+const DATA_FILE = path.join(process.cwd(), 'data', 'synths.json');
+
+async function loadFromFile() {
+  try {
+    const data = await fs.readFile(DATA_FILE, 'utf-8');
+    const loaded = JSON.parse(data) as SynthModel[];
+    if (loaded.length > 0) {
+      runtimeSynths = loaded;
+      console.log(`📂 Loaded ${loaded.length} synths from local file`);
+    }
+  } catch (e) {
+    // File doesn't exist or is invalid, use defaults
+  }
+}
+
+async function saveToFile() {
+  try {
+    const dir = path.dirname(DATA_FILE);
+    await fs.mkdir(dir, { recursive: true });
+    await fs.writeFile(DATA_FILE, JSON.stringify(runtimeSynths, null, 2), 'utf-8');
+  } catch (e) {
+    console.error('Error saving to file:', e);
+  }
+}
+
+// Load from file on startup
+loadFromFile();
 
 const nocoBaseUrl = env.NOCODB_BASE_URL?.trim();
 const nocoTableId = env.NOCODB_TABLE_ID?.trim();
