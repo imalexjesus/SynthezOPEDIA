@@ -15,7 +15,8 @@
     async function loadData() {
         try {
             const resp = await fetch('/api/synths');
-            synths = await resp.json();
+            const data = await resp.json();
+            synths = data.items || data; // Handle both array and object responses
             const saved = localStorage.getItem('photoOverrides');
             if (saved) overrides = JSON.parse(saved);
             renderTable();
