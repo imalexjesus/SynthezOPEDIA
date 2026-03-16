@@ -206,22 +206,5 @@ export const photoOverrides: Record<string, string[]> = {
   "casio-mt-mt-250": [
     "https://images.synthpedia.net/cached/07602c21ac4560cadd1584b1d9b94397cf22709d"
   ],
-  "bontempi-toy-bontempi-b-2": [
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Bontempi_Junior.jpg/800px-Bontempi_Junior.jpg"
-  ],
-  "bontempi-toy-bontempi-b-3": [
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Bontempi_Junior.jpg/800px-Bontempi_Junior.jpg"
-  ],
-  "bontempi-toy-bontempi-b-4": [
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Bontempi_Junior.jpg/800px-Bontempi_Junior.jpg"
-  ],
-  "bontempi-home-bontempi-gt-741": [
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Bontempi_Junior.jpg/800px-Bontempi_Junior.jpg"
-  ],
-  "bontempi-home-bontempi-gt-742": [
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Bontempi_Junior.jpg/800px-Bontempi_Junior.jpg"
-  ],
-  "bontempi-home-bontempi-gt-743": [
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Bontempi_Junior.jpg/800px-Bontempi_Junior.jpg"
-  ]
+
 };
