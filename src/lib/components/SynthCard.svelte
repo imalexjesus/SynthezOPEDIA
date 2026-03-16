@@ -90,7 +90,26 @@
   let featureTags = $derived(buildFeatureTags(synth));
 
   let releasePrice = $derived(synth.releasePriceUSD ?? null);
-  // Note: calculateInflation is now async. We handle it in the template.
+  let inflationValue = $state<{ adjustedUSD: number; convertedUAH: number } | null>(null);
+  let inflationLoading = $state(false);
+  let inflationError = $state(false);
+
+  $effect(() => {
+    if (releasePrice) {
+      inflationLoading = true;
+      inflationError = false;
+      calculateInflation(releasePrice, synth.year)
+        .then(result => {
+          inflationValue = result;
+          inflationLoading = false;
+        })
+        .catch(() => {
+          inflationError = true;
+          inflationLoading = false;
+        });
+    }
+  });
+
   let stars = $derived('★'.repeat(synth.popularity?.stars ?? 0) + '☆'.repeat(5 - (synth.popularity?.stars ?? 0)));
 </script>
 
@@ -153,14 +172,14 @@
         </div>
         <div class="summary-value">
           {#if releasePrice}
-            {#await calculateInflation(releasePrice, synth.year)}
+            {#if inflationLoading}
               <span>Calculating...</span>
-            {:then inflation}
-              {formatUSD(inflation.adjustedUSD)}
-              <span class="uah-inline">({formatUAH(inflation.convertedUAH)})</span>
-            {:catch}
+            {:else if inflationError}
               н/д
-            {/await}
+            {:else if inflationValue}
+              {formatUSD(inflationValue.adjustedUSD)}
+              <span class="uah-inline">({formatUAH(inflationValue.convertedUAH)})</span>
+            {/if}
           {:else}
             н/д
           {/if}
