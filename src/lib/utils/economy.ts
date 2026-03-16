@@ -36,14 +36,11 @@ export interface InflationResult {
  * @param useApi - Attempt to fetch live data (slower)
  */
 export async function calculateInflation(releasePrice: number, releaseYear: number, useApi: boolean = false): Promise<InflationResult> {
-  console.log(`calculateInflation called: price=${releasePrice}, year=${releaseYear}`);
-  
   if (!releasePrice || !releaseYear) {
-    console.log('Missing price or year, returning error');
     return { adjustedUSD: 0, convertedUAH: 0, source: "Error", nbuRate: 0 };
   }
   
-  let usdRate = 41.6; // Default rate
+  let usdRate = 44.14; // Default rate (March 2026)
   let inflationCoef = 1;
   let dataSource = "Offline (Local Data)";
   let nbuRate = 41.6;
@@ -75,25 +72,19 @@ export async function calculateInflation(releasePrice: number, releaseYear: numb
   // 3. ЛОКАЛЬНЫЙ РАСЧЕТ (если оффлайн или ошибка API)
   const startCPI = localCPI[releaseYear];
   const currentCPI = localCPI[CURRENT_YEAR];
-  
-  console.log(`CPI data: start=${startCPI}, current=${currentCPI}, year=${releaseYear}`);
 
   if (!startCPI) {
       // If year not in CPI table, fallback to simple compound interest
       const AVG_INFLATION_RATE = 0.0337;
       const yearsElapsed = CURRENT_YEAR - releaseYear;
       inflationCoef = Math.pow(1 + AVG_INFLATION_RATE, yearsElapsed);
-      console.log(`Using compound interest: coef=${inflationCoef}`);
   } else {
       inflationCoef = currentCPI / startCPI;
-      console.log(`Using CPI ratio: coef=${inflationCoef}`);
   }
 
   // 4. ИТОГОВЫЙ РАСЧЕТ
   const resultUSD = releasePrice * inflationCoef;
   const resultUAH = resultUSD * usdRate;
-  
-  console.log(`Result: ${releasePrice} * ${inflationCoef} = ${resultUSD} USD = ${resultUAH} UAH`);
 
   return {
     adjustedUSD: parseFloat(resultUSD.toFixed(2)),
