@@ -2,13 +2,13 @@ import { error } from '@sveltejs/kit';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 
-export async function GET({ params }: { params: { file: string[] } }) {
-    const filePath = params.file.join('/');
+export async function GET({ params }: { params: { file: string } }) {
+    const filePath = params.file; // Это уже строка пути
     
     try {
         // Build the path to the cached image
-        // Images are saved in /app/static/images/cache/
-        const cacheDir = path.join(process.cwd(), 'static', 'images', 'cache');
+        // Images are saved in /app/data/cache/images/
+        const cacheDir = path.join(process.cwd(), 'data', 'cache', 'images');
         const imagePath = path.join(cacheDir, filePath);
         
         // Check if file exists
