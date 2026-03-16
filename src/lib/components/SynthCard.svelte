@@ -106,7 +106,7 @@
         <div class="summary-value">
           {#if releasePrice}
             {#await calculateInflation(releasePrice, synth.year)}
-              <span>...</span>
+              <span>Calculating...</span>
             {:then inflation}
               {formatUSD(inflation.adjustedUSD)}
               <span class="uah-inline">({formatUAH(inflation.convertedUAH)})</span>
