@@ -50,20 +50,20 @@
     return String(va).localeCompare(String(vb), 'ru') * direction;
   }
 
-  $: filtered = synths.filter((s) => {
+  let filtered = $derived(synths.filter((s) => {
     if (selectedBrand !== 'all' && s.brand !== selectedBrand) return false;
     if (selectedSeries !== 'all' && s.series !== selectedSeries) return false;
 
     if (query.trim()) {
       const q = query.toLowerCase();
-      const text = `${s.brand} ${s.series} ${s.modelName} ${s.description}`.toLowerCase();
+      const text = `${s.brand} ${s.series} ${s.modelName} ${s.description || ''}`.toLowerCase();
       if (!text.includes(q)) return false;
     }
 
     return true;
-  });
+  }));
 
-  $: sorted = [...filtered].sort(compareValues).slice(0, limit);
+  let sorted = $derived([...filtered].sort(compareValues).slice(0, limit));
 
 </script>
 
