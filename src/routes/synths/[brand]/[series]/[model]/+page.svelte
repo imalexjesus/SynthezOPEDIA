@@ -52,11 +52,11 @@
       });
       
       if (response.ok) {
-        const updated = await response.json();
-        // Update local data
-        Object.assign(synth, updated);
+        const result = await response.json();
         showEditor = false;
-        alert('Сохранено!');
+        editedSynth = null;
+        // Reload the page to get fresh data
+        window.location.reload();
       } else {
         alert('Ошибка сохранения');
       }
