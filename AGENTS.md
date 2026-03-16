@@ -193,6 +193,99 @@ NOCODB_EMAIL=your@email.com
 NOCODB_PASSWORD=your-password
 ```
 
+### Editor Functionality
+
+The synthesizer editor is available on each synth detail page via the "✏️ Редактировать" button.
+
+#### Fields
+
+| Field | Type | Required | Notes |
+|-------|------|----------|-------|
+| brand | select | Yes | Yamaha, Casio, Korg, Roland, Bontempi, Other |
+| series | text | Yes | Series name |
+| modelName | text | Yes | Model name |
+| year | number | Yes | Release year (1900-2030) |
+| formFactor | select | Yes | micro, mini, compact, full |
+| keysCount | number | Yes | Number of keys |
+| synthEngine | text | No | Sound engine description |
+| description | textarea | No | Full description |
+| images | textarea | No | One URL per line |
+| dimensions | text | No | Physical dimensions |
+| polyphony | number | No | Voice count |
+| midi | checkbox | No | MIDI support |
+| sequencer | checkbox | No | Built-in sequencer |
+| autoAccompaniment | checkbox | No | Auto-accompaniment feature |
+| power | text | No | Power supply info |
+| releasePriceUSD | number | No | Original price in USD |
+| featureTags | textarea | No | One tag per line |
+| isGem | checkbox | No | GEM collection badge |
+| isActive | toggle | - | Show/hide from catalog |
+
+#### isActive Toggle
+
+When `isActive` is unchecked, the synth is hidden from the main catalog but NOT deleted. It can still be accessed directly via URL or seen in `/photo-tool` with `?includeInactive=true`.
+
+This is useful for:
+- Temporarily hiding work-in-progress entries
+- Marking duplicates or errors without deleting
+- Seasonal or temporary items
+
+#### Temporary vs Permanent Data
+
+**Permanent (requires admin action to change):**
+- All synth fields edited via the editor
+- `isActive` status (hides from catalog)
+- Cached images in `/app/static/images/cache/`
+
+**Temporary (auto-cleared or session-based):**
+- `/photo-tool` overrides (browser localStorage) - for testing only
+- Browser image cache (standard HTTP caching)
+- Runtime memory (cleared on container restart unless volume mounted)
+
+### Data Storage & Persistence
+
+This section explains what data is **temporary/session-based** vs **persistent**.
+
+#### Persistent Data (saved permanently)
+
+| Data Type | Storage Location | How to Modify |
+|-----------|-----------------|---------------|
+| Synth definitions (name, brand, year, specs, etc.) | `/app/data/synths.json` (via volume) | Edit via `/synths/[id]` page → "Редактировать" button |
+| Synth images | `/app/static/images/cache/` (via volume) | Auto-cached on first view, or use refresh button on card |
+| Cached image metadata | Same as above | N/A - automatic |
+
+**⚠️ Important**: Without NocoDB configured, all edits are stored in the Docker volume (`/opt/docker/synthezopedia/data/synths.json`). If you rebuild the container without mounting this volume, data will be lost.
+
+#### Temporary/Session Data (not persisted)
+
+| Data Type | Storage | Notes |
+|-----------|---------|-------|
+| Photo overrides in `/photo-tool` | Browser `localStorage` | Only used in photo-tool, exported manually |
+| Image cache in browser | Browser cache | Standard HTTP caching |
+
+#### Data Flow
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Data Storage Options                      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  1. LOCAL FILE (current default)                           │
+│     └── /opt/docker/synthezopedia/data/synths.json        │
+│         ↕ (mounted as volume)                               │
+│     └── /app/data/synths.json (inside container)          │
+│                                                             │
+│  2. NOCODB (optional, not configured)                     │
+│     └── Requires env vars: NOCODB_BASE_URL,               │
+│         NOCODB_TABLE_ID, NOCODB_EMAIL, NOCODB_PASSWORD   │
+│                                                             │
+│  3. FALLBACK - Hardcoded in repo                          │
+│     └── src/lib/data/synths.ts                            │
+│         (used if no other storage available)              │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
 ### Git Workflow
 
 1. **Before committing**: Run `npm run check` to verify types
