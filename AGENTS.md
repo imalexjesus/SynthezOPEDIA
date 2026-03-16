@@ -270,14 +270,15 @@ This section explains what data is **temporary/session-based** vs **persistent**
 │                    Data Storage Options                      │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
-│  1. LOCAL FILE (current default)                           │
-│     └── /opt/docker/synthezopedia/data/synths.json        │
-│         ↕ (mounted as volume)                               │
-│     └── /app/data/synths.json (inside container)          │
+│  1. NOCODB (primary, configured)                          │
+│     └── https://noco.alexj.top                            │
+│         ↕ Stores all synth data                            │
 │                                                             │
-│  2. NOCODB (optional, not configured)                     │
-│     └── Requires env vars: NOCODB_BASE_URL,               │
-│         NOCODB_TABLE_ID, NOCODB_EMAIL, NOCODB_PASSWORD   │
+│  2. LOCAL FILE (fallback)                                 │
+│     └── /opt/docker/synthezopedia/data/synths.json      │
+│         ↕ (mounted as volume)                              │
+│     └── /app/data/synths.json (inside container)         │
+│         (used if NocoDB is unavailable)                   │
 │                                                             │
 │  3. FALLBACK - Hardcoded in repo                          │
 │     └── src/lib/data/synths.ts                            │
