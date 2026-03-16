@@ -209,6 +209,10 @@ export async function updateSynth(id: string, patch: Partial<SynthModel>) {
       throw new Error(`NocoDB error: ${createResponse.status}`);
     }
 
+    // Also save to local file as backup
+    runtimeSynths.push(next);
+    await saveToFile();
+
     return next;
   }
 
@@ -232,6 +236,15 @@ export async function updateSynth(id: string, patch: Partial<SynthModel>) {
   if (!response.ok) {
     throw new Error(`NocoDB error: ${response.status}`);
   }
+
+  // Also save to local file as backup
+  const localIndex = runtimeSynths.findIndex((item) => item.id === id);
+  if (localIndex !== -1) {
+    runtimeSynths[localIndex] = next;
+  } else {
+    runtimeSynths.push(next);
+  }
+  await saveToFile();
 
   return next;
 }
