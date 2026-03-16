@@ -4,9 +4,9 @@
   import { onMount } from 'svelte';
   import SynthEditor from '$lib/components/SynthEditor.svelte';
   
-  export let data: { synth: import('$lib/data/synths').SynthModel };
-  $: synth = data.synth;
-  $: releasePrice = synth.releasePriceUSD ?? null;
+  let { data }: { data: { synth: import('$lib/data/synths').SynthModel } } = $props();
+  let synth = $derived(data.synth);
+  let releasePrice = $derived(synth.releasePriceUSD ?? null);
   
   let cachedImageUrl: string | null = null;
   let showEditor = $state(false);
