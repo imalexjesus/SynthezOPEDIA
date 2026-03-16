@@ -55,7 +55,13 @@
 
 <a href="/synths/{synth.brand}/{synth.series}/{synth.modelName}" class="card" class:gem-card={synth.isGem}>
   <div class="media">
-    <img src={synth.images && synth.images[0] ? synth.images[0] : ''} alt={synth.modelName} loading="lazy" decoding="async" />
+    <img 
+      src={synth.images && synth.images[0] ? synth.images[0] : ''} 
+      alt={synth.modelName} 
+      loading="lazy" 
+      decoding="async"
+      on:error={(e) => { e.target.style.display = 'none'; }}
+    />
     <span class="badge badge-price">{releasePrice ? `$${releasePrice}` : 'н/д'}</span>
     <span class="badge badge-year">{synth.year}</span>
   </div>
@@ -185,11 +191,19 @@
   }
   .media {
     position: relative;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    min-height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   img {
     width: 100%;
     height: 160px;
     object-fit: cover;
+  }
+  img[src=""] {
+    display: none;
   }
   .badge {
     position: absolute;
