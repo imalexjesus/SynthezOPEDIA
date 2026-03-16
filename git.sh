@@ -158,7 +158,7 @@ if [ "$COMMAND" = "all" ]; then
     git commit -m "$MESSAGE"
     echo "Committed: $MESSAGE"
     git push origin HEAD:main
-    echo "Pushed to origin/master"
+    echo "Pushed to origin/main"
     exit 0
 fi
 
