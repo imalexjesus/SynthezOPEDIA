@@ -30,8 +30,7 @@
 <div class="app" data-theme="synthwave">
   <header class="sticky-header">
     <div class="header-left">
-      <a href="/" class="logo">🎹 Энциклопедия Винтажных Синтезаторов</a>
-      <span class="version-badge">v3.0</span>
+      <span class="version-badge" style="visibility:visible">v3.0</span>
     </div>
     <nav class="nav-links">
       <a href="/">Каталог</a>
@@ -88,16 +87,22 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    visibility: hidden;
+    min-width: 100px;
   }
   .logo {
     font-weight: bold;
     font-size: 1.1rem;
     text-decoration: none;
     color: inherit;
+    visibility: visible;
   }
   .nav-links {
     display: flex;
     gap: 1rem;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
   }
   .nav-links a {
     color: #aaa;
@@ -130,5 +135,9 @@
   }
   .content {
     flex: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    width: 100%;
   }
 </style>

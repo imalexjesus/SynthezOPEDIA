@@ -6,13 +6,13 @@
 </script>
 
 <div class="gallery">
-  <img src={images[currentIndex]} alt="View {currentIndex + 1}" />
+  <img src={images[currentIndex]} alt="View {currentIndex + 1}" loading="lazy" decoding="async" />
   <button onclick={prev} aria-label="Previous image">◀</button>
   <button onclick={next} aria-label="Next image">▶</button>
   <div class="thumbs">
     {#each images as img, i}
       <button onclick={() => currentIndex = i} class:active={i===currentIndex} aria-label="View image {i+1}">
-        <img src={img} alt="Thumb {i+1}" />
+        <img src={img} alt="Thumb {i+1}" loading="lazy" decoding="async" />
       </button>
     {/each}
   </div>
