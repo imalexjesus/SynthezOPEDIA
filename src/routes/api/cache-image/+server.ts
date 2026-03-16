@@ -1,7 +1,8 @@
 import { json } from '@sveltejs/kit';
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import axios from 'axios';
+import * as https from 'https';
+import * as http from 'http';
 
 export async function GET({ url }: { url: URL }) {
     const imageUrl = url.searchParams.get('url');
@@ -40,18 +41,51 @@ export async function GET({ url }: { url: URL }) {
             // File doesn't exist in cache, download it
         }
 
-        // Download the image
+        // Download the image using native https module
         console.log(`⬇️ Downloading: ${imageUrl}`);
-        const response = await axios({
-            url: imageUrl,
-            method: 'GET',
-            responseType: 'arraybuffer',
-            timeout: 30000
+        
+        const downloadPromise = new Promise<Buffer>((resolve, reject) => {
+            const urlObj = new URL(imageUrl);
+            const protocol = urlObj.protocol === 'https:' ? https : http;
+            
+            const options = {
+                hostname: urlObj.hostname,
+                port: urlObj.port || (urlObj.protocol === 'https:' ? 443 : 80),
+                path: urlObj.pathname + urlObj.search,
+                method: 'GET',
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Accept': 'image/webp,image/apng,image/*,*/*;q=0.8',
+                    'Accept-Language': 'en-US,en;q=0.9',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Connection': 'keep-alive'
+                }
+            };
+            
+            const req = protocol.request(options, (res) => {
+                if (res.statusCode !== 200) {
+                    reject(new Error(`HTTP ${res.statusCode}: ${res.statusMessage}`));
+                    return;
+                }
+                
+                const chunks: Buffer[] = [];
+                res.on('data', (chunk) => chunks.push(chunk));
+                res.on('end', () => resolve(Buffer.concat(chunks)));
+            });
+            
+            req.on('error', reject);
+            req.setTimeout(30000, () => {
+                req.destroy();
+                reject(new Error('Timeout'));
+            });
+            req.end();
         });
+        
+        const imageData = await downloadPromise;
 
         // Save to cache
         try {
-            await fs.writeFile(cachePath, response.data);
+            await fs.writeFile(cachePath, imageData);
             console.log(`✅ Saved to cache: ${urlHash}${fileExt}`);
         } catch (e) {
             console.log('Could not save to cache:', e);

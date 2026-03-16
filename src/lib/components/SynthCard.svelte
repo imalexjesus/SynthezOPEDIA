@@ -5,11 +5,13 @@
 
   export let synth: SynthModel;
   
-  let cachedImageUrl: string | null = null;
+  let displayImageUrl: string | null = $state(null);
+  let isCaching: boolean = $state(false);
 
   onMount(() => {
-    // Cache the first image if it exists
+    // Start caching the first image if it exists
     if (synth.images && synth.images.length > 0) {
+      isCaching = true;
       cacheImage(synth.images[0]);
     }
   });
@@ -19,10 +21,17 @@
       const response = await fetch(`/api/cache-image?url=${encodeURIComponent(imageUrl)}`);
       const data = await response.json();
       if (data.url) {
-        cachedImageUrl = data.url;
+        displayImageUrl = data.url;
+      } else {
+        // Fallback to original URL if API didn't return a cached URL
+        displayImageUrl = imageUrl;
       }
     } catch (error) {
       console.error('Error caching image:', error);
+      // Fallback to original URL on error
+      displayImageUrl = imageUrl;
+    } finally {
+      isCaching = false;
     }
   }
 
@@ -78,10 +87,11 @@
 <a href="/synths/{synth.brand}/{synth.series}/{synth.modelName}" class="card" class:gem-card={synth.isGem}>
   <div class="media">
     <img 
-      src={cachedImageUrl || (synth.images && synth.images[0] ? synth.images[0] : '')} 
+      src={displayImageUrl || ''} 
       alt={synth.modelName} 
       loading="lazy" 
       decoding="async"
+      style={isCaching ? 'opacity: 0.5;' : ''}
     />
     <span class="badge badge-price">{releasePrice ? `$${releasePrice}` : 'н/д'}</span>
     <span class="badge badge-year">{synth.year}</span>
