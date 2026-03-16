@@ -1,14 +1,13 @@
-import { get } from 'svelte/store';
 import type { SynthModel } from '$lib/data/synths';
 
-// Filter state using Svelte 5 runes approach
-let searchQuery = $state('');
-let selectedBrand = $state<string | null>(null);
-let selectedSeries = $state<string | null>(null);
-let selectedFormFactor = $state<string | null>(null);
-let showGemsOnly = $state(false);
-let currentSynths = $state<SynthModel[]>([]);
-let filteredSynths = $state<SynthModel[]>([]);
+// Simple module-level state
+let searchQuery = '';
+let selectedBrand: string | null = null;
+let selectedSeries: string | null = null;
+let selectedFormFactor: string | null = null;
+let showGemsOnly = false;
+let currentSynths: SynthModel[] = [];
+let filteredSynths: SynthModel[] = [];
 
 export function getSearchQuery() { return searchQuery; }
 export function getSelectedBrand() { return selectedBrand; }
