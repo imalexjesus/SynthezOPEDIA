@@ -3,7 +3,7 @@
   import { calculateInflation, formatUAH, formatUSD } from '$lib/utils/economy';
   import { onMount } from 'svelte';
 
-  export let synth: SynthModel;
+  let { synth }: { synth: SynthModel } = $props();
   
   let displayImageUrl: string | null = $state(null);
   let isCaching: boolean = $state(false);
