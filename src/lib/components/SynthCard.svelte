@@ -77,11 +77,11 @@
     return result;
   }
 
-  $: featureTags = buildFeatureTags(synth);
+  let featureTags = $derived(buildFeatureTags(synth));
 
-  $: releasePrice = synth.releasePriceUSD ?? null;
+  let releasePrice = $derived(synth.releasePriceUSD ?? null);
   // Note: calculateInflation is now async. We handle it in the template.
-  $: stars = '★'.repeat(synth.popularity?.stars ?? 0) + '☆'.repeat(5 - (synth.popularity?.stars ?? 0));
+  let stars = $derived('★'.repeat(synth.popularity?.stars ?? 0) + '☆'.repeat(5 - (synth.popularity?.stars ?? 0)));
 </script>
 
 <a href="/synths/{synth.brand}/{synth.series}/{synth.modelName}" class="card" class:gem-card={synth.isGem}>
