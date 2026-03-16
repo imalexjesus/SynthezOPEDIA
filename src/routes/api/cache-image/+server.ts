@@ -15,8 +15,8 @@ export async function GET({ url }: { url: URL }) {
         const urlHash = Buffer.from(imageUrl).toString('base64').replace(/[^a-zA-Z0-9]/g, '').substring(0, 50);
         const fileExt = path.extname(new URL(imageUrl).pathname) || '.jpg';
         
-        // Path where files are stored (not in static folder, as it's not copied to Docker)
-        const cacheDir = path.join(process.cwd(), 'data', 'cache', 'images');
+        // Path where files are stored (in static folder, accessible via API)
+        const cacheDir = path.join(process.cwd(), 'static', 'images', 'cache');
         const cachePath = path.join(cacheDir, `${urlHash}${fileExt}`);
         
         // Create cache directory if it doesn't exist

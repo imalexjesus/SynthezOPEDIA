@@ -7,8 +7,8 @@ export async function GET({ params }: { params: { file: string[] } }) {
     
     try {
         // Build the path to the cached image
-        // Images are saved in /app/data/cache/images/
-        const cacheDir = path.join(process.cwd(), 'data', 'cache', 'images');
+        // Images are saved in /app/static/images/cache/
+        const cacheDir = path.join(process.cwd(), 'static', 'images', 'cache');
         const imagePath = path.join(cacheDir, filePath);
         
         // Check if file exists
