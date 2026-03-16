@@ -117,7 +117,7 @@ fi
 # PULL AND RESTART (default)
 echo "📥 Pulling changes from GitHub..."
 git fetch --all
-git pull origin "$BRANCH" || git reset --hard origin/"$BRANCH"
+git pull origin "$BRANCH" 2>/dev/null || git merge origin/"$BRANCH" 2>/dev/null || git reset --hard origin/"$BRANCH"
 
 echo "🏗️ Building Docker image..."
 docker build -t "$IMAGE_NAME" .
